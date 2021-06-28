@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Models.Posts;
 
@@ -12,7 +13,7 @@ namespace Taarafo.Portal.Web.Brokers.API
     {
         private const string relativeUrl = "api/posts";
 
-        public ValueTask<Post> GetAllPosts() =>
-            this.GetAsync<Post>(relativeUrl);
+        public async ValueTask<List<Post>> GetAllPosts() =>
+            await this.GetAsync<List<Post>>(relativeUrl);
     }
 }
