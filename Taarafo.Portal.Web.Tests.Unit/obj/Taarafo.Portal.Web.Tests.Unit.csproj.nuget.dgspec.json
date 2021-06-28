@@ -46,7 +46,7 @@
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[16.10.0, )"
+              "version": "[16.11.0-release-20210626-04, )"
             },
             "Moq": {
               "target": "Package",

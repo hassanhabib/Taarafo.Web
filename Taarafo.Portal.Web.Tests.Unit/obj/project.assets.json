@@ -220,7 +220,7 @@
           "lib/net6.0/Microsoft.AspNetCore.Metadata.dll": {}
         }
       },
-      "Microsoft.CodeCoverage/16.10.0": {
+      "Microsoft.CodeCoverage/16.11.0-release-20210626-04": {
         "type": "package",
         "compile": {
           "lib/netcoreapp1.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {}
@@ -351,11 +351,11 @@
           "lib/net6.0/Microsoft.JSInterop.dll": {}
         }
       },
-      "Microsoft.NET.Test.Sdk/16.10.0": {
+      "Microsoft.NET.Test.Sdk/16.11.0-release-20210626-04": {
         "type": "package",
         "dependencies": {
-          "Microsoft.CodeCoverage": "16.10.0",
-          "Microsoft.TestPlatform.TestHost": "16.10.0"
+          "Microsoft.CodeCoverage": "16.11.0-release-20210626-04",
+          "Microsoft.TestPlatform.TestHost": "16.11.0-release-20210626-04"
         },
         "compile": {
           "lib/netcoreapp2.1/_._": {}
@@ -389,7 +389,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.TestPlatform.ObjectModel/16.10.0": {
+      "Microsoft.TestPlatform.ObjectModel/16.11.0-release-20210626-04": {
         "type": "package",
         "dependencies": {
           "NuGet.Frameworks": "5.0.0",
@@ -486,10 +486,10 @@
           }
         }
       },
-      "Microsoft.TestPlatform.TestHost/16.10.0": {
+      "Microsoft.TestPlatform.TestHost/16.11.0-release-20210626-04": {
         "type": "package",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "16.10.0",
+          "Microsoft.TestPlatform.ObjectModel": "16.11.0-release-20210626-04",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -2521,10 +2521,10 @@
         "microsoft.aspnetcore.metadata.nuspec"
       ]
     },
-    "Microsoft.CodeCoverage/16.10.0": {
-      "sha512": "7g0UjAwhEi2OBBv8SDV3wZ6J103cQyZbKVgDy59fnNdlbv0XpUCfdBZiSW5yVK/d2jp6faCdGh7VnI/F2JZO+Q==",
+    "Microsoft.CodeCoverage/16.11.0-release-20210626-04": {
+      "sha512": "z2rjxxZFkoWzNm+hMSldwrp+cLAnTuTunKni4lGON6FO/r8g+XaKNBZV8txjHX4FB2GWE68yoQSdSFOXBKIEgg==",
       "type": "package",
-      "path": "microsoft.codecoverage/16.10.0",
+      "path": "microsoft.codecoverage/16.11.0-release-20210626-04",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2583,7 +2583,7 @@
         "build/netstandard1.0/zh-Hant/Microsoft.VisualStudio.TraceDataCollector.resources.dll",
         "lib/net45/Microsoft.VisualStudio.CodeCoverage.Shim.dll",
         "lib/netcoreapp1.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll",
-        "microsoft.codecoverage.16.10.0.nupkg.sha512",
+        "microsoft.codecoverage.16.11.0-release-20210626-04.nupkg.sha512",
         "microsoft.codecoverage.nuspec"
       ]
     },
@@ -2816,10 +2816,10 @@
         "microsoft.jsinterop.nuspec"
       ]
     },
-    "Microsoft.NET.Test.Sdk/16.10.0": {
-      "sha512": "/9x6TV1SUi+rtKi8UYa7ml7SEWhb0A5FuyeF0nwwUKVjdk5WaWuLPjntHVWoDuYP25KBruoxWxs7WdhDMjWxXw==",
+    "Microsoft.NET.Test.Sdk/16.11.0-release-20210626-04": {
+      "sha512": "Yp8gDX8rzlp77NOpNwEbfCy31+BXx2fd2ySTxwaKs8ixxZEMZX6W7eyjMFIpM9BLVv/7M6+aPcSOeqxF0LnafQ==",
       "type": "package",
-      "path": "microsoft.net.test.sdk/16.10.0",
+      "path": "microsoft.net.test.sdk/16.11.0-release-20210626-04",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2846,7 +2846,7 @@
         "lib/netcoreapp1.0/_._",
         "lib/netcoreapp2.1/_._",
         "lib/uap10.0/_._",
-        "microsoft.net.test.sdk.16.10.0.nupkg.sha512",
+        "microsoft.net.test.sdk.16.11.0-release-20210626-04.nupkg.sha512",
         "microsoft.net.test.sdk.nuspec"
       ]
     },
@@ -2883,10 +2883,10 @@
         "runtime.json"
       ]
     },
-    "Microsoft.TestPlatform.ObjectModel/16.10.0": {
-      "sha512": "DYp9eKg3zffZuePhgdUrh5tHkt1YOaSraVH87r4WXDOjag1/n08aFl1vRhWP8y2RoBLTHdcZRTDOhQyYMxAYNg==",
+    "Microsoft.TestPlatform.ObjectModel/16.11.0-release-20210626-04": {
+      "sha512": "CEJhUAWR5JlnFKeAqCBz/94tLJN+iAzqDHcQnZgzBlW52B6FSgJVbTQp78xKchLT2/Kfc/miGOIXIahJbCkUpQ==",
       "type": "package",
-      "path": "microsoft.testplatform.objectmodel/16.10.0",
+      "path": "microsoft.testplatform.objectmodel/16.11.0-release-20210626-04",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3124,14 +3124,14 @@
         "lib/uap10.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
         "lib/uap10.0/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll",
         "lib/uap10.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "microsoft.testplatform.objectmodel.16.10.0.nupkg.sha512",
+        "microsoft.testplatform.objectmodel.16.11.0-release-20210626-04.nupkg.sha512",
         "microsoft.testplatform.objectmodel.nuspec"
       ]
     },
-    "Microsoft.TestPlatform.TestHost/16.10.0": {
-      "sha512": "KAlB2QQRwznIH02WNl9eAuUP6/tn4IbAw4EXrvV1POTUjxuv4Dqg0u3Nn5lC9T3WIHupCHfsTcJMgsJYdi31Ig==",
+    "Microsoft.TestPlatform.TestHost/16.11.0-release-20210626-04": {
+      "sha512": "lckcsWyjP8e+JmAVC+8reijD1mfzZN84bbzRoxkRofy4tnX3MLJ8ZmFN34YLdKpB1Vsuk0TPccfK40qnTZDFUg==",
       "type": "package",
-      "path": "microsoft.testplatform.testhost/16.10.0",
+      "path": "microsoft.testplatform.testhost/16.11.0-release-20210626-04",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3345,7 +3345,7 @@
         "lib/uap10.0/Microsoft.VisualStudio.TestPlatform.Common.dll",
         "lib/uap10.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll",
         "lib/uap10.0/testhost.dll",
-        "microsoft.testplatform.testhost.16.10.0.nupkg.sha512",
+        "microsoft.testplatform.testhost.16.11.0-release-20210626-04.nupkg.sha512",
         "microsoft.testplatform.testhost.nuspec"
       ]
     },
@@ -7510,7 +7510,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "FluentAssertions >= 6.0.0-beta0001",
-      "Microsoft.NET.Test.Sdk >= 16.10.0",
+      "Microsoft.NET.Test.Sdk >= 16.11.0-release-20210626-04",
       "Moq >= 4.16.1",
       "Tynamix.ObjectFiller >= 1.5.6",
       "bunit >= 1.2.36-preview",
@@ -7564,7 +7564,7 @@
           },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
-            "version": "[16.10.0, )"
+            "version": "[16.11.0-release-20210626-04, )"
           },
           "Moq": {
             "target": "Package",
