@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web", "Taarafo.Portal.Web\Taarafo.Portal.Web.csproj", "{C08F1E31-DA30-40BA-9856-F864A0FF5B59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web.Tests.Unit", "Taarafo.Portal.Web.Tests.Unit\Taarafo.Portal.Web.Tests.Unit.csproj", "{419002DE-6070-425C-8DB0-94BF9F6571C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C08F1E31-DA30-40BA-9856-F864A0FF5B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08F1E31-DA30-40BA-9856-F864A0FF5B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08F1E31-DA30-40BA-9856-F864A0FF5B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08F1E31-DA30-40BA-9856-F864A0FF5B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419002DE-6070-425C-8DB0-94BF9F6571C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419002DE-6070-425C-8DB0-94BF9F6571C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419002DE-6070-425C-8DB0-94BF9F6571C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419002DE-6070-425C-8DB0-94BF9F6571C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4500CBA-C608-4872-9182-4544B6473A31}
+	EndGlobalSection
+EndGlobal

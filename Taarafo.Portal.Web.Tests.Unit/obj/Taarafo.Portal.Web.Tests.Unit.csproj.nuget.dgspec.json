@@ -1,0 +1,100 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\EvannLim\\source\\repos\\Taarafo.Portal\\Taarafo.Portal.Web.Tests.Unit\\Taarafo.Portal.Web.Tests.Unit.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\EvannLim\\source\\repos\\Taarafo.Portal\\Taarafo.Portal.Web.Tests.Unit\\Taarafo.Portal.Web.Tests.Unit.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\EvannLim\\source\\repos\\Taarafo.Portal\\Taarafo.Portal.Web.Tests.Unit\\Taarafo.Portal.Web.Tests.Unit.csproj",
+        "projectName": "Taarafo.Portal.Web.Tests.Unit",
+        "projectPath": "C:\\Users\\EvannLim\\source\\repos\\Taarafo.Portal\\Taarafo.Portal.Web.Tests.Unit\\Taarafo.Portal.Web.Tests.Unit.csproj",
+        "packagesPath": "C:\\Users\\EvannLim\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\EvannLim\\source\\repos\\Taarafo.Portal\\Taarafo.Portal.Web.Tests.Unit\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\EvannLim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.0.0-beta0001, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.10.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.16.1, )"
+            },
+            "Tynamix.ObjectFiller": {
+              "target": "Package",
+              "version": "[1.5.6, )"
+            },
+            "bunit": {
+              "target": "Package",
+              "version": "[1.2.36-preview, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.3, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.1, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.5.21302.13\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
