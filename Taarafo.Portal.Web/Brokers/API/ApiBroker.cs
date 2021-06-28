@@ -3,12 +3,13 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Linq;
 using System.Threading.Tasks;
 using RESTFulSense.Clients;
 
 namespace Taarafo.Portal.Web.Brokers.API
 {
-    public class ApiBroker : IApiBroker
+    public partial class ApiBroker : IApiBroker
     {
         private readonly IRESTFulApiFactoryClient apiClient;
 
