@@ -15,5 +15,8 @@ namespace Taarafo.Portal.Web.Brokers.API
 
         public async ValueTask<List<Post>> GetAllPosts() =>
             await this.GetAsync<List<Post>>(relativeUrl);
+
+        public async ValueTask<Post> PostPostAsync(Post post) =>
+            await this.PostAsync(relativeUrl, post);
     }
 }
