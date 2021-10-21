@@ -12,5 +12,6 @@ namespace Taarafo.Portal.Web.Brokers.API
     public partial interface IApiBroker
     {
         ValueTask<List<Post>> GetAllPosts();
+        ValueTask<Post> PostPostAsync(Post post);
     }
 }
