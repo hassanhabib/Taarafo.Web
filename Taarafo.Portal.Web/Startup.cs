@@ -3,17 +3,13 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using RESTFulSense.Clients;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
-using Taarafo.Portal.Web.Models.Configurations;
 
 namespace Taarafo.Portal.Web
 {
@@ -28,10 +24,10 @@ namespace Taarafo.Portal.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            AddHttpClient(services);
             AddRootDirectory(services);
+            services.AddLogging();
+            services.AddHttpClient();
             services.AddScoped<IApiBroker, ApiBroker>();
-            services.AddScoped<ILogger, Logger<LoggingBroker>>();
             services.AddScoped<ILoggingBroker, LoggingBroker>();
         }
 
@@ -55,16 +51,6 @@ namespace Taarafo.Portal.Web
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
-            });
-        }
-
-        private void AddHttpClient(IServiceCollection services)
-        {
-            services.AddHttpClient<IRESTFulApiFactoryClient, RESTFulApiFactoryClient>(client =>
-            {
-                LocalConfigurations localConfigurations = Configuration.Get<LocalConfigurations>();
-                string apiUrl = localConfigurations.ApiConfigurations.Url;
-                client.BaseAddress = new Uri(apiUrl);
             });
         }
 
