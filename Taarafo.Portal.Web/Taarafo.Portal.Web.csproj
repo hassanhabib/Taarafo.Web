@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="Views\Bases\" />
     <Folder Include="Views\Components\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
