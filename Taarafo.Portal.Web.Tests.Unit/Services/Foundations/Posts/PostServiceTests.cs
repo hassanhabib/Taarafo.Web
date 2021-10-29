@@ -4,12 +4,14 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Linq.Expressions;
 using Moq;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 {
@@ -27,6 +29,14 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.postService = new PostService(
                 apiBroker: this.apiBrokerMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object);
+        }
+
+        private static Expression<Func<Exception, bool>> SameExceptionAs(Exception expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message &&
+                actualException.InnerException.Message == expectedException.InnerException.Message &&
+                (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
 
         private static Post CreateRandomPost() =>

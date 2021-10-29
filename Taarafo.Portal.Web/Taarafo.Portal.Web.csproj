@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="RESTFulSense" Version="2.3.0" />
+    <PackageReference Include="Xeption" Version="1.6.0" />
   </ItemGroup>
 
 </Project>
