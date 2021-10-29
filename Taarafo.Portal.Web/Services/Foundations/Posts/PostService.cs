@@ -10,7 +10,7 @@ using Taarafo.Portal.Web.Models.Posts;
 
 namespace Taarafo.Portal.Web.Services.Foundations.Posts
 {
-    public class PostService : IPostService
+    public partial class PostService : IPostService
     {
         private readonly IApiBroker apiBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -23,7 +23,12 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Post> AddPostAsync(Post post) =>
-            await this.apiBroker.PostPostAsync(post);
+        public ValueTask<Post> AddPostAsync(Post post) =>
+        TryCatch(async () =>
+        {
+            ValidatePost(post);
+
+            return await this.apiBroker.PostPostAsync(post);
+        });
     }
 }

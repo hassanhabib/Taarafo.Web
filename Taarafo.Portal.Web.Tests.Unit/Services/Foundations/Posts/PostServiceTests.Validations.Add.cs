@@ -18,7 +18,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         {
             // given
             Post nullPost = null;
-            var nullPostException = new NullPostException();
+
+            var nullPostException =
+                new NullPostException();
 
             var expectedPostValidationException =
                 new PostValidationException(nullPostException);
@@ -43,7 +45,5 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
         }
-
     }
-
 }

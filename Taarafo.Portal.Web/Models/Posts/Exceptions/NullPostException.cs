@@ -10,7 +10,7 @@ namespace Taarafo.Portal.Web.Models.Posts.Exceptions
     public class NullPostException : Xeption
     {
         public NullPostException()
-            : base(message:"Post is null")
-        {}
+            : base(message: "Post is null")
+        { }
     }
 }
