@@ -1,4 +1,9 @@
-﻿using System;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE TO CONNECT THE WORLD
+// ---------------------------------------------------------------
+
+using System;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
@@ -19,10 +24,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Post> RemovePostByIdAsync(Guid postId)
-        {
-
-            throw new NotImplementedException();
-        }
+        public async ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
+            await this.apiBroker.DeletePostByIdAsync(postId);
     }
 }
