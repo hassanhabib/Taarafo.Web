@@ -31,12 +31,15 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         private static Post CreateRandomPost() =>
             CreatePostFiller().Create();
 
+        private static DateTimeOffset GetRandomDateTimeOffset() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
         private static Filler<Post> CreatePostFiller()
         {
             var filler = new Filler<Post>();
 
             filler.Setup()
-                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow);
+                .OnType<DateTimeOffset>().Use(GetRandomDateTimeOffset());
 
             return filler;
         }
