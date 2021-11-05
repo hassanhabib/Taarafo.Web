@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.Posts.Exceptions;
+using Xeptions;
 
 namespace Taarafo.Portal.Web.Services.Foundations.Posts
 {
@@ -20,10 +21,11 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             }
         }
 
-        private PostValidationException CreateAndLogValidationException(InvalidPostException invalidPostException)
+        private PostValidationException CreateAndLogValidationException(
+            Xeption exception)
         {
             var postValidationException =
-                new PostValidationException(invalidPostException);
+                new PostValidationException(exception);
 
             this.loggingBroker.LogError(postValidationException);
 
