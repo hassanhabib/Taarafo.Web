@@ -24,7 +24,12 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
-            await this.apiBroker.DeletePostByIdAsync(postId);
+        public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
+        TryCatch(async () =>
+        {
+            ValidatePostId(postId);
+
+            return await this.apiBroker.DeletePostByIdAsync(postId);
+        });
     }
 }
