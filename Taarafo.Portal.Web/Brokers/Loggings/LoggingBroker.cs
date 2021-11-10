@@ -12,7 +12,7 @@ namespace Taarafo.Portal.Web.Brokers.Loggings
     {
         private readonly ILogger logger;
 
-        public LoggingBroker(ILogger<LoggingBroker> logger) => this.logger = logger;
+        public LoggingBroker(ILogger logger) => this.logger = logger;
 
         public void LogDebug(string message) => this.logger.LogDebug(message);
         public void LogInformation(string message) => this.logger.LogInformation(message);
