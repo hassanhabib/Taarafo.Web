@@ -82,5 +82,49 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfPostIsNotFoundAndLogItAsync()
+        {
+            // given
+            Guid somePostId = Guid.NewGuid();
+            string responseMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseNotFoundException =
+                new HttpResponseNotFoundException(
+                    httpResponseMessage,
+                    responseMessage);
+
+            var notFoundPostException =
+                new NotFoundPostException(httpResponseNotFoundException);
+
+            var expectedPostDependencyValidationException =
+                new PostDependencyValidationException(notFoundPostException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseNotFoundException);
+
+            // when
+            ValueTask<Post> removePostByIdTask =
+                this.postService.RemovePostByIdAsync(somePostId);
+
+            // then
+            await Assert.ThrowsAsync<PostDependencyValidationException>(() =>
+                removePostByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
