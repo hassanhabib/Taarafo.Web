@@ -43,6 +43,23 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogCritialDependencyException(failedPostDependencyException);
             }
+            catch(HttpResponseNotFoundException httpResponseNotFoundException)
+            {
+                var notFoundPostException = 
+                    new NotFoundPostException(httpResponseNotFoundException);
+
+                throw CreateAndLogDependencyValidationException(notFoundPostException);
+            }
+        }
+
+        private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var postDependencyValidationException = 
+                new PostDependencyValidationException(exception);
+
+            this.loggingBroker.LogError(postDependencyValidationException);
+
+            return postDependencyValidationException;
         }
 
         private PostDependencyException CreateAndLogCritialDependencyException(Xeption exception)
