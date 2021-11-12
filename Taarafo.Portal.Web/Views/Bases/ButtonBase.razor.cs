@@ -3,8 +3,8 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using Microsoft.AspNetCore.Components;
 using System;
+using Microsoft.AspNetCore.Components;
 
 namespace Taarafo.Portal.Web.Views.Bases
 {
