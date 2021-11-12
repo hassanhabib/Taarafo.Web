@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
@@ -105,6 +106,56 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.apiBrokerMock.Setup(broker =>
                 broker.DeletePostByIdAsync(It.IsAny<Guid>()))
                     .ThrowsAsync(httpResponseNotFoundException);
+
+            // when
+            ValueTask<Post> removePostByIdTask =
+                this.postService.RemovePostByIdAsync(somePostId);
+
+            // then
+            await Assert.ThrowsAsync<PostDependencyValidationException>(() =>
+                removePostByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfValidationErrorOccursAndLogItAsync()
+        {
+            // given
+            Guid somePostId = Guid.NewGuid();
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary exceptionData = randomDictionary;
+            string someMessage = GetRandomMessage();
+            var someRepsonseMessage = new HttpResponseMessage();
+
+            var httpResponseBadRequestException =
+                new HttpResponseBadRequestException(
+                    someRepsonseMessage,
+                    someMessage);
+
+            httpResponseBadRequestException.AddData(exceptionData);
+
+            var invalidPostException =
+                new InvalidPostException(
+                    httpResponseBadRequestException,
+                    exceptionData);
+
+            var expectedPostDependencyValidationException =
+                new PostDependencyValidationException(invalidPostException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseBadRequestException);
 
             // when
             ValueTask<Post> removePostByIdTask =

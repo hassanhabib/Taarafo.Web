@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Moq;
 using Taarafo.Portal.Web.Brokers.API;
@@ -49,6 +50,13 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Dictionary<string, List<string>> CreateRandomDictionary()
+        {
+            var filler = new Filler<Dictionary<string, List<string>>>();
+
+            return filler.Create();
+        }
 
         private static Filler<Post> CreatePostFiller()
         {
