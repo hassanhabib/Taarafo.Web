@@ -1,4 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE TO CONNECT THE WORLD
+// ---------------------------------------------------------------
+
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Taarafo.Portal.Web.Views.Bases
