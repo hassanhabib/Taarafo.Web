@@ -59,6 +59,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(invalidPostException);
             }
+            catch(HttpResponseLockedException httpLockedException)
+            {
+                var lockedPostException =
+                    new LockedPostException(httpLockedException);
+
+                throw CreateAndLogDependencyValidationException(lockedPostException);
+            }
         }
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
