@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="RESTFulSense" Version="2.4.0" />
     <PackageReference Include="Xeption" Version="1.7.0" />
+    <PackageReference Include="Syncfusion.Blazor.Inputs" Version="19.3.0.53" />
   </ItemGroup>
 
 </Project>

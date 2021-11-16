@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Syncfusion.Blazor;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
@@ -25,6 +26,7 @@ namespace Taarafo.Portal.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSyncfusionBlazor();
             AddRootDirectory(services);
             services.AddLogging();
             services.AddHttpClient();
