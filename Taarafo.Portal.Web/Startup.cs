@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
+using Taarafo.Portal.Web.Services.Foundations.Posts;
 
 namespace Taarafo.Portal.Web
 {
@@ -29,6 +30,7 @@ namespace Taarafo.Portal.Web
             services.AddHttpClient();
             services.AddScoped<IApiBroker, ApiBroker>();
             services.AddScoped<ILoggingBroker, LoggingBroker>();
+            services.AddScoped<IPostService, PostService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

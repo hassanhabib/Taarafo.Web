@@ -1,4 +1,9 @@
-﻿using System;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE TO CONNECT THE WORLD
+// ---------------------------------------------------------------
+
+using System;
 using FluentAssertions;
 using Force.DeepCloner;
 using Moq;
@@ -10,7 +15,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
     public partial class PostServiceTest
     {
         [Fact]
-        public async void ShouldRemovePostById()
+        public async void ShouldRemovePostByIdAsync()
         {
             // given
             Guid randomPostId = Guid.NewGuid();
