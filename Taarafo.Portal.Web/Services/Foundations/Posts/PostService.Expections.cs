@@ -66,6 +66,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(lockedPostException);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedPostDependencyException);
+            }
         }
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
@@ -97,6 +104,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             this.loggingBroker.LogError(postValidationException);
 
             return postValidationException;
+        }
+
+        private PostDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var postDependencyException =
+                new PostDependencyException(exception);
+
+            this.loggingBroker.LogError(postDependencyException);
+
+            return postDependencyException;
         }
     }
 }

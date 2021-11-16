@@ -232,8 +232,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 
             var httpResponseException =
                 new HttpResponseException(
-                        httpResponseMessage,
-                        someMessage);
+                    httpResponseMessage,
+                    someMessage);
 
             var failedPostDependencyException =
                 new FailedPostDependencyException(httpResponseException);
