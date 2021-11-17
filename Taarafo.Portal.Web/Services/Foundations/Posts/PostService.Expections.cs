@@ -1,7 +1,12 @@
-﻿using RESTFulSense.Exceptions;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE TO CONNECT THE WORLD
+// ---------------------------------------------------------------
+
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.Posts.Exceptions;
 using Xeptions;
@@ -24,28 +29,28 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             }
             catch (HttpRequestException httpRequestException)
             {
-                var failedPostDependencyException = 
+                var failedPostDependencyException =
                     new FailedPostDependencyException(httpRequestException);
 
                 throw CreateAndLogCritialDependencyException(failedPostDependencyException);
             }
-            catch(HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
             {
-                var failedPostDependencyException = 
+                var failedPostDependencyException =
                     new FailedPostDependencyException(httpResponseUrlNotFoundException);
 
                 throw CreateAndLogCritialDependencyException(failedPostDependencyException);
             }
-            catch(HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
             {
                 var failedPostDependencyException =
                     new FailedPostDependencyException(httpResponseUnauthorizedException);
 
                 throw CreateAndLogCritialDependencyException(failedPostDependencyException);
             }
-            catch(HttpResponseNotFoundException httpResponseNotFoundException)
+            catch (HttpResponseNotFoundException httpResponseNotFoundException)
             {
-                var notFoundPostException = 
+                var notFoundPostException =
                     new NotFoundPostException(httpResponseNotFoundException);
 
                 throw CreateAndLogDependencyValidationException(notFoundPostException);
@@ -59,7 +64,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(invalidPostException);
             }
-            catch(HttpResponseLockedException httpLockedException)
+            catch (HttpResponseLockedException httpLockedException)
             {
                 var lockedPostException =
                     new LockedPostException(httpLockedException);
@@ -84,7 +89,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var postDependencyValidationException = 
+            var postDependencyValidationException =
                 new PostDependencyValidationException(exception);
 
             this.loggingBroker.LogError(postDependencyValidationException);
@@ -96,7 +101,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         {
             var postDependencyException =
                 new PostDependencyException(exception);
-            
+
             this.loggingBroker.LogCritical(postDependencyException);
 
             return postDependencyException;
