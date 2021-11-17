@@ -20,8 +20,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         public static TheoryData CriticalDependencyExceptions()
         {
             string someMessage = GetRandomMessage();
-            
-            var httpResponseMessage = 
+
+            var httpResponseMessage =
                 new HttpResponseMessage();
 
             var httpRequestException =
@@ -186,7 +186,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             string someMessage = GetRandomMessage();
             var httpResponseMessage = new HttpResponseMessage();
 
-            var httpResponseLockedException = 
+            var httpResponseLockedException =
                 new HttpResponseLockedException(
                     httpResponseMessage,
                     someMessage);
@@ -273,8 +273,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             // given
             Guid somePostId = Guid.NewGuid();
             var serviceException = new Exception();
-            
-            var failedPostServiceException = 
+
+            var failedPostServiceException =
                 new FailedPostServiceException(serviceException);
 
             var expectedPostServiceException =
