@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 {
-    public partial class PostServiceTest
+    public partial class PostServiceTests
     {
         [Fact]
         public async void ShouldRemovePostByIdAsync()
