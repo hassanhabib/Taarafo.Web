@@ -35,7 +35,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             retrievedPosts.Should().BeEquivalentTo(expectedPosts);
 
             this.apiBrokerMock.Verify(broker =>
-                broker.GetAllPostsAsync(), 
+                broker.GetAllPostsAsync(),
                     Times.Once());
 
             this.apiBrokerMock.VerifyNoOtherCalls();

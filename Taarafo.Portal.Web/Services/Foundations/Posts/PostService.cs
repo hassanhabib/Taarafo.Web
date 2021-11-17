@@ -28,9 +28,9 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         public ValueTask<List<Post>> RetrieveAllPostsAsync() =>
         TryCatch(async () =>
         {
-            List<Post> posts = 
+            List<Post> posts =
                 await apiBroker.GetAllPostsAsync();
-            
+
             return posts;
         });
 
