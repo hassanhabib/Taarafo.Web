@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using RESTFulSense.Exceptions;
@@ -16,6 +17,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
     public partial class PostService
     {
         private delegate ValueTask<Post> ReturningPostFunction();
+        private delegate ValueTask<List<Post>> ReturningPostsFunction();
 
         private async ValueTask<Post> TryCatch(ReturningPostFunction returningPostFunction)
         {
@@ -32,21 +34,21 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
                 var failedPostDependencyException =
                     new FailedPostDependencyException(httpRequestException);
 
-                throw CreateAndLogCritialDependencyException(failedPostDependencyException);
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
             catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
             {
                 var failedPostDependencyException =
                     new FailedPostDependencyException(httpResponseUrlNotFoundException);
 
-                throw CreateAndLogCritialDependencyException(failedPostDependencyException);
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
             catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
             {
                 var failedPostDependencyException =
                     new FailedPostDependencyException(httpResponseUnauthorizedException);
 
-                throw CreateAndLogCritialDependencyException(failedPostDependencyException);
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
             catch (HttpResponseNotFoundException httpResponseNotFoundException)
             {
@@ -87,6 +89,35 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             }
         }
 
+        private async ValueTask<List<Post>> TryCatch(ReturningPostsFunction returningPostsFunction)
+        {
+            try
+            {
+                return await returningPostsFunction();
+            }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpResponseUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
+            }
+        }
+
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
             var postDependencyValidationException =
@@ -97,7 +128,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             return postDependencyValidationException;
         }
 
-        private PostDependencyException CreateAndLogCritialDependencyException(Xeption exception)
+        private PostDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
         {
             var postDependencyException =
                 new PostDependencyException(exception);
