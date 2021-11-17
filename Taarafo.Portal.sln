@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web", "Taara
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web.Tests.Unit", "Taarafo.Portal.Web.Tests.Unit\Taarafo.Portal.Web.Tests.Unit.csproj", "{419002DE-6070-425C-8DB0-94BF9F6571C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taarafo.Portal.Web.Infrastructure.Build", "Taarafo.Portal.Web.Infrastructure.Build\Taarafo.Portal.Web.Infrastructure.Build.csproj", "{37495077-3155-46CC-AB81-CD0BB639F33A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web.Infrastructure.Build", "Taarafo.Portal.Web.Infrastructure.Build\Taarafo.Portal.Web.Infrastructure.Build.csproj", "{37495077-3155-46CC-AB81-CD0BB639F33A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
