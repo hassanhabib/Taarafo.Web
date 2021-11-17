@@ -116,6 +116,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogCriticalDependencyException(failedPostDependencyException);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedPostDependencyException =
+                    new FailedPostDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedPostDependencyException);
+            }
         }
 
         private PostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
