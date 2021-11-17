@@ -25,9 +25,9 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<List<Post>> RetrieveAllPostsAsync()
+        public async ValueTask<List<Post>> RetrieveAllPostsAsync()
         {
-            throw new NotImplementedException();
+            return await this.apiBroker.GetAllPosts();
         }
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
