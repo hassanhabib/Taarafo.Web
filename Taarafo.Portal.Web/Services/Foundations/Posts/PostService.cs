@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
@@ -22,6 +23,11 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         {
             this.apiBroker = apiBroker;
             this.loggingBroker = loggingBroker;
+        }
+
+        public ValueTask<List<Post>> RetrieveAllPostsAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Moq;
 using Taarafo.Portal.Web.Brokers.API;
@@ -16,13 +17,13 @@ using Xeptions;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 {
-    public partial class PostServiceTest
+    public partial class PostServiceTests
     {
         private readonly Mock<IApiBroker> apiBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly IPostService postService;
 
-        public PostServiceTest()
+        public PostServiceTests()
         {
             this.apiBrokerMock = new Mock<IApiBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
@@ -33,6 +34,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 
         private static Post CreateRandomPost() =>
             CreatePostFiller().Create();
+
+        private static List<Post> CreateRandomPosts() =>
+            CreatePostFiller().Create(count: GetRandomNumber()).ToList();
 
         private static string GetRandomMessage() =>
             new MnemonicString(wordCount: GetRandomNumber()).GetValue();
