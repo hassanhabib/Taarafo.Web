@@ -24,7 +24,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             List<Post> expectedPosts = apiPosts.DeepClone();
 
             this.apiBrokerMock.Setup(broker =>
-                broker.GetAllPosts())
+                broker.GetAllPostsAsync())
                     .ReturnsAsync(apiPosts);
 
             // when
@@ -35,7 +35,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             retrievedPosts.Should().BeEquivalentTo(expectedPosts);
 
             this.apiBrokerMock.Verify(broker =>
-                broker.GetAllPosts(), 
+                broker.GetAllPostsAsync(), 
                     Times.Once());
 
             this.apiBrokerMock.VerifyNoOtherCalls();

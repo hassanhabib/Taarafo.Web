@@ -27,7 +27,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
         public async ValueTask<List<Post>> RetrieveAllPostsAsync()
         {
-            return await this.apiBroker.GetAllPosts();
+            return await this.apiBroker.GetAllPostsAsync();
         }
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
