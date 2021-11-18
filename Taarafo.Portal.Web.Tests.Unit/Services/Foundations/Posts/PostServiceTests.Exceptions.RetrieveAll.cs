@@ -22,6 +22,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         public async Task ShouldThrowCriticalDependencyExceptionOnRetrieveAllIfCriticalDependencyExceptionOccursAndLogItAsync(
             Exception criticalDependencyException)
         {
+            // given
             var failedPostDependencyException =
                 new FailedPostDependencyException(criticalDependencyException);
 
@@ -33,9 +34,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                 broker.GetAllPostsAsync())
                     .ThrowsAsync(criticalDependencyException);
 
+            // when
             ValueTask<List<Post>> retrieveAllPostsTask =
                 this.postService.RetrieveAllPostsAsync();
 
+            // then
             await Assert.ThrowsAsync<PostDependencyException>(() =>
                retrieveAllPostsTask.AsTask());
 
@@ -53,15 +56,16 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         }
 
         [Fact]
-        public async Task ShouldThrowPostDependencyExceptionOnRetrieveAllIfDependencyApiErrorOccursAndLogItAsync()
+        public async Task ShouldThrowDependencyExceptionOnRetrieveAllIfDependencyApiErrorOccursAndLogItAsync()
         {
+            // given
             var randomExceptionMessage = GetRandomMessage();
             var responseMessage = new HttpResponseMessage();
 
             var httpResponseException =
                 new HttpResponseException(
-                    httpResponseMessage: responseMessage,
-                    message: randomExceptionMessage);
+                    responseMessage,
+                    randomExceptionMessage);
 
             var failedPostDependencyException =
                 new FailedPostDependencyException(httpResponseException);
@@ -74,9 +78,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                 broker.GetAllPostsAsync())
                     .ThrowsAsync(httpResponseException);
 
+            // when
             ValueTask<List<Post>> retrieveAllPostsTask =
                 postService.RetrieveAllPostsAsync();
 
+            // then
             await Assert.ThrowsAsync<PostDependencyException>(() =>
                 retrieveAllPostsTask.AsTask());
 
@@ -85,7 +91,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameValidationExceptionAs(
+                broker.LogError(It.Is(SameExceptionAs(
                         expectedDependencyException))),
                             Times.Once);
 
@@ -96,6 +102,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         [Fact]
         public async Task ShouldThrowServiceExceptionOnRetrieveAllIfServiceErrorOccursAndLogItAsync()
         {
+            // given
             var serviceException = new Exception();
 
             var failedPostServiceException =
