@@ -19,7 +19,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
     {
         [Theory]
         [MemberData(nameof(CriticalDependencyExceptions))]
-        public async Task ShouldThrowCriticalDependencyExceptionOnRetrieveAllIfCriticalDependencyExceptionOccursAndLogItAsync(
+        public async Task ShouldThrowCriticalDependencyExceptionOnRetrieveAllIfDependencyApiErrorOccursAndLogItAsync(
             Exception criticalDependencyException)
         {
             // given
@@ -92,8 +92,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                        expectedDependencyException))),
-                            Times.Once);
+                    expectedDependencyException))),
+                        Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
