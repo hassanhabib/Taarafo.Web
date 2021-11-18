@@ -26,13 +26,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         }
 
         public ValueTask<List<Post>> RetrieveAllPostsAsync() =>
-        TryCatch(async () =>
-        {
-            List<Post> posts =
-                await apiBroker.GetAllPostsAsync();
-
-            return posts;
-        });
+        TryCatch(async () => await apiBroker.GetAllPostsAsync());
 
         public ValueTask<Post> RemovePostByIdAsync(Guid postId) =>
         TryCatch(async () =>
