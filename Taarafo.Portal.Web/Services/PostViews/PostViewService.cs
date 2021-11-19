@@ -27,13 +27,14 @@ namespace Taarafo.Portal.Web.Services.PostViews
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
+        public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
+        TryCatch(async () =>
         {
             List<Post> posts =
                 await this.postService.RetrieveAllPostsAsync();
 
             return posts.Select(AsPostView).ToList();
-        }
+        });
 
         private static Func<Post, PostView> AsPostView =>
             post => new PostView
