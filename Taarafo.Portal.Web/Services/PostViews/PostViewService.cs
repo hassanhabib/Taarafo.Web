@@ -3,9 +3,12 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.Loggings;
+using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 
@@ -24,9 +27,18 @@ namespace Taarafo.Portal.Web.Services.PostViews
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
+        public async ValueTask<List<PostView>> RetrieveAllPostViewsAsync()
         {
-            throw new System.NotImplementedException();
+            List<Post> posts =
+                await this.postService.RetrieveAllPostsAsync();
+
+            return posts.Select(AsPostView).ToList();
         }
+
+        private static Func<Post, PostView> AsPostView =>
+            post => new PostView
+            {
+                Content = post.Content
+            };
     }
 }
