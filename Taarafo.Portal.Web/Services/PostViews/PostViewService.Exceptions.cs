@@ -31,6 +31,13 @@ namespace Taarafo.Portal.Web.Services.PostViews
             {
                 throw CreateAndLogDependencyException(postServiceException);
             }
+            catch (Exception serviceException)
+            {
+                var failedPostViewServiceException =
+                    new FailedPostViewServiceException(serviceException);
+
+                throw CreateAndLogServiceException(failedPostViewServiceException);
+            }
         }
 
         private PostViewDependencyException CreateAndLogDependencyException(Xeption innerException)
@@ -39,6 +46,14 @@ namespace Taarafo.Portal.Web.Services.PostViews
             this.loggingBroker.LogError(postViewDependencyException);
 
             return postViewDependencyException;
+        }
+
+        private Exception CreateAndLogServiceException(Xeption innerException)
+        {
+            var postViewServiceException = new PostViewServiceException(innerException);
+            this.loggingBroker.LogError(postViewServiceException);
+
+            return postViewServiceException;
         }
     }
 }
