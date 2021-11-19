@@ -3,13 +3,14 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using Xeptions;
 
 namespace Taarafo.Portal.Web.Models.Posts.Exceptions
 {
     public class PostDependencyException : Xeption
     {
-        public PostDependencyException(Xeption innerException)
+        public PostDependencyException(Exception innerException)
             : base(message: "Post dependency error occurred, contact support.",
                   innerException)
         { }

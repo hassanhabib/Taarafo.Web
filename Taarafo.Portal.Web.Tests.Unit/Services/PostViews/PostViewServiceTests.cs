@@ -4,11 +4,15 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Linq.Expressions;
 using Moq;
 using Taarafo.Portal.Web.Brokers.Loggings;
+using Taarafo.Portal.Web.Models.Posts.Exceptions;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Taarafo.Portal.Web.Services.PostViews;
 using Tynamix.ObjectFiller;
+using Xeptions;
+using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
 {
@@ -26,6 +30,23 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
             this.postViewService = new PostViewService(
                 postService: this.postServiceMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object);
+        }
+
+        public static TheoryData DependencyExceptions()
+        {
+            var innerException = new Exception();
+
+            var postServiceDependencyException =
+                new PostDependencyException(innerException);
+
+            var postServiceException =
+                new PostServiceException(innerException);
+
+            return new TheoryData<Exception>
+            {
+                postServiceDependencyException,
+                postServiceException
+            };
         }
 
         private static DateTimeOffset GetRandomDateTime() =>
@@ -46,6 +67,15 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 UpdatedDate = auditDates,
                 Author = auditIds
             };
+        }
+
+        private static Expression<Func<Exception, bool>> SameExceptionAs(
+            Exception expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message
+                && actualException.InnerException.Message == expectedException.InnerException.Message
+                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
     }
 }

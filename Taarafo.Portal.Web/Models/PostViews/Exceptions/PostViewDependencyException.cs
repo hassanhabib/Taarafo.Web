@@ -6,13 +6,12 @@
 using System;
 using Xeptions;
 
-namespace Taarafo.Portal.Web.Models.Posts.Exceptions
+namespace Taarafo.Portal.Web.Models.PostViews.Exceptions
 {
-    public class PostServiceException : Xeption
+    public class PostViewDependencyException : Xeption
     {
-        public PostServiceException(Exception innerException)
-            : base(message: "Post service error occurred, contact support.",
-                  innerException)
+        public PostViewDependencyException(Exception innerException)
+            : base(message: "Post view dependency error occurred, please contact support.", innerException)
         { }
     }
 }
