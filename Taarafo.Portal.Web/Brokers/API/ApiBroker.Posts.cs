@@ -17,7 +17,7 @@ namespace Taarafo.Portal.Web.Brokers.API
         public async ValueTask<Post> PostPostAsync(Post post) =>
             await this.PostAsync(RelativeUrl, post);
 
-        public async ValueTask<List<Post>> GetAllPosts() =>
+        public async ValueTask<List<Post>> GetAllPostsAsync() =>
             await this.GetAsync<List<Post>>(RelativeUrl);
 
         public async ValueTask<Post> DeletePostByIdAsync(Guid postId) =>

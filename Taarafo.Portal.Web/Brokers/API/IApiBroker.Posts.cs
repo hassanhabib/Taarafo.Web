@@ -13,7 +13,7 @@ namespace Taarafo.Portal.Web.Brokers.API
     public partial interface IApiBroker
     {
         ValueTask<Post> PostPostAsync(Post post);
-        ValueTask<List<Post>> GetAllPosts();
+        ValueTask<List<Post>> GetAllPostsAsync();
         ValueTask<Post> DeletePostByIdAsync(Guid postId);
     }
 }
