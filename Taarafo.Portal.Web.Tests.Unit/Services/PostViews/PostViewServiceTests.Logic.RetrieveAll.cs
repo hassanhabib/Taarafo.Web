@@ -39,7 +39,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
 
             var postView = new PostView
             {
+                Id = dynamicPostProperties.Id,
                 Content = dynamicPostProperties.Content,
+                CreatedDate = dynamicPostProperties.CreatedDate,
+                UpdatedDate = dynamicPostProperties.UpdatedDate,
+                Author = dynamicPostProperties.Author
             };
 
             var randomPosts = new List<Post> { post };
