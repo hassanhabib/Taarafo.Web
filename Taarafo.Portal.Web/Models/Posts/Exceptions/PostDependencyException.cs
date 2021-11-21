@@ -10,7 +10,7 @@ namespace Taarafo.Portal.Web.Models.Posts.Exceptions
 {
     public class PostDependencyException : Xeption
     {
-        public PostDependencyException(Exception innerException)
+        public PostDependencyException(Xeption innerException)
             : base(message: "Post dependency error occurred, contact support.",
                   innerException)
         { }

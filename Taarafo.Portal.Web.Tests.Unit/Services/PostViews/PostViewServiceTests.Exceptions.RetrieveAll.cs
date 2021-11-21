@@ -17,7 +17,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
     {
         [Theory]
         [MemberData(nameof(DependencyExceptions))]
-        public async Task ShouldThrowPostViewDependencyExceptionIfDependecyErrorOccursAndLogItAsync(
+        public async Task ShouldThrowDependencyExceptionIfDependecyErrorOccursAndLogItAsync(
             Exception dependencyException)
         {
             // given
@@ -50,7 +50,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         }
 
         [Fact]
-        public async Task ShouldThrowPostViewServiceExceptionWhenServiceErrorOccursAndLogItAsync()
+        public async Task ShouldThrowServiceExceptionWhenServiceErrorOccursAndLogItAsync()
         {
             // given
             var serviceException = new Exception();

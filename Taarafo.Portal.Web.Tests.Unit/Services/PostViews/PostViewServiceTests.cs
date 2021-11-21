@@ -34,7 +34,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
 
         public static TheoryData DependencyExceptions()
         {
-            var innerException = new Exception();
+            var innerException = new Xeption();
 
             var postServiceDependencyException =
                 new PostDependencyException(innerException);
@@ -69,8 +69,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
             };
         }
 
-        private static Expression<Func<Exception, bool>> SameExceptionAs(
-            Exception expectedException)
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(
+            Xeption expectedException)
         {
             return actualException =>
                 actualException.Message == expectedException.Message
