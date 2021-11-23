@@ -16,13 +16,17 @@ namespace Taarafo.Portal.Web.Infrastructure.Provision.Brokers.Clouds
         private readonly string clientId;
         private readonly string clientSecret;
         private readonly string tenantId;
+        private readonly string adminName;
+        private readonly string adminAccess;
         private readonly IAzure azure;
 
         public CloudBroker()
         {
-            this.clientId = Environment.GetEnvironmentVariable("AzureClientId") ?? String.Empty;
-            this.clientSecret = Environment.GetEnvironmentVariable("AzureClientSecret") ?? String.Empty;
-            this.tenantId = Environment.GetEnvironmentVariable("AzureTenantId") ?? String.Empty;
+            this.clientId = Environment.GetEnvironmentVariable("AzureClientId");
+            this.clientSecret = Environment.GetEnvironmentVariable("AzureClientSecret");
+            this.tenantId = Environment.GetEnvironmentVariable("AzureTenantId");
+            this.adminName = Environment.GetEnvironmentVariable("AzureAdminName");
+            this.adminAccess = Environment.GetEnvironmentVariable("AzureAdminAccess");
             this.azure = AuthenticateAzure();
         }
 
