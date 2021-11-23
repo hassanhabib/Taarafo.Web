@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web.Tests.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web.Infrastructure.Build", "Taarafo.Portal.Web.Infrastructure.Build\Taarafo.Portal.Web.Infrastructure.Build.csproj", "{37495077-3155-46CC-AB81-CD0BB639F33A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taarafo.Portal.Web.Infrastructure.Provision", "Taarafo.Portal.Web.Infrastructure.Provision\Taarafo.Portal.Web.Infrastructure.Provision.csproj", "{F829579F-12A9-4E83-B6D9-57D167E99CAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{37495077-3155-46CC-AB81-CD0BB639F33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37495077-3155-46CC-AB81-CD0BB639F33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37495077-3155-46CC-AB81-CD0BB639F33A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F829579F-12A9-4E83-B6D9-57D167E99CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F829579F-12A9-4E83-B6D9-57D167E99CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F829579F-12A9-4E83-B6D9-57D167E99CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F829579F-12A9-4E83-B6D9-57D167E99CAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
