@@ -4,6 +4,8 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Moq;
 using Taarafo.Portal.Web.Brokers.Loggings;
@@ -55,6 +57,12 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         private static string GetRandomString() =>
             new MnemonicString().GetValue();
 
+        private static int GetRandomNumber() => 
+            new IntRange(min: 2, max: 10).GetValue();
+
+        private static DateTimeOffset GetRandomDate() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
         private static dynamic CreateRandomPostProperties(
             DateTimeOffset auditDates,
             Guid auditIds)
@@ -67,6 +75,23 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 UpdatedDate = auditDates,
                 Author = auditIds
             };
+        }
+
+        private static List<dynamic> CreateRandomPostViewCollections()
+        {
+            int randomCount = GetRandomNumber();
+
+            return Enumerable.Range(0, randomCount).Select(item =>
+            {
+                return new
+                {
+                    Id = Guid.NewGuid(),
+                    Content = GetRandomString(),
+                    CreatedDate = GetRandomDate(),
+                    UpdatedDate = GetRandomDate(),
+                    Author = Guid.NewGuid()
+                };
+            }).ToList<dynamic>();
         }
 
         private static Expression<Func<Xeption, bool>> SameExceptionAs(

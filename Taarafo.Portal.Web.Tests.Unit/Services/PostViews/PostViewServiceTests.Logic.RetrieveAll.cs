@@ -3,8 +3,8 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -20,39 +20,38 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         public async Task ShouldRetrieveAllPostViewsAsync()
         {
             // given
-            DateTimeOffset randomDateTime = GetRandomDateTime();
-            var randomAuthorId = Guid.NewGuid();
+            List<dynamic> dynamicPostViewPropertiesCollection =
+                CreateRandomPostViewCollections();
 
-            dynamic dynamicPostProperties =
-                CreateRandomPostProperties(
-                    auditDates: randomDateTime,
-                    auditIds: randomAuthorId);
+            List<Post> randomPosts =
+                dynamicPostViewPropertiesCollection.Select(property =>
+                    new Post
+                    {
+                        Id = property.Id,
+                        Content = property.Content,
+                        CreatedDate = property.CreatedDate,
+                        UpdatedDate = property.UpdatedDate,
+                        Author = property.Author
+                    }).ToList();
 
-            var post = new Post
-            {
-                Id = dynamicPostProperties.Id,
-                Content = dynamicPostProperties.Content,
-                CreatedDate = dynamicPostProperties.CreatedDate,
-                UpdatedDate = dynamicPostProperties.UpdatedDate,
-                Author = dynamicPostProperties.Author
-            };
+            List<Post> retrievedPosts = randomPosts;
 
-            var postView = new PostView
-            {
-                Id = dynamicPostProperties.Id,
-                Content = dynamicPostProperties.Content,
-                CreatedDate = dynamicPostProperties.CreatedDate,
-                UpdatedDate = dynamicPostProperties.UpdatedDate,
-                Author = dynamicPostProperties.Author
-            };
+            List<PostView> randomPostViews =
+                dynamicPostViewPropertiesCollection.Select(property =>
+                    new PostView
+                    {
+                        Id = property.Id,
+                        Content = property.Content,
+                        CreatedDate = property.CreatedDate,
+                        UpdatedDate = property.UpdatedDate,
+                        Author = property.Author
+                    }).ToList();
 
-            var randomPosts = new List<Post> { post };
-            var retrievedServicePosts = randomPosts;
-            var expectedPostViews = new List<PostView> { postView };
+            List<PostView> expectedPostViews = randomPostViews;
 
             this.postServiceMock.Setup(service =>
                 service.RetrieveAllPostsAsync())
-                    .ReturnsAsync(retrievedServicePosts);
+                    .ReturnsAsync(retrievedPosts);
 
             // when
             List<PostView> retrievedPostViews =

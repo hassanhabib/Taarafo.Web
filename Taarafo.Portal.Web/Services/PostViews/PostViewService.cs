@@ -39,11 +39,11 @@ namespace Taarafo.Portal.Web.Services.PostViews
         private static Func<Post, PostView> AsPostView =>
             post => new PostView
             {
-                Id = post.Id,
-                Content = post.Content,
-                CreatedDate = post.CreatedDate,
-                UpdatedDate = post.UpdatedDate,
-                Author = post.Author
+                //Id = post.Id,
+                //Content = post.Content,
+                //CreatedDate = post.CreatedDate,
+                //UpdatedDate = post.UpdatedDate,
+                //Author = post.Author
             };
     }
 }
