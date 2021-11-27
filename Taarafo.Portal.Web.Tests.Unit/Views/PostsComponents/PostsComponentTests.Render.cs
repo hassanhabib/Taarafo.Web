@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Bunit;
 using FluentAssertions;
@@ -77,6 +78,52 @@ namespace Taarafo.Portal.Web.Tests.Unit.Views.PostsComponents
                 .BeNull();
 
             this.renderedPostsComponent.Instance.ErrorLabel.Should()
+                .BeNull();
+
+            this.postViewServiceMock.Verify(service =>
+                service.RetrieveAllPostViewsAsync(),
+                    Times.Once);
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public void ShouldRenderErrorIfExceptionOccurs()
+        {
+            // given
+            PostsComponentState expectedState =
+                PostsComponentState.Error;
+
+            string randomMessage = GetRandomMessage();
+            string exceptionErrorMessage = randomMessage;
+            string expectedErrorMessage = exceptionErrorMessage;
+            var exception = new Exception(exceptionErrorMessage);
+
+            this.postViewServiceMock.Setup(service =>
+                service.RetrieveAllPostViewsAsync())
+                    .ThrowsAsync(exception);
+
+            // when
+            this.renderedPostsComponent =
+                RenderComponent<PostsComponent>();
+
+            // then
+            this.renderedPostsComponent.Instance.State.Should()
+                .Be(expectedState);
+
+            this.renderedPostsComponent.Instance.ErrorMessage.Should()
+                .Be(expectedErrorMessage);
+
+            this.renderedPostsComponent.Instance.ErrorLabel.Should()
+                .NotBeNull();
+
+            this.renderedPostsComponent.Instance.ErrorLabel.Value.Should()
+                .Be(expectedErrorMessage);
+
+            this.renderedPostsComponent.Instance.PostViews.Should()
+                .BeNull();
+
+            this.renderedPostsComponent.Instance.Grid.Should()
                 .BeNull();
 
             this.postViewServiceMock.Verify(service =>
