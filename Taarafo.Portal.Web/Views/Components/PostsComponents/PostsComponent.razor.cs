@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostsComponents;
@@ -22,5 +23,13 @@ namespace Taarafo.Portal.Web.Views.Components.PostsComponents
         public GridBase<PostView> Grid { get; set; }
         public string ErrorMessage { get; set; }
         public LabelBase ErrorLabel { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            this.PostViews =
+                await this.PostViewService.RetrieveAllPostViewsAsync();
+
+            this.State = PostsComponentState.Content;
+        }
     }
 }
