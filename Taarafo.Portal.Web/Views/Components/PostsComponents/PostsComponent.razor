@@ -1,3 +1,15 @@
 ﻿@using Taarafo.Portal.Web.Views.Bases
+@using PrettyBlazor
+@using Taarafo.Portal.Web.Models.Views.Components.PostsComponents
 
-<GridBase @ref=Grid DataSource=PostViews />
+<Condition Evaluation=@(State == PostsComponentState.Content)>
+    <Match>
+        <GridBase @ref=Grid DataSource=PostViews />
+    </Match>
+</Condition>
+
+<Condition Evaluation=@(State == PostsComponentState.Error)>
+    <Match>
+        <LabelBase @ref=ErrorLabel Value=@ErrorMessage />
+    </Match>
+</Condition>

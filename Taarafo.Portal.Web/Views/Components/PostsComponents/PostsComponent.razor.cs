@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -26,10 +27,18 @@ namespace Taarafo.Portal.Web.Views.Components.PostsComponents
 
         protected override async Task OnInitializedAsync()
         {
-            this.PostViews =
-                await this.PostViewService.RetrieveAllPostViewsAsync();
+            try
+            {
+                this.PostViews =
+                    await this.PostViewService.RetrieveAllPostViewsAsync();
 
-            this.State = PostsComponentState.Content;
+                this.State = PostsComponentState.Content;
+            }
+            catch (Exception exception)
+            {
+                this.ErrorMessage = exception.Message;
+                this.State = PostsComponentState.Error;
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="PrettyBlazor" Version="1.2.0" />
     <PackageReference Include="RESTFulSense" Version="2.4.0" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="19.3.0.54" />
     <PackageReference Include="Xeption" Version="1.7.0" />
