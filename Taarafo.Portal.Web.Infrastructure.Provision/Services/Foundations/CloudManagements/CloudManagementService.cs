@@ -96,17 +96,6 @@ namespace Taarafo.Portal.Web.Infrastructure.Provision.Services.Foundations.Cloud
             };
         }
 
-        private string GenerateConnectionString(ISqlDatabase sqlDatabase)
-        {
-            SqlDatabaseAccess sqlDatabaseAccess =
-                this.cloudBroker.GetAdminAccess();
-
-            return $"Server=tcp:{sqlDatabase.SqlServerName}.database.windows.net,1433;" +
-                $"Initial Catalog={sqlDatabase.Name};" +
-                $"User ID={sqlDatabaseAccess.AdminName};" +
-                $"Password={sqlDatabaseAccess.AdminAccess};";
-        }
-
         public async ValueTask<IWebApp> ProvisionWebAppAsync(
             string projectName,
             string environment,
@@ -128,5 +117,38 @@ namespace Taarafo.Portal.Web.Infrastructure.Provision.Services.Foundations.Cloud
 
             return webApp;
         }
+
+        public async ValueTask DeprovisionResouceGroupAsync(string projectName, string environment)
+        {
+            string resourceGroupName = $"{projectName}-RESOURCES-{environment}".ToUpper();
+
+            bool isResourceGroupExist =
+                await this.cloudBroker.CheckResourceGroupExistAsync(
+                    resourceGroupName);
+
+            if (isResourceGroupExist)
+            {
+                this.loggingBroker.LogActivity(message: $"Deprovisioning {resourceGroupName}...");
+                await this.cloudBroker.DeleteResourceGroupAsync(resourceGroupName);
+                this.loggingBroker.LogActivity(message: $"{resourceGroupName} Deprovisioned");
+            }
+            else
+            {
+                this.loggingBroker.LogActivity(
+                    message: $"Resource group {resourceGroupName} doesn't exist. No action taken.");
+            }
+        }
+
+        private string GenerateConnectionString(ISqlDatabase sqlDatabase)
+        {
+            SqlDatabaseAccess sqlDatabaseAccess =
+                this.cloudBroker.GetAdminAccess();
+
+            return $"Server=tcp:{sqlDatabase.SqlServerName}.database.windows.net,1433;" +
+                $"Initial Catalog={sqlDatabase.Name};" +
+                $"User ID={sqlDatabaseAccess.AdminName};" +
+                $"Password={sqlDatabaseAccess.AdminAccess};";
+        }
+
     }
 }

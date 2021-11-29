@@ -38,5 +38,9 @@ namespace Taarafo.Portal.Web.Infrastructure.Provision.Services.Foundations.Cloud
             string databaseConnectionString,
             IResourceGroup resourceGroup,
             IAppServicePlan appServicePlan);
+
+        ValueTask DeprovisionResouceGroupAsync(
+            string projectName,
+            string environment);
     }
 }
