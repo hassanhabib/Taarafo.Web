@@ -106,5 +106,27 @@ namespace Taarafo.Portal.Web.Infrastructure.Provision.Services.Foundations.Cloud
                 $"User ID={sqlDatabaseAccess.AdminName};" +
                 $"Password={sqlDatabaseAccess.AdminAccess};";
         }
+
+        public async ValueTask<IWebApp> ProvisionWebAppAsync(
+            string projectName,
+            string environment,
+            string databaseConnectionString,
+            IResourceGroup resourceGroup,
+            IAppServicePlan appServicePlan)
+        {
+            string webAppName = $"{projectName}-{environment}".ToLower();
+            this.loggingBroker.LogActivity(message: $"Provisioning {webAppName}");
+
+            IWebApp webApp =
+                await this.cloudBroker.CreateWebAppAsync(
+                    webAppName,
+                    databaseConnectionString,
+                    appServicePlan,
+                    resourceGroup);
+
+            this.loggingBroker.LogActivity(message: $"{webAppName} Provisioned");
+
+            return webApp;
+        }
     }
 }
