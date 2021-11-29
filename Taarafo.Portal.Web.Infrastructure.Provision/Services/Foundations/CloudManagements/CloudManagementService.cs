@@ -9,6 +9,7 @@ using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.Sql.Fluent;
 using Taarafo.Portal.Web.Infrastructure.Provision.Brokers.Clouds;
 using Taarafo.Portal.Web.Infrastructure.Provision.Brokers.Loggings;
+using Taarafo.Portal.Web.Infrastructure.Provision.Models.Storages;
 
 namespace Taarafo.Portal.Web.Infrastructure.Provision.Services.Foundations.CloudManagements
 {
@@ -71,6 +72,39 @@ namespace Taarafo.Portal.Web.Infrastructure.Provision.Services.Foundations.Cloud
             this.loggingBroker.LogActivity(message: $"{sqlServer} Provisioned");
 
             return sqlServer;
+        }
+
+        public async ValueTask<SqlDatabase> ProvisionSqlDatabaseAsync(
+            string projectname,
+            string environment,
+            ISqlServer sqlServer)
+        {
+            string sqlDatabaseName = $"{projectname}-db-{environment}".ToLower();
+            this.loggingBroker.LogActivity(message: $"Provisioning {sqlDatabaseName}...");
+
+            ISqlDatabase sqlDatabase =
+                await this.cloudBroker.CreateSqlDatabaseAsync(
+                    sqlDatabaseName,
+                    sqlServer);
+
+            this.loggingBroker.LogActivity(message: $"{sqlDatabaseName} Provisioned");
+
+            return new SqlDatabase
+            {
+                Database = sqlDatabase,
+                ConnectionString = GenerateConnectionString(sqlDatabase)
+            };
+        }
+
+        private string GenerateConnectionString(ISqlDatabase sqlDatabase)
+        {
+            SqlDatabaseAccess sqlDatabaseAccess =
+                this.cloudBroker.GetAdminAccess();
+
+            return $"Server=tcp:{sqlDatabase.SqlServerName}.database.windows.net,1433;" +
+                $"Initial Catalog={sqlDatabase.Name};" +
+                $"User ID={sqlDatabaseAccess.AdminName};" +
+                $"Password={sqlDatabaseAccess.AdminAccess};";
         }
     }
 }
