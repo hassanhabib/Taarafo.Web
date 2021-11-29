@@ -3,15 +3,19 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
+using System.Threading.Tasks;
+using Taarafo.Portal.Web.Infrastructure.Provision.Services.Processings;
 
 namespace Taarafo.Portal.Web.Infrastructure.Provision
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ICloudManagementProcessingService cloudManagementProcessingService =
+                new CloudManagementProcessingService();
+
+            await cloudManagementProcessingService.ProcessAsync();
         }
     }
 }
