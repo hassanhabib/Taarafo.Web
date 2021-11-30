@@ -60,21 +60,25 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
+        private static dynamic CreateRandomPostViewProperties()
+        {
+            return new
+            {
+                Id = Guid.NewGuid(),
+                Content = GetRandomString(),
+                CreatedDate = GetRandomDate(),
+                UpdatedDate = GetRandomDate(),
+                Author = Guid.NewGuid()
+            };
+        }
+
         private static List<dynamic> CreateRandomPostViewCollections()
         {
             int randomCount = GetRandomNumber();
 
             return Enumerable.Range(0, randomCount).Select(item =>
-            {
-                return new
-                {
-                    Id = Guid.NewGuid(),
-                    Content = GetRandomString(),
-                    CreatedDate = GetRandomDate(),
-                    UpdatedDate = GetRandomDate(),
-                    Author = Guid.NewGuid()
-                };
-            }).ToList<dynamic>();
+                CreateRandomPostViewProperties)
+                    .ToList<dynamic>();
         }
 
         private static Expression<Func<Xeption, bool>> SameExceptionAs(

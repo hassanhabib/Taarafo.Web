@@ -36,6 +36,11 @@ namespace Taarafo.Portal.Web.Services.PostViews
             return posts.Select(AsPostView).ToList();
         });
 
+        public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId)
+        {
+            throw new NotImplementedException();
+        }
+
         private static Func<Post, PostView> AsPostView =>
             post => new PostView
             {
