@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 using Taarafo.Portal.Web.Services.PostViews;
+using Taarafo.Portal.Web.Views.Bases;
 
 namespace Taarafo.Portal.Web.Views.Components.Timelines
 {
@@ -19,6 +20,6 @@ namespace Taarafo.Portal.Web.Views.Components.Timelines
         public TimeLineComponentState State { get; set; }
         public List<PostView> PostViews { get; set; }
         public string ErrorMessage { get; set; }
-        public LabelBase MyProperty { get; set; }
+        public LabelBase Label { get; set; }
     }
 }
