@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.Timelines;
@@ -21,5 +22,13 @@ namespace Taarafo.Portal.Web.Views.Components.Timelines
         public List<PostView> PostViews { get; set; }
         public string ErrorMessage { get; set; }
         public LabelBase Label { get; set; }
+
+        protected async override Task OnInitializedAsync()
+        {
+            this.PostViews =
+                await this.PostViewService.RetrieveAllPostViewsAsync();
+
+            this.State = TimeLineComponentState.Content;
+        }
     }
 }
