@@ -10,15 +10,5 @@ namespace Taarafo.Portal.Web.Views.Pages
 {
     public partial class Index : ComponentBase
     {
-        public DialogBase Dialog { get; set; }
-        protected override void OnAfterRender(bool firstRender)
-        {
-            Dialog.Show();
-        }
-
-        public void CloseDialog()
-        {
-            Dialog.Hide();
-        }
     }
 }
