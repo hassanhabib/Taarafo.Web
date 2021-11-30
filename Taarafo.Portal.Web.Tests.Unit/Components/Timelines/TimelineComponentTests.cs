@@ -20,7 +20,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
     public partial class TimelineComponentTests : TestContext
     {
         private readonly Mock<IPostViewService> postViewServiceMock;
-        private readonly IRenderedComponent<TimelineComponent> renderedTimelineComponent;
+        private IRenderedComponent<TimelineComponent> renderedTimelineComponent;
 
         public TimelineComponentTests()
         {
