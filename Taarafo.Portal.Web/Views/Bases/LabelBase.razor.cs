@@ -4,11 +4,12 @@
 // ---------------------------------------------------------------
 
 using Microsoft.AspNetCore.Components;
-using Taarafo.Portal.Web.Views.Bases;
 
-namespace Taarafo.Portal.Web.Views.Pages
+namespace Taarafo.Portal.Web.Views.Bases
 {
-    public partial class Index : ComponentBase
+    public partial class LabelBase : ComponentBase
     {
+        [Parameter]
+        public string Value { get; set; }
     }
 }
