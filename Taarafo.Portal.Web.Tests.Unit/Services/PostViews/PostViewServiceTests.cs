@@ -77,7 +77,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
             int randomCount = GetRandomNumber();
 
             return Enumerable.Range(0, randomCount).Select(item =>
-                CreateRandomPostViewProperties)
+                CreateRandomPostViewProperties())
                     .ToList<dynamic>();
         }
 
