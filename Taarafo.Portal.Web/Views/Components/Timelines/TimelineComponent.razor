@@ -1,13 +1,18 @@
 ﻿@using PrettyBlazor;
 @using Taarafo.Portal.Web.Models.PostViews;
 @using Taarafo.Portal.Web.Views.Bases;
+@using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 
-<Virtualize Items=@PostViews Context=postView>
-    <CardBase>
-        <Content>
-            <p>
-                @postView.Content
-            </p>
-        </Content>
-    </CardBase>
-</Virtualize>
+<Condition Evaluation="@(State == TimeLineComponentState.Content)">
+    <Match>
+        <Virtualize Items=@PostViews Context=postView>
+            <CardBase>
+                <Content>
+                    <p>
+                        @postView.Content
+                    </p>
+                </Content>
+            </CardBase>
+        </Virtualize>
+    </Match>
+</Condition>
