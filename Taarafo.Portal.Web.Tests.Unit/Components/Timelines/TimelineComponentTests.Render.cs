@@ -71,7 +71,16 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             IReadOnlyList<IRenderedComponent<CardBase>> postComponents =
                 this.renderedTimelineComponent.FindComponents<CardBase>();
 
-            postComponents.Should().HaveCount(expectedPostViews.Count);
+            postComponents.ToList().ForEach(component =>
+            {
+                bool componentContentExists =
+                    expectedPostViews.Any(postView =>
+                        component.Markup.Contains($"<p>{postView.Content}</p>")
+                        && component.Markup.Contains(postView.UpdatedDate.ToString("dd/mm/yyyy"))
+                        && component.Markup.Contains(postView.Author));
+
+                componentContentExists.Should().BeTrue();
+            });
 
             this.postViewServiceMock.Verify(service =>
                 service.RetrieveAllPostViewsAsync(),
