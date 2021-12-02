@@ -34,6 +34,23 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
+        public static TheoryData ValidationExceptions()
+        {
+            var innerException = new Xeption();
+
+            var postServiceValidationException =
+                new PostValidationException(innerException);
+
+            var postDependencyValidationException =
+                new PostDependencyValidationException(innerException);
+
+            return new TheoryData<Exception>
+            {
+                postServiceValidationException,
+                postDependencyValidationException
+            };
+        }
+
         public static TheoryData DependencyExceptions()
         {
             var innerException = new Xeption();
