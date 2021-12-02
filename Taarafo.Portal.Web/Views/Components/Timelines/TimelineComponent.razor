@@ -3,11 +3,12 @@
 @using Taarafo.Portal.Web.Views.Bases;
 @using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 
+<div class="justify-content-center align-content-center">
 <Condition Evaluation="@(State == TimeLineComponentState.Content)">
     <Match>
         <Virtualize Items=@PostViews Context=postView>
             <CardBase Title=@postView.Author
-                      SubTitle=@postView.CreatedDate.ToString("dd/mm/yyyy")>
+                      SubTitle=@postView.CreatedDate.ToString("dd/MM/yyyy")>
                 <Content>
                     <p>
                         @postView.Content
@@ -17,3 +18,4 @@
         </Virtualize>
     </Match>
 </Condition>
+</div>
