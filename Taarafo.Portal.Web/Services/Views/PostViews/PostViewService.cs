@@ -36,13 +36,16 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             return posts.Select(AsPostView).ToList();
         });
 
-        public async ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId)
+        public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId) =>
+        TryCatch(async () =>
         {
-            Post deletedPost = 
+            ValidatePostViewId(postViewId);
+
+            Post deletedPost =
                await this.postService.RemovePostByIdAsync(postViewId);
 
             return MapToPostView(deletedPost);
-        }
+        });
 
         private static Func<Post, PostView> AsPostView =>
             post => MapToPostView(post);

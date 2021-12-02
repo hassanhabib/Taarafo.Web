@@ -5,9 +5,7 @@
 
 using System;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Moq;
-using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Xunit;
@@ -42,9 +40,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 removePostViewByIdTask.AsTask());
 
             this.loggingBrokerMock.Verify(broker =>
-              broker.LogError(It.Is(SameExceptionAs(
-                  expectedPostViewValidationException))),
-                      Times.Once);
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostViewValidationException))),
+                        Times.Once);
 
             this.postServiceMock.Verify(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()),

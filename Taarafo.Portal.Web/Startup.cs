@@ -34,7 +34,7 @@ namespace Taarafo.Portal.Web
             services.AddScoped<IApiBroker, ApiBroker>();
             services.AddScoped<ILoggingBroker, LoggingBroker>();
             services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IPostViewService,PostViewService>();
+            services.AddScoped<IPostViewService, PostViewService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

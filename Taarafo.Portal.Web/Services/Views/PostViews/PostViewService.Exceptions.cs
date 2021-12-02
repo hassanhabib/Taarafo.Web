@@ -16,6 +16,7 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
     public partial class PostViewService
     {
         private delegate ValueTask<List<PostView>> ReturningPostViewsFunction();
+        private delegate ValueTask<PostView> ReturningPostViewFunction();
 
         private async ValueTask<List<PostView>> TryCatch(ReturningPostViewsFunction returningPostViewsFunction)
         {
@@ -38,6 +39,26 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
 
                 throw CreateAndLogServiceException(failedPostViewServiceException);
             }
+        }
+
+        private async ValueTask<PostView> TryCatch(ReturningPostViewFunction returningPostViewFunction)
+        {
+            try
+            {
+                return await returningPostViewFunction();
+            }
+            catch (InvalidPostViewException invalidPostViewException)
+            {
+                throw CreateAndLogValidationException(invalidPostViewException);
+            }
+        }
+
+        private PostViewValidationException CreateAndLogValidationException(Xeption innerException)
+        {
+            var postViewValidationException = new PostViewValidationException(innerException);
+            this.loggingBroker.LogError(postViewValidationException);
+
+            return postViewValidationException;
         }
 
         private PostViewDependencyException CreateAndLogDependencyException(Xeption innerException)
