@@ -24,7 +24,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
             Guid somePostViewId = Guid.NewGuid();
 
             var expectedPostViewDependencyValidationException =
-                new PostViewDependencyValidationException(dependencyValidationException);
+                new PostViewDependencyValidationException(
+                    dependencyValidationException.InnerException as Xeption);
 
             this.postServiceMock.Setup(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()))

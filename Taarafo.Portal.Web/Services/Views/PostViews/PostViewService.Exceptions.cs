@@ -51,7 +51,16 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             {
                 throw CreateAndLogValidationException(invalidPostViewException);
             }
+            catch (PostValidationException postValidationException)
+            {
+                throw CreateAndLogDependencyValidationException(postValidationException);
+            }
+            catch (PostDependencyValidationException postDependencyValidationException)
+            {
+                throw CreateAndLogDependencyValidationException(postDependencyValidationException);
+            }
         }
+
 
         private PostViewValidationException CreateAndLogValidationException(Xeption innerException)
         {
@@ -67,6 +76,16 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             this.loggingBroker.LogError(postViewDependencyException);
 
             return postViewDependencyException;
+        }
+
+        private PostViewDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var postViewDependencyValidationException =
+                new PostViewDependencyValidationException(exception.InnerException as Xeption);
+
+            this.loggingBroker.LogError(postViewDependencyValidationException);
+
+            return postViewDependencyValidationException;
         }
 
         private Exception CreateAndLogServiceException(Xeption innerException)
