@@ -54,6 +54,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         private static string GetRandomString() =>
             new MnemonicString().GetValue();
 
+        private static string GetRandomName() =>
+            new RealNames().GetValue();
+
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
@@ -72,7 +75,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                     Content = GetRandomString(),
                     CreatedDate = GetRandomDate(),
                     UpdatedDate = GetRandomDate(),
-                    Author = Guid.NewGuid()
+                    Author = GetRandomName()
                 };
             }).ToList<dynamic>();
         }
