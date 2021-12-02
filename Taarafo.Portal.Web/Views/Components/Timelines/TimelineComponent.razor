@@ -6,7 +6,8 @@
 <Condition Evaluation="@(State == TimeLineComponentState.Content)">
     <Match>
         <Virtualize Items=@PostViews Context=postView>
-            <CardBase>
+            <CardBase Title=@postView.Author
+                      SubTitle=@postView.CreatedDate.ToString("dd/mm/yyyy")>
                 <Content>
                     <p>
                         @postView.Content
