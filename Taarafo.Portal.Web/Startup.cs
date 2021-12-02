@@ -12,7 +12,7 @@ using Syncfusion.Blazor;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
-using Taarafo.Portal.Web.Services.PostViews;
+using Taarafo.Portal.Web.Services.Views.PostViews;
 
 namespace Taarafo.Portal.Web
 {

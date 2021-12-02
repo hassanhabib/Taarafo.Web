@@ -12,7 +12,7 @@ using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 
-namespace Taarafo.Portal.Web.Services.PostViews
+namespace Taarafo.Portal.Web.Services.Views.PostViews
 {
     public partial class PostViewService : IPostViewService
     {

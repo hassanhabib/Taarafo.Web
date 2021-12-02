@@ -11,7 +11,7 @@ using Moq;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts.Exceptions;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
-using Taarafo.Portal.Web.Services.PostViews;
+using Taarafo.Portal.Web.Services.Views.PostViews;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;

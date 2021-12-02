@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Models.PostViews;
 
-namespace Taarafo.Portal.Web.Services.PostViews
+namespace Taarafo.Portal.Web.Services.Views.PostViews
 {
     public interface IPostViewService
     {
