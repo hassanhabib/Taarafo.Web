@@ -51,5 +51,42 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
             this.postServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [MemberData(nameof(DependencyExceptions))]
+        public async Task ShouldThrowDependencyExceptionOnRemoveByIdIfDependencyErroOccursAndLogItAsync(
+            Xeption dependencyException)
+        {
+            // given
+            Guid somePostId = Guid.NewGuid();
+
+            var expectedPostViewDependencyException =
+                new PostViewDependencyException(
+                    dependencyException.InnerException as Xeption);
+
+            this.postServiceMock.Setup(service =>
+                service.RemovePostByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(dependencyException);
+
+            // when
+            ValueTask<PostView> removePostViewByIdTask =
+                this.postViewService.RemovePostViewByIdAsync(somePostId);
+
+            // then
+            await Assert.ThrowsAsync<PostViewDependencyException>(() =>
+                removePostViewByIdTask.AsTask());
+
+            this.postServiceMock.Verify(service =>
+                service.RemovePostByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostViewDependencyException))),
+                        Times.Once);
+
+            this.postServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
