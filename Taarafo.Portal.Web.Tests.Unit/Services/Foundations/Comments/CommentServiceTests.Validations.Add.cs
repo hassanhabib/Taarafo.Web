@@ -18,7 +18,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
         {
             // given
             Comment nullComment = null;
-            var nullCommentException = new NullCommentException();
+            var nullCommentException =
+                new NullCommentException();
 
             var expectedCommentValidationException =
                 new CommentValidationException(nullCommentException);
