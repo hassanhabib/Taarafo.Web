@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Force.DeepCloner;
@@ -18,10 +19,17 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
         public async Task ShouldAddCommentAsync()
         {
             // given
-            Comment randomComment = CreateRandomComment();
+            DateTimeOffset randomDateTime =
+                GetRandomDateTimeOffset();
+
+            Comment randomComment = CreateRandomComment(randomDateTime);
             Comment inputComment = randomComment;
             Comment postedComment = inputComment;
             Comment expectedComment = postedComment.DeepClone();
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Returns(randomDateTime);
 
             this.apiBrokerMock.Setup(broker =>
                 broker.PostCommentAsync(inputComment))
@@ -33,6 +41,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
 
             // then
             actualComment.Should().BeEquivalentTo(expectedComment);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once());
 
             this.apiBrokerMock.Verify(broker =>
                 broker.PostCommentAsync(inputComment),

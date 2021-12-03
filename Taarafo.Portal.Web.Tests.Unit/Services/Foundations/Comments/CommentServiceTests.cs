@@ -35,18 +35,18 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                 loggingBroker: loggingBrokerMock.Object);
         }
 
-        private static Comment CreateRandomComment() =>
-             CreateCommentFiller().Create();
+        private static Comment CreateRandomComment(DateTimeOffset date) =>
+             CreateCommentFiller(date).Create();
 
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
-        private static Filler<Comment> CreateCommentFiller()
+        private static Filler<Comment> CreateCommentFiller(DateTimeOffset date)
         {
             var filler = new Filler<Comment>();
 
             filler.Setup()
-                .OnType<DateTimeOffset>().Use(GetRandomDateTimeOffset);
+                .OnType<DateTimeOffset>().Use(date);
 
             return filler;
         }

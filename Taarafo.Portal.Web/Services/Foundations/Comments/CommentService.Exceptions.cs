@@ -24,6 +24,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             {
                 throw CreateAndLogValidationException(nullCommentException);
             }
+            catch (InvalidCommentException invalidCommentException)
+            {
+                throw CreateAndLogValidationException(invalidCommentException);
+            }
         }
 
         private CommentValidationException CreateAndLogValidationException(Xeption exception)
