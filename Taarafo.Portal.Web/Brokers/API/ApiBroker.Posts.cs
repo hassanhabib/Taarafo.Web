@@ -12,15 +12,15 @@ namespace Taarafo.Portal.Web.Brokers.API
 {
     public partial class ApiBroker
     {
-        private const string RelativeUrl = "api/posts";
+        private const string postsRelativeUrl = "api/posts";
 
         public async ValueTask<Post> PostPostAsync(Post post) =>
-            await this.PostAsync(RelativeUrl, post);
+            await this.PostAsync(postsRelativeUrl, post);
 
         public async ValueTask<List<Post>> GetAllPostsAsync() =>
-            await this.GetAsync<List<Post>>(RelativeUrl);
+            await this.GetAsync<List<Post>>(postsRelativeUrl);
 
         public async ValueTask<Post> DeletePostByIdAsync(Guid postId) =>
-            await this.DeleteAsync<Post>($"{RelativeUrl}/{postId}");
+            await this.DeleteAsync<Post>($"{postsRelativeUrl}/{postId}");
     }
 }
