@@ -55,14 +55,13 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         [Theory]
         [MemberData(nameof(DependencyExceptions))]
         public async Task ShouldThrowDependencyExceptionOnRemoveByIdIfDependencyErroOccursAndLogItAsync(
-            Xeption dependencyException)
+            Exception dependencyException)
         {
             // given
-            Guid somePostId = Guid.NewGuid();
+            Guid somePostViewId = Guid.NewGuid();
 
             var expectedPostViewDependencyException =
-                new PostViewDependencyException(
-                    dependencyException.InnerException as Xeption);
+                new PostViewDependencyException(dependencyException);
 
             this.postServiceMock.Setup(service =>
                 service.RemovePostByIdAsync(It.IsAny<Guid>()))
@@ -70,7 +69,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
 
             // when
             ValueTask<PostView> removePostViewByIdTask =
-                this.postViewService.RemovePostViewByIdAsync(somePostId);
+                this.postViewService.RemovePostViewByIdAsync(somePostViewId);
 
             // then
             await Assert.ThrowsAsync<PostViewDependencyException>(() =>
