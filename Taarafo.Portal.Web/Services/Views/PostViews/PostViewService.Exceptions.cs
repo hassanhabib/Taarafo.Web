@@ -67,6 +67,13 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyException(postServiceException);
             }
+            catch(Exception exception)
+            {
+                var failedPostViewServiceException =
+                    new FailedPostViewServiceException(exception);
+
+                throw CreateAndLogServiceException(failedPostViewServiceException);
+            }
         }
 
 
