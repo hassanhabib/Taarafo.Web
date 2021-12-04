@@ -76,7 +76,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
-                    .Throws(duplicateKeyException);
+                    .Throws(alreadyExistsCommentException);
 
             // when
             ValueTask<Comment> addCommentTask =
