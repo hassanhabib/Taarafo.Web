@@ -56,5 +56,52 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfCommentAlreadyExsitsAndLogItAsync()
+        {
+            // given
+            Comment randomComment = CreateRandomComment();
+            Comment alreadyExistsComment = randomComment;
+            string randomMessage = GetRandomMessage();
+
+            var duplicateKeyException =
+                new Exception(GetRandomMessage());
+
+            var alreadyExistsCommentException =
+                new AlreadyExistsCommentException(duplicateKeyException);
+
+            var expectedCommentDependencyValidationException =
+                new CommentDependencyValidationException(alreadyExistsCommentException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(duplicateKeyException);
+
+            // when
+            ValueTask<Comment> addCommentTask =
+                this.commentService.AddCommentAsync(alreadyExistsComment);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
+                addCommentTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostCommentAsync(It.IsAny<Comment>()),
+                    Times.Never);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentDependencyValidationException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
