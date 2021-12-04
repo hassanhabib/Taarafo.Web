@@ -28,6 +28,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             {
                 throw CreateAndLogValidationException(invalidCommentException);
             }
+            catch (FailedCommentStorageException failedCommentStorageException)
+            {
+                throw CreateAndLogCriticalDependencyException(failedCommentStorageException);
+            }
         }
 
         private CommentValidationException CreateAndLogValidationException(Xeption exception)
@@ -36,6 +40,15 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.loggingBroker.LogError(commentValidationException);
 
             return commentValidationException;
+        }
+
+        private CommentDependencyException CreateAndLogCriticalDependencyException(
+            Xeption exception)
+        {
+            var commentDependencyException = new CommentDependencyException(exception);
+            this.loggingBroker.LogCritical(commentDependencyException);
+
+            return commentDependencyException;
         }
     }
 }
