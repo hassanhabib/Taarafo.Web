@@ -105,7 +105,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
         }
 
         [Fact]
-        public async void ShouldThrowValidationExceptionOnAddIfReferenceErrorOccursAndLogItAsync()
+        public async void ShouldThrowDependencyValidationExceptionOnAddIfReferenceErrorOccursAndLogItAsync()
         {
             // given
             Comment someComment = CreateRandomComment();
@@ -145,6 +145,49 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfDatabaseUpdateErrorOccursAndLogItAsync()
+        {
+            // given
+            Comment someComment = CreateRandomComment();
+            var serviceException = new Exception();
+
+            var failedCommentServiceException =
+                new FailedCommentServiceException(serviceException);
+
+            var expectedCommentServiceException =
+                new CommentServiceException(failedCommentServiceException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(failedCommentServiceException);
+
+            // when
+            ValueTask<Comment> addCommentTask =
+                this.commentService.AddCommentAsync(someComment);
+
+            // then
+            await Assert.ThrowsAsync<CommentServiceException>(() =>
+                addCommentTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostCommentAsync(It.IsAny<Comment>()),
+                    Times.Never);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentServiceException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

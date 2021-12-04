@@ -69,5 +69,14 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
             return commentDependencyValidationException;
         }
+
+        private CommentServiceException CreateAndLogServiceException(
+            Xeption exception)
+        {
+            var commentServiceException = new CommentServiceException(exception);
+            this.loggingBroker.LogError(commentServiceException);
+
+            return commentServiceException;
+        }
     }
 }
