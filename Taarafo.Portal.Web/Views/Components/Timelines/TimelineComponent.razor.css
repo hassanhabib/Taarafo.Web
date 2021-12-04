@@ -1,0 +1,5 @@
+﻿::deep .e-card {
+    width:50%; 
+    border-color: darkgray;
+    margin: 5px auto;
+}
