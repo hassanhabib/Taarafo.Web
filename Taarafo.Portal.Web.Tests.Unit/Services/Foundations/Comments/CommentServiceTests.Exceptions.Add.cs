@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Moq;
 using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Models.Comments.Exceptions;
-using Tynamix.ObjectFiller;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
@@ -20,8 +19,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
         {
             // given
             Comment someComment = CreateRandomComment();
-            Exception storageException = new Exception(
-                new MnemonicString(wordCount: GetRandomNumber()).GetValue());
+            Exception storageException = new Exception(GetRandomMessage());
 
             var failedCommentStorageException =
                 new FailedCommentStorageException(storageException);
