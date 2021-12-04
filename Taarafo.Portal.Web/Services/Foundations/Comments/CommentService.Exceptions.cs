@@ -36,6 +36,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             {
                 throw CreateAndLogDependencyValidationException(alreadyExistsCommentException);
             }
+            catch (InvalidCommentReferenceException invalidCommentReferenceException)
+            {
+                throw CreateAndLogDependencyValidationException(invalidCommentReferenceException);
+            }
         }
 
         private CommentValidationException CreateAndLogValidationException(Xeption exception)

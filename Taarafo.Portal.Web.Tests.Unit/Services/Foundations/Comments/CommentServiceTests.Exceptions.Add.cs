@@ -19,10 +19,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
         {
             // given
             Comment someComment = CreateRandomComment();
-            Exception storageException = new Exception(GetRandomMessage());
+            Exception someException = new Exception(GetRandomMessage());
 
             var failedCommentStorageException =
-                new FailedCommentStorageException(storageException);
+                new FailedCommentStorageException(someException);
 
             var expectedCommentDependencyException =
                 new CommentDependencyException(failedCommentStorageException);
@@ -65,11 +65,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             Comment alreadyExistsComment = randomComment;
             string randomMessage = GetRandomMessage();
 
-            var duplicateKeyException =
+            var someException =
                 new Exception(GetRandomMessage());
 
             var alreadyExistsCommentException =
-                new AlreadyExistsCommentException(duplicateKeyException);
+                new AlreadyExistsCommentException(someException);
 
             var expectedCommentDependencyValidationException =
                 new CommentDependencyValidationException(alreadyExistsCommentException);
@@ -102,6 +102,49 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async void ShouldThrowValidationExceptionOnAddIfReferenceErrorOccursAndLogItAsync()
+        {
+            // given
+            Comment someComment = CreateRandomComment();
+            string randomMessage = GetRandomMessage();
+            string exceptionMessage = randomMessage;
+
+            var someException =
+                 new Exception(GetRandomMessage());
+
+            var invalidCommentReferenceException =
+                new InvalidCommentReferenceException(someException);
+
+            var expectedCommentValidationException =
+                new CommentDependencyValidationException(invalidCommentReferenceException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(invalidCommentReferenceException);
+
+            // when
+            ValueTask<Comment> addCommentTask =
+                this.commentService.AddCommentAsync(someComment);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
+                addCommentTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentValidationException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.apiBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
