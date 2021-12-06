@@ -71,6 +71,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         private static string GetRandomString() =>
             new MnemonicString().GetValue();
 
+        private static string GetRandomName() =>
+            new RealNames().GetValue();
+
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
@@ -94,8 +97,16 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
             int randomCount = GetRandomNumber();
 
             return Enumerable.Range(0, randomCount).Select(item =>
-                CreateRandomPostViewProperties())
-                    .ToList<dynamic>();
+            {
+                return new
+                {
+                    Id = Guid.NewGuid(),
+                    Content = GetRandomString(),
+                    CreatedDate = GetRandomDate(),
+                    UpdatedDate = GetRandomDate(),
+                    Author = GetRandomName()
+                };
+            }).ToList<dynamic>();
         }
 
         private static Expression<Func<Xeption, bool>> SameExceptionAs(

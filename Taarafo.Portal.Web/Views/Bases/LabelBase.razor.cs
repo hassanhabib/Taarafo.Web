@@ -3,12 +3,13 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
+using Microsoft.AspNetCore.Components;
 
-namespace Taarafo.Portal.Web.Brokers.DateTimes
+namespace Taarafo.Portal.Web.Views.Bases
 {
-    public class DateTimeBroker : IDateTimeBroker
+    public partial class LabelBase : ComponentBase
     {
-        public DateTimeOffset GetCurrentDateTimeOffset() => DateTimeOffset.UtcNow;
+        [Parameter]
+        public string Value { get; set; }
     }
 }
