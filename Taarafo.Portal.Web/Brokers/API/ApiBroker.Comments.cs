@@ -10,9 +10,9 @@ namespace Taarafo.Portal.Web.Brokers.API
 {
     public partial class ApiBroker
     {
-        private const string commentsRelativeUrl = "api/comments";
+        private const string CommentsRelativeUrl = "api/comments";
 
         public async ValueTask<Comment> PostCommentAsync(Comment comment) =>
-                    await this.PostAsync(commentsRelativeUrl, comment);
+                    await this.PostAsync(CommentsRelativeUrl, comment);
     }
 }
