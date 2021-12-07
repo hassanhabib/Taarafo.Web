@@ -76,7 +76,6 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             }
         }
 
-
         private PostViewValidationException CreateAndLogValidationException(Xeption innerException)
         {
             var postViewValidationException = new PostViewValidationException(innerException);
