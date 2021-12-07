@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bunit;
@@ -35,6 +36,40 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             initialTimelineComponent.PostViews.Should().BeNull();
             initialTimelineComponent.Label.Should().BeNull();
             initialTimelineComponent.ErrorMessage.Should().BeNull();
+        }
+
+        [Fact]
+        public void ShouldDisplayLoadingBeforeRenderingPosts()
+        {
+            // given
+            TimeLineComponentState expectedState = 
+                TimeLineComponentState.Loading;
+            
+            string expectedLoadingText = "Loading ...";
+            List<PostView> somePostViews = CreateRandomPostViews();
+
+            this.postViewServiceMock.Setup(service =>
+                service.RetrieveAllPostViewsAsync())
+                    .ReturnsAsync(
+                        value: somePostViews,
+                        delay: TimeSpan.FromMilliseconds(500));
+
+            // when
+            this.renderedTimelineComponent =
+                RenderComponent<TimelineComponent>();
+
+            // then
+            this.renderedTimelineComponent.Instance.State
+                .Should().Be(expectedState);
+
+            this.renderedTimelineComponent.Instance.Label.Value
+                .Should().Be(expectedLoadingText);
+
+            this.postViewServiceMock.Verify(service =>
+                service.RetrieveAllPostViewsAsync(),
+                    Times.Once());
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
         }
 
         [Fact]
