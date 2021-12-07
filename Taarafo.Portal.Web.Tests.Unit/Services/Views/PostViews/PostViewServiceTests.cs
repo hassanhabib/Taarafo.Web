@@ -88,7 +88,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 Content = GetRandomString(),
                 CreatedDate = GetRandomDate(),
                 UpdatedDate = GetRandomDate(),
-                Author = Guid.NewGuid()
+                Author = GetRandomString()
             };
         }
 
