@@ -13,6 +13,6 @@ namespace Taarafo.Portal.Web.Brokers.API
         private const string CommentsRelativeUrl = "api/comments";
 
         public async ValueTask<Comment> PostCommentAsync(Comment comment) =>
-                    await this.PostAsync(CommentsRelativeUrl, comment);
+            await this.PostAsync(CommentsRelativeUrl, comment);
     }
 }
