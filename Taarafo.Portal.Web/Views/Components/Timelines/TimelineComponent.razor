@@ -4,6 +4,12 @@
 @using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 
 <div>
+<Condition Evaluation="@(State == TimeLineComponentState.Loading)">
+    <Match>
+        <LabelBase @ref=Label Value="Loading ..." />
+    </Match>
+</Condition>
+
 <Condition Evaluation="@(State == TimeLineComponentState.Content)">
     <Match>
         <Virtualize Items=@PostViews Context=postView>

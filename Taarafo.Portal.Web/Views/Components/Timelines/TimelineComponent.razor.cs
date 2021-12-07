@@ -29,6 +29,8 @@ namespace Taarafo.Portal.Web.Views.Components.Timelines
                 await this.PostViewService.RetrieveAllPostViewsAsync();
 
             this.State = TimeLineComponentState.Content;
+
+            this.StateHasChanged();
         }
     }
 }
