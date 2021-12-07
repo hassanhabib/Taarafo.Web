@@ -110,7 +110,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             {
                 bool componentContentExists =
                     expectedPostViews.Any(postView =>
-                        component.Markup.Contains($"<p>{postView.Content}</p>")
+                        component.Markup.Contains(postView.Content)
                         && component.Markup.Contains(postView.UpdatedDate.ToString("dd/MM/yyyy"))
                         && component.Markup.Contains(postView.Author));
 
