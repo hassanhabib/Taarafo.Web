@@ -44,9 +44,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
         public void ShouldDisplayLoadingBeforeRenderingPosts()
         {
             // given
-            var taskCompletionSource = new TaskCompletionSource<List<PostView>>();
-            var incompleteRetrieveTask = new ValueTask<List<PostView>>(taskCompletionSource.Task);
-
             TimeLineComponentState expectedState = 
                 TimeLineComponentState.Loading;
             
@@ -55,7 +52,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
 
             this.postViewServiceMock.Setup(service =>
                 service.RetrieveAllPostViewsAsync())
-                    .Returns(incompleteRetrieveTask);
+                    .ReturnsAsync(
+                        value: somePostViews,
+                        delay: TimeSpan.FromMilliseconds(500));
 
             // when
             this.renderedTimelineComponent =
