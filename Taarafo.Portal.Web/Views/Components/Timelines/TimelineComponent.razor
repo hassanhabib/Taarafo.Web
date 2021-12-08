@@ -26,4 +26,10 @@
         </Virtualize>
     </Match>
 </Condition>
+
+<Condition Evaluation="@(State == TimeLineComponentState.Error)">
+    <Match>
+        <LabelBase @ref=Label Value=@ErrorMessage />
+    </Match>
+</Condition>
 </div>
