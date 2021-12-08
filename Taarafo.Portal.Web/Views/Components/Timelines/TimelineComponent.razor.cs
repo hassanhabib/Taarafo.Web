@@ -22,6 +22,7 @@ namespace Taarafo.Portal.Web.Views.Components.Timelines
         public List<PostView> PostViews { get; set; }
         public string ErrorMessage { get; set; }
         public LabelBase Label { get; set; }
+        public SpinnerBase Spinner { get; set; }
 
         protected async override Task OnInitializedAsync()
         {

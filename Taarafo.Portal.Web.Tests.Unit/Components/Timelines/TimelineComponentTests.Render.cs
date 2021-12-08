@@ -36,6 +36,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             initialTimelineComponent.PostViews.Should().BeNull();
             initialTimelineComponent.Label.Should().BeNull();
             initialTimelineComponent.ErrorMessage.Should().BeNull();
+            initialTimelineComponent.Spinner.Should().BeNull();
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             TimeLineComponentState expectedState = 
                 TimeLineComponentState.Loading;
             
-            string expectedLoadingText = "Loading ...";
+            string expectedSpinnerValue = "Loading ...";
             List<PostView> somePostViews = CreateRandomPostViews();
 
             this.postViewServiceMock.Setup(service =>
@@ -62,8 +63,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             this.renderedTimelineComponent.Instance.State
                 .Should().Be(expectedState);
 
-            this.renderedTimelineComponent.Instance.Label.Value
-                .Should().Be(expectedLoadingText);
+            this.renderedTimelineComponent.Instance.Spinner.IsVisible
+                .Should().BeTrue();
+
+            this.renderedTimelineComponent.Instance.Spinner.Value
+                .Should().Be(expectedSpinnerValue);
 
             this.postViewServiceMock.Verify(service =>
                 service.RetrieveAllPostViewsAsync(),
