@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Syncfusion.Blazor;
 using Taarafo.Portal.Web.Models.PostViews;
-using Taarafo.Portal.Web.Services.PostViews;
+using Taarafo.Portal.Web.Services.Views.PostViews;
 using Taarafo.Portal.Web.Views.Components.Timelines;
 using Tynamix.ObjectFiller;
 
