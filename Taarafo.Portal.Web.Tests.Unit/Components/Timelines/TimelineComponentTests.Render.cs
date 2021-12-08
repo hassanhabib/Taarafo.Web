@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
@@ -43,6 +44,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
         public void ShouldDisplayLoadingBeforeRenderingPosts()
         {
             // given
+            var taskCompletionSource = new TaskCompletionSource<List<PostView>>();
+            var incompleteRetrieveTask = new ValueTask<List<PostView>>(taskCompletionSource.Task);
+
             TimeLineComponentState expectedState = 
                 TimeLineComponentState.Loading;
             
@@ -51,9 +55,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
 
             this.postViewServiceMock.Setup(service =>
                 service.RetrieveAllPostViewsAsync())
-                    .ReturnsAsync(
-                        value: somePostViews,
-                        delay: TimeSpan.FromMilliseconds(500));
+                    .Returns(incompleteRetrieveTask);
 
             // when
             this.renderedTimelineComponent =
