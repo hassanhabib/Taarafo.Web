@@ -1,5 +1,17 @@
-﻿::deep .e-card {
+﻿::deep .e-card 
+{
     width:50%; 
     border-color: darkgray;
     margin: 5px auto;
+}
+::deep img 
+{
+    display: block;
+    margin: 0 auto;
+}
+::deep label
+{
+    display:block;
+    text-align: center;
+    margin: 25px 0;
 }
