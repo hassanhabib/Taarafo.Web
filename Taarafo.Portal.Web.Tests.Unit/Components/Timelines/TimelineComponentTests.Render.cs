@@ -18,7 +18,7 @@ using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
 {
-    public partial class TimelineComponentTests : TestContext
+    public partial class TimelineComponentTests
     {
         [Fact]
         public void ShouldInitComponent()
