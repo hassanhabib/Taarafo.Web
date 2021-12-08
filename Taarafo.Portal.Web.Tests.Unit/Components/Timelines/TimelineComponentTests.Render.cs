@@ -35,9 +35,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             initialTimelineComponent.State.Should().Be(expectedState);
             initialTimelineComponent.PostViewService.Should().BeNull();
             initialTimelineComponent.PostViews.Should().BeNull();
+            initialTimelineComponent.Spinner.Should().BeNull();
             initialTimelineComponent.Label.Should().BeNull();
             initialTimelineComponent.ErrorMessage.Should().BeNull();
-            initialTimelineComponent.Spinner.Should().BeNull();
+            initialTimelineComponent.ErrorImage.Should().BeNull();
         }
 
         [Fact]
