@@ -6,7 +6,9 @@
 <div>
 <Condition Evaluation="@(State == TimeLineComponentState.Loading)">
     <Match>
-        <LabelBase @ref=Label Value="Loading ..." />
+        <SpinnerBase @ref=Spinner
+                     IsVisible=true
+                     Value="Loading ..." />
     </Match>
 </Condition>
 
