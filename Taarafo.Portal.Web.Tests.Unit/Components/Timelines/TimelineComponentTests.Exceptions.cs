@@ -30,6 +30,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             string randomMessage = GetRandomString();
             string exceptionMessage = randomMessage;
             string expectedErrorMessage = exceptionMessage;
+            string expectedImageUrl = "imgs/error.png";
             
             var exception =
                 new Exception(message: exceptionMessage);
@@ -51,6 +52,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             
             this.renderedTimelineComponent.Instance.Label.Value
                 .Should().Be(expectedErrorMessage);
+
+            this.renderedTimelineComponent.Instance.ErrorImage.Url
+                .Should().Be(expectedImageUrl);
 
             IReadOnlyList<IRenderedComponent<CardBase>> postComponents =
                 this.renderedTimelineComponent.FindComponents<CardBase>();

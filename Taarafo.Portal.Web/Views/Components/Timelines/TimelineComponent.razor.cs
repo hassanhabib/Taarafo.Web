@@ -21,9 +21,10 @@ namespace Taarafo.Portal.Web.Views.Components.Timelines
 
         public TimeLineComponentState State { get; set; }
         public List<PostView> PostViews { get; set; }
+        public SpinnerBase Spinner { get; set; }
         public string ErrorMessage { get; set; }
         public LabelBase Label { get; set; }
-        public SpinnerBase Spinner { get; set; }
+        public ImageBase ErrorImage { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
