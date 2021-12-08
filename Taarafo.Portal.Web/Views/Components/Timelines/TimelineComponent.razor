@@ -29,6 +29,10 @@
 
 <Condition Evaluation="@(State == TimeLineComponentState.Error)">
     <Match>
+        <ImageBase @ref=ErrorImage 
+                   Url="imgs/error.png"
+                   Width="200px" />
+
         <LabelBase @ref=Label Value=@ErrorMessage />
     </Match>
 </Condition>
