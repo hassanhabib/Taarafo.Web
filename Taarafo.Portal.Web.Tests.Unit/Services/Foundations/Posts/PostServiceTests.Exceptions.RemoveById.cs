@@ -17,34 +17,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 {
     public partial class PostServiceTests
     {
-        public static TheoryData CriticalDependencyExceptions()
-        {
-            string someMessage = GetRandomMessage();
-
-            var httpResponseMessage =
-                new HttpResponseMessage();
-
-            var httpRequestException =
-                new HttpRequestException();
-
-            var httpReponseUrlNotFoundException =
-                new HttpResponseUrlNotFoundException(
-                    httpResponseMessage,
-                    someMessage);
-
-            var unauthorizedHttpResponseException =
-                new HttpResponseUnauthorizedException(
-                    httpResponseMessage,
-                    someMessage);
-
-            return new TheoryData<Exception>
-            {
-                httpRequestException,
-                httpReponseUrlNotFoundException,
-                unauthorizedHttpResponseException
-            };
-        }
-
         [Theory]
         [MemberData(nameof(CriticalDependencyExceptions))]
         public async Task ShouldThrowCriticalDependencyExceptionOnRemoveifCriticalErrorOccursAndLogItAsync(
