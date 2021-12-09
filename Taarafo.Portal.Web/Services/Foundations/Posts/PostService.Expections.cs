@@ -57,15 +57,15 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(notFoundPostException);
             }
-            //catch (HttpResponseBadRequestException httpResponseBadRequestException)
-            //{
-            //    var invalidPostException =
-            //        new InvalidPostException(
-            //            httpResponseBadRequestException,
-            //            httpResponseBadRequestException.Data);
+            catch (HttpResponseBadRequestException httpResponseBadRequestException)
+            {
+                var invalidPostException =
+                    new InvalidPostException(
+                        httpResponseBadRequestException,
+                        httpResponseBadRequestException.Data);
 
-            //    throw CreateAndLogDependencyValidationException(invalidPostException);
-            //}
+                throw CreateAndLogDependencyValidationException(invalidPostException);
+            }
             catch (HttpResponseLockedException httpLockedException)
             {
                 var lockedPostException =
