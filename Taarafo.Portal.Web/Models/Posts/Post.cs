@@ -13,6 +13,6 @@ namespace Taarafo.Portal.Web.Models.Posts
         public string Content { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
-        public Guid Author { get; set; }
+        public string Author { get; set; }
     }
 }

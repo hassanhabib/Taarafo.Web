@@ -12,7 +12,7 @@ using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 
-namespace Taarafo.Portal.Web.Services.PostViews
+namespace Taarafo.Portal.Web.Services.Views.PostViews
 {
     public partial class PostViewService : IPostViewService
     {
@@ -36,8 +36,23 @@ namespace Taarafo.Portal.Web.Services.PostViews
             return posts.Select(AsPostView).ToList();
         });
 
+        public ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId) =>
+        TryCatch(async () =>
+        {
+            ValidatePostViewId(postViewId);
+
+            Post deletedPost =
+               await this.postService.RemovePostByIdAsync(postViewId);
+
+            return MapToPostView(deletedPost);
+        });
+
         private static Func<Post, PostView> AsPostView =>
-            post => new PostView
+            post => MapToPostView(post);
+
+        private static PostView MapToPostView(Post post)
+        {
+            return new PostView
             {
                 Id = post.Id,
                 Content = post.Content,
@@ -45,5 +60,6 @@ namespace Taarafo.Portal.Web.Services.PostViews
                 UpdatedDate = post.UpdatedDate,
                 Author = post.Author
             };
+        }
     }
 }

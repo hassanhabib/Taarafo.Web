@@ -12,21 +12,21 @@ namespace Taarafo.Portal.Web.Brokers.API
 {
     public partial class ApiBroker
     {
-        private const string commentsRelativeUrl = "api/comments";
+        private const string CommentsRelativeUrl = "api/comments";
 
         public async ValueTask<Comment> PostCommentAsync(Comment comment) =>
-                    await this.PostAsync(commentsRelativeUrl, comment);
+            await this.PostAsync(CommentsRelativeUrl, comment);
 
         public async ValueTask<List<Comment>> GetAllCommentsAsync() =>
-            await this.GetAsync<List<Comment>>(commentsRelativeUrl);
+            await this.GetAsync<List<Comment>>(CommentsRelativeUrl);
 
         public async ValueTask<Comment> GetCommentByIdAsync(Guid commentId) =>
-            await this.GetAsync<Comment>($"{commentsRelativeUrl}/{commentId}");
+            await this.GetAsync<Comment>($"{CommentsRelativeUrl}/{commentId}");
 
         public async ValueTask<Comment> PutCommentAsync(Comment comment) =>
-            await this.PutAsync(commentsRelativeUrl, comment);
+            await this.PutAsync(CommentsRelativeUrl, comment);
 
         public async ValueTask<Comment> DeleteCommentByIdAsync(Guid commentId) =>
-            await this.DeleteAsync<Comment>($"{commentsRelativeUrl}/{commentId}");
+            await this.DeleteAsync<Comment>($"{CommentsRelativeUrl}/{commentId}");
     }
 }
