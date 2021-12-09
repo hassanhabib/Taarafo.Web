@@ -200,5 +200,43 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            Post somePost = CreateRandomPost();
+            var serviceException = new Exception();
+
+            var failedPostServiceException =
+                new FailedPostServiceException(serviceException);
+
+            var expectedPostServiceException =
+                new PostServiceException(failedPostServiceException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()))
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
+
+            // then
+            await Assert.ThrowsAsync<PostServiceException>(() =>
+                addPostTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostServiceException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }

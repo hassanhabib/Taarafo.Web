@@ -89,13 +89,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyException(failedPostDependencyException);
             }
-            catch (Exception exception)
-            {
-                var failedPostServiceException =
-                    new FailedPostServiceException(exception);
+            //catch (Exception exception)
+            //{
+            //    var failedPostServiceException =
+            //        new FailedPostServiceException(exception);
 
-                throw CreateAndLogPostServiceException(failedPostServiceException);
-            }
+            //    throw CreateAndLogPostServiceException(failedPostServiceException);
+            //}
         }
 
         private async ValueTask<List<Post>> TryCatch(ReturningPostsFunction returningPostsFunction)
