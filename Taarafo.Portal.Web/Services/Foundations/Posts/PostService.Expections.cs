@@ -82,13 +82,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 
                 throw CreateAndLogDependencyValidationException(lockedPostException);
             }
-            catch (HttpResponseException httpResponseException)
-            {
-                var failedPostDependencyException =
-                    new FailedPostDependencyException(httpResponseException);
+            //catch (HttpResponseException httpResponseException)
+            //{
+            //    var failedPostDependencyException =
+            //        new FailedPostDependencyException(httpResponseException);
 
-                throw CreateAndLogDependencyException(failedPostDependencyException);
-            }
+            //    throw CreateAndLogDependencyException(failedPostDependencyException);
+            //}
             catch (Exception exception)
             {
                 var failedPostServiceException =
