@@ -25,6 +25,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             {
                 return await returningPostFunction();
             }
+            catch (NullPostException nullPostException)
+            {
+                throw CreateAndLogValidationException(nullPostException);
+            }
             catch (InvalidPostException invalidPostException)
             {
                 throw CreateAndLogValidationException(invalidPostException);

@@ -28,6 +28,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         public ValueTask<Post> AddPostAsync(Post post) =>
         TryCatch(async () =>
         {
+            ValidatePostOnAdd(post);
+
             return await this.apiBroker.PostPostAsync(post);
         });
 

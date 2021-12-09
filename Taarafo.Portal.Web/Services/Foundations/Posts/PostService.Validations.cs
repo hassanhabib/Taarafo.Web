@@ -11,6 +11,11 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 {
     public partial class PostService
     {
+        public static void ValidatePostOnAdd(Post post)
+        {
+            ValidatePost(post);
+        }
+
         public static void ValidatePostId(Guid postId)
         {
             Validate((Rule: IsInvalid(postId), Parameter: nameof(Post.Id)));
@@ -37,6 +42,14 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
             }
 
             invalidPostException.ThrowIfContainsErrors();
+        }
+
+        private static void ValidatePost(Post post)
+        {
+            if (post is null)
+            {
+                throw new NullPostException();
+            }
         }
     }
 }
