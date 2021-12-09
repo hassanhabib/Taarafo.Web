@@ -14,6 +14,14 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         public static void ValidatePostOnAdd(Post post)
         {
             ValidatePost(post);
+
+            Validate(
+                (Rule: IsInvalid(post.Id), Parameter: nameof(post.Id)),
+                (Rule: IsInvalid(post.Content), Parameter: nameof(post.Content)),
+                (Rule: IsInvalid(post.CreatedDate), Parameter: nameof(post.CreatedDate)),
+                (Rule: IsInvalid(post.UpdatedDate), Parameter: nameof(post.UpdatedDate)),
+                (Rule: IsInvalid(post.Author), Parameter: nameof(post.Author))
+            );
         }
 
         public static void ValidatePostId(Guid postId)
@@ -25,6 +33,18 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
         {
             Condition = id == Guid.Empty,
             Message = "Id is required"
+        };
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = String.IsNullOrWhiteSpace(text),
+            Message = "Text is required"
+        };
+
+        private static dynamic IsInvalid(DateTimeOffset date) => new
+        {
+            Condition = date == default,
+            Message = "Date is required"
         };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
