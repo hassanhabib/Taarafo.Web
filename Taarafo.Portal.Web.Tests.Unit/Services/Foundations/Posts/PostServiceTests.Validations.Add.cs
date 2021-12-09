@@ -106,5 +106,42 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async void ShouldThrowValidationExceptionOnAddWhenUpdatedDateIsNotSameToCreatedDateAndLogItAsync()
+        {
+            // given
+            DateTimeOffset dateTime = GetRandomDateTimeOffset();
+            Post randomPost = CreateRandomPost();
+            Post inputPost = randomPost;
+            inputPost.UpdatedDate = GetRandomDateTimeOffset();
+            var invalidPostException = new InvalidPostException();
+
+            invalidPostException.AddData(
+                key: nameof(Post.UpdatedDate),
+                values: $"Date is not the same as {nameof(Post.CreatedDate)}");
+
+            var expectedPostValidationException =
+                new PostValidationException(invalidPostException);
+
+            // when
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(inputPost);
+
+            // then
+            await Assert.ThrowsAsync<PostValidationException>(() =>
+                addPostTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedPostValidationException))),
+                    Times.Once);
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostAsync(It.IsAny<Post>()),
+                    Times.Never);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }

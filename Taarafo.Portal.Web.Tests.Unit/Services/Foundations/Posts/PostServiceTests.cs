@@ -61,28 +61,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             };
         }
 
-        public static TheoryData DependencyValidationExceptions()
-        {
-            string exceptionMessage = GetRandomMessage();
-            var responseMessage = new HttpResponseMessage();
-
-            var httpResponseBadRequestException =
-                new HttpResponseBadRequestException(
-                    responseMessage: responseMessage,
-                    message: exceptionMessage);
-
-            var httpResponseConflictException =
-                new HttpResponseConflictException(
-                    responseMessage: responseMessage,
-                    message: exceptionMessage);
-
-            return new TheoryData<Exception>
-            {
-                httpResponseBadRequestException,
-                httpResponseConflictException
-            };
-        }
-
         private static Post CreateRandomPost() =>
             CreatePostFiller().Create();
 
