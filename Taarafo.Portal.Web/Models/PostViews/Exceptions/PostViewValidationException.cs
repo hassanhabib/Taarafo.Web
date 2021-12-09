@@ -5,12 +5,12 @@
 
 using Xeptions;
 
-namespace Taarafo.Portal.Web.Models.Posts.Exceptions
+namespace Taarafo.Portal.Web.Models.PostViews.Exceptions
 {
-    public class PostServiceException : Xeption
+    public class PostViewValidationException : Xeption
     {
-        public PostServiceException(Xeption innerException)
-            : base(message: "Post service error occurred, contact support.",
+        public PostViewValidationException(Xeption innerException)
+            : base(message: "Post view validation error ocurred, please try again.",
                   innerException)
         { }
     }

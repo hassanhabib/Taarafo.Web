@@ -12,7 +12,7 @@ using Syncfusion.Blazor;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
-using Taarafo.Portal.Web.Services.PostViews;
+using Taarafo.Portal.Web.Services.Views.PostViews;
 
 namespace Taarafo.Portal.Web
 {
@@ -34,7 +34,7 @@ namespace Taarafo.Portal.Web
             services.AddScoped<IApiBroker, ApiBroker>();
             services.AddScoped<ILoggingBroker, LoggingBroker>();
             services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IPostViewService,PostViewService>();
+            services.AddScoped<IPostViewService, PostViewService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

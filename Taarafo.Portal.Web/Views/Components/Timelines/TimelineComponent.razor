@@ -1,0 +1,39 @@
+﻿@using PrettyBlazor;
+@using Taarafo.Portal.Web.Models.PostViews;
+@using Taarafo.Portal.Web.Views.Bases;
+@using Taarafo.Portal.Web.Models.Views.Components.Timelines;
+
+<div>
+<Condition Evaluation="@(State == TimeLineComponentState.Loading)">
+    <Match>
+        <SpinnerBase @ref=Spinner
+                     IsVisible=true
+                     Value="Loading ..." />
+    </Match>
+</Condition>
+
+<Condition Evaluation="@(State == TimeLineComponentState.Content)">
+    <Match>
+        <Virtualize Items=@PostViews Context=postView>
+            <CardBase Title=@postView.Author
+                      SubTitle=@postView.CreatedDate.ToString("dd/MM/yyyy")>
+                <Content>
+                    <p>
+                        @postView.Content
+                    </p>
+                </Content>
+            </CardBase>
+        </Virtualize>
+    </Match>
+</Condition>
+
+<Condition Evaluation="@(State == TimeLineComponentState.Error)">
+    <Match>
+        <ImageBase @ref=ErrorImage 
+                   Url="imgs/error.png"
+                   Width="200px" />
+
+        <LabelBase @ref=Label Value=@ErrorMessage />
+    </Match>
+</Condition>
+</div>

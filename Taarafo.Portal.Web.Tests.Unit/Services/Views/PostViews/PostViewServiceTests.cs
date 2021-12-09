@@ -11,7 +11,7 @@ using Moq;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts.Exceptions;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
-using Taarafo.Portal.Web.Services.PostViews;
+using Taarafo.Portal.Web.Services.Views.PostViews;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
@@ -34,6 +34,23 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
+        public static TheoryData ValidationExceptions()
+        {
+            var innerException = new Xeption();
+
+            var postServiceValidationException =
+                new PostValidationException(innerException);
+
+            var postDependencyValidationException =
+                new PostDependencyValidationException(innerException);
+
+            return new TheoryData<Exception>
+            {
+                postServiceValidationException,
+                postDependencyValidationException
+            };
+        }
+
         public static TheoryData DependencyExceptions()
         {
             var innerException = new Xeption();
@@ -54,11 +71,26 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         private static string GetRandomString() =>
             new MnemonicString().GetValue();
 
+        private static string GetRandomName() =>
+            new RealNames().GetValue();
+
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static dynamic CreateRandomPostViewProperties()
+        {
+            return new
+            {
+                Id = Guid.NewGuid(),
+                Content = GetRandomString(),
+                CreatedDate = GetRandomDate(),
+                UpdatedDate = GetRandomDate(),
+                Author = GetRandomString()
+            };
+        }
 
         private static List<dynamic> CreateRandomPostViewCollections()
         {
@@ -72,7 +104,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                     Content = GetRandomString(),
                     CreatedDate = GetRandomDate(),
                     UpdatedDate = GetRandomDate(),
-                    Author = Guid.NewGuid()
+                    Author = GetRandomName()
                 };
             }).ToList<dynamic>();
         }

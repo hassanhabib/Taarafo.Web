@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Taarafo.Portal.Web\Taarafo.Portal.Web.csproj" />
   </ItemGroup>
 

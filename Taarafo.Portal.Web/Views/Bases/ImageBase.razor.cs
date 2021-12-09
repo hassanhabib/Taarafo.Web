@@ -3,13 +3,16 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Taarafo.Portal.Web.Views.Bases;
 
-namespace Taarafo.Portal.Web.Views.Pages
+namespace Taarafo.Portal.Web.Views.Bases
 {
-    public partial class Index : ComponentBase
+    public partial class ImageBase : ComponentBase
     {
+        [Parameter]
+        public string Url { get; set; }
+
+        [Parameter]
+        public string Width { get; set; }
     }
 }
