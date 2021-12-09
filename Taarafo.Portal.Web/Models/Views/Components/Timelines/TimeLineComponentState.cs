@@ -3,13 +3,12 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Taarafo.Portal.Web.Views.Bases;
-
-namespace Taarafo.Portal.Web.Views.Pages
+namespace Taarafo.Portal.Web.Models.Views.Components.Timelines
 {
-    public partial class Index : ComponentBase
+    public enum TimeLineComponentState
     {
+        Loading,
+        Content,
+        Error
     }
 }
