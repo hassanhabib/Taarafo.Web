@@ -3,12 +3,12 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
-
-namespace Taarafo.Portal.Web.Brokers.DateTimes
+namespace Taarafo.Portal.Web.Models.Views.Components.Timelines
 {
-    public class DateTimeBroker : IDateTimeBroker
+    public enum TimeLineComponentState
     {
-        public DateTimeOffset GetCurrentDateTimeOffset() => DateTimeOffset.UtcNow;
+        Loading,
+        Content,
+        Error
     }
 }
