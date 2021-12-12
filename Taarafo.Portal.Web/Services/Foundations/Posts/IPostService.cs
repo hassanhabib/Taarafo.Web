@@ -12,6 +12,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Posts
 {
     public interface IPostService
     {
+        ValueTask<Post> AddPostAsync(Post post);
         ValueTask<List<Post>> RetrieveAllPostsAsync();
         ValueTask<Post> RemovePostByIdAsync(Guid postId);
     }

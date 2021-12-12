@@ -8,11 +8,8 @@ using Xeptions;
 
 namespace Taarafo.Portal.Web.Models.Posts.Exceptions
 {
-    public class PostValidationException : Xeption
+    public class NullPostException : Xeption
     {
-        public PostValidationException(Exception innerException)
-            : base(message: "Post validation error ocurred, please try again.",
-                  innerException)
-        { }
+        public NullPostException() : base(message: "The post is null.") { }
     }
 }
