@@ -11,7 +11,7 @@ using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Xeptions;
 using Xunit;
 
-namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
+namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
 {
     public partial class PostViewServiceTests
     {
