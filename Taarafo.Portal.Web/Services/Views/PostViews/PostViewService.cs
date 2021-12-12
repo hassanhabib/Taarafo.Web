@@ -35,9 +35,12 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             this.dateTimeBroker = dateTimeBroker;
         }
 
-        public ValueTask<PostView> AddPostViewAsync(PostView postView)
+        public async ValueTask<PostView> AddPostViewAsync(PostView postView)
         {
-            throw new NotImplementedException();
+            Post post = MapToPost(postView);
+            await this.postService.AddPostAsync(post);
+
+            return postView;
         }
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
@@ -59,6 +62,21 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
 
             return MapToPostView(deletedPost);
         });
+
+        private Post MapToPost(PostView postView)
+        {
+            string currentlyLoggedInAuthor = this.authorService.GetCurrentlyLoggedInAuthor();
+            DateTimeOffset currentDateTime = this.dateTimeBroker.GetCurrentDateTimeOffset();
+
+            return new Post
+            {
+                Id = Guid.NewGuid(),
+                Content = postView.Content,
+                CreatedDate = currentDateTime,
+                UpdatedDate = currentDateTime,
+                Author = currentlyLoggedInAuthor,
+            };
+        }
 
         private static Func<Post, PostView> AsPostView =>
             post => MapToPostView(post);
