@@ -48,7 +48,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
                 dateTimeBroker: this.dateTimeBrokerMock.Object);
         }
 
-        public static TheoryData ValidationExceptions()
+        public static TheoryData DependencyValidationExceptions()
         {
             var innerException = new Xeption();
 

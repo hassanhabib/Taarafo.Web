@@ -16,7 +16,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
     public partial class PostViewServiceTests
     {
         [Theory]
-        [MemberData(nameof(ValidationExceptions))]
+        [MemberData(nameof(DependencyValidationExceptions))]
         public async Task ShouldThrowDependencyValidationOnRemoveIfDependencyValidationErrorOccurrsAndLogItAsync(
             Xeption dependencyValidationException)
         {
