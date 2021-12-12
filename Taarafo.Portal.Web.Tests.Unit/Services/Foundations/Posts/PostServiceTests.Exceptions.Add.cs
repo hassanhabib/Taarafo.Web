@@ -19,11 +19,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
     {
         [Theory]
         [MemberData(nameof(CriticalDependencyExceptions))]
-        public async Task ShouldThrowCriticalDependencyExceptionOnRemoveifCriticalErrorOccursAndLogItAsync(
+        public async Task ShouldThrowCriticalDependencyExceptionOnAddifCriticalErrorOccursAndLogItAsync(
             Exception criticalDependencyException)
         {
             // given
-            Guid somePostId = Guid.NewGuid();
+            Post somePost = CreateRandomPost();
 
             var failedPostDependencyException =
                 new FailedPostDependencyException(criticalDependencyException);
@@ -32,19 +32,19 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                 new PostDependencyException(failedPostDependencyException);
 
             this.apiBrokerMock.Setup(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                broker.PostPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(criticalDependencyException);
 
             // when
-            ValueTask<Post> removePostByIdTask =
-                this.postService.RemovePostByIdAsync(somePostId);
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
 
             // then
             await Assert.ThrowsAsync<PostDependencyException>(() =>
-               removePostByIdTask.AsTask());
+               addPostTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                broker.PostPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -57,54 +57,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfPostIsNotFoundAndLogItAsync()
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfBadRequestExceptionOccursAndLogItAsync()
         {
             // given
-            Guid somePostId = Guid.NewGuid();
-            string responseMessage = GetRandomMessage();
-            var httpResponseMessage = new HttpResponseMessage();
-
-            var httpResponseNotFoundException =
-                new HttpResponseNotFoundException(
-                    httpResponseMessage,
-                    responseMessage);
-
-            var notFoundPostException =
-                new NotFoundPostException(httpResponseNotFoundException);
-
-            var expectedPostDependencyValidationException =
-                new PostDependencyValidationException(notFoundPostException);
-
-            this.apiBrokerMock.Setup(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
-                    .ThrowsAsync(httpResponseNotFoundException);
-
-            // when
-            ValueTask<Post> removePostByIdTask =
-                this.postService.RemovePostByIdAsync(somePostId);
-
-            // then
-            await Assert.ThrowsAsync<PostDependencyValidationException>(() =>
-                removePostByIdTask.AsTask());
-
-            this.apiBrokerMock.Verify(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
-                    Times.Once);
-
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedPostDependencyValidationException))),
-                        Times.Once);
-
-            this.apiBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-        }
-
-        [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfValidationErrorOccursAndLogItAsync()
-        {
-            // given
-            Guid somePostId = Guid.NewGuid();
+            Post somePost = CreateRandomPost();
             IDictionary randomDictionary = CreateRandomDictionary();
             IDictionary exceptionData = randomDictionary;
             string someMessage = GetRandomMessage();
@@ -126,19 +82,19 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                 new PostDependencyValidationException(invalidPostException);
 
             this.apiBrokerMock.Setup(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                broker.PostPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(httpResponseBadRequestException);
 
             // when
-            ValueTask<Post> removePostByIdTask =
-                this.postService.RemovePostByIdAsync(somePostId);
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
 
             // then
             await Assert.ThrowsAsync<PostDependencyValidationException>(() =>
-                removePostByIdTask.AsTask());
+                addPostTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                broker.PostPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -151,38 +107,44 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfPostIsLockedAndLogItAsync()
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfConflictExceptionOccursAndLogItAsync()
         {
             // given
-            Guid somePostId = Guid.NewGuid();
+            Post somePost = CreateRandomPost();
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary exceptionData = randomDictionary;
             string someMessage = GetRandomMessage();
-            var httpResponseMessage = new HttpResponseMessage();
+            var someRepsonseMessage = new HttpResponseMessage();
 
-            var httpResponseLockedException =
-                new HttpResponseLockedException(
-                    httpResponseMessage,
+            var httpResponseConflictException =
+                new HttpResponseConflictException(
+                    someRepsonseMessage,
                     someMessage);
 
-            var lockedPostException = new LockedPostException(
-                httpResponseLockedException);
+            httpResponseConflictException.AddData(exceptionData);
+
+            var invalidPostException =
+                new InvalidPostException(
+                    httpResponseConflictException,
+                    exceptionData);
 
             var expectedPostDependencyValidationException =
-                new PostDependencyValidationException(lockedPostException);
+                new PostDependencyValidationException(invalidPostException);
 
             this.apiBrokerMock.Setup(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
-                    .ThrowsAsync(httpResponseLockedException);
+                broker.PostPostAsync(It.IsAny<Post>()))
+                    .ThrowsAsync(httpResponseConflictException);
 
             // when
-            ValueTask<Post> removePostByIdTask =
-                this.postService.RemovePostByIdAsync(somePostId);
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
 
             // then
             await Assert.ThrowsAsync<PostDependencyValidationException>(() =>
-                removePostByIdTask.AsTask());
+                addPostTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                broker.PostPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -195,10 +157,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         }
 
         [Fact]
-        public async Task ShouldThrowPostDependencyExceptionOnRemoveIfDependencyErrorOccursAndLogItAsync()
+        public async Task ShouldThrowPostDependencyExceptionOnAddIfResponseExceptionOccursAndLogItAsync()
         {
             // given
-            Guid somePostId = Guid.NewGuid();
+            Post somePost = CreateRandomPost();
             string someMessage = GetRandomMessage();
             var httpResponseMessage = new HttpResponseMessage();
 
@@ -214,20 +176,20 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                 new PostDependencyException(failedPostDependencyException);
 
             this.apiBrokerMock.Setup(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                broker.PostPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(httpResponseException);
 
 
             // when
-            ValueTask<Post> removePostByIdTask =
-                this.postService.RemovePostByIdAsync(somePostId);
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
 
             // then
             await Assert.ThrowsAsync<PostDependencyException>(() =>
-                removePostByIdTask.AsTask());
+                addPostTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                broker.PostPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -240,10 +202,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
         }
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionOnRemoveIfServiceErrorOccursAndLogItAsync()
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccursAndLogItAsync()
         {
             // given
-            Guid somePostId = Guid.NewGuid();
+            Post somePost = CreateRandomPost();
             var serviceException = new Exception();
 
             var failedPostServiceException =
@@ -253,19 +215,19 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                 new PostServiceException(failedPostServiceException);
 
             this.apiBrokerMock.Setup(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()))
+                broker.PostPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(serviceException);
 
             // when
-            ValueTask<Post> removePostByIdTask =
-                this.postService.RemovePostByIdAsync(somePostId);
+            ValueTask<Post> addPostTask =
+                this.postService.AddPostAsync(somePost);
 
             // then
             await Assert.ThrowsAsync<PostServiceException>(() =>
-                removePostByIdTask.AsTask());
+                addPostTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
-                broker.DeletePostByIdAsync(It.IsAny<Guid>()),
+                broker.PostPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
