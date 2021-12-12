@@ -7,13 +7,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
 using Moq;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Tynamix.ObjectFiller;
 using Xeptions;
+using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
 {
@@ -30,6 +33,32 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             this.postService = new PostService(
                 apiBroker: apiBrokerMock.Object,
                 loggingBroker: loggingBrokerMock.Object);
+        }
+
+        public static TheoryData CriticalDependencyExceptions()
+        {
+            string exceptionMessage = GetRandomMessage();
+            var responseMessage = new HttpResponseMessage();
+
+            var httpRequestException =
+                new HttpRequestException();
+
+            var httpResponseUrlNotFoundException =
+                new HttpResponseUrlNotFoundException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            var httpResponseUnAuthorizedException =
+                new HttpResponseUnauthorizedException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            return new TheoryData<Exception>
+            {
+                httpRequestException,
+                httpResponseUrlNotFoundException,
+                httpResponseUnAuthorizedException
+            };
         }
 
         private static Post CreateRandomPost() =>
