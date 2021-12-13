@@ -12,6 +12,11 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
     public partial class PostViewService
     {
 
+        public static void ValidatePostViewOnAdd(PostView postView)
+        {
+            ValidatePostView(postView);
+        }
+
         private static void ValidatePostViewId(Guid postViewId) =>
             Validate((Rule: IsInvalid(postViewId), Parameter: nameof(PostView.Id)));
 
@@ -36,6 +41,14 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             }
 
             invalidPostViewException.ThrowIfContainsErrors();
+        }
+
+        private static void ValidatePostView(PostView postView)
+        {
+            if (postView is null)
+            {
+                throw new NullPostViewException();
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
+using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Taarafo.Portal.Web.Services.Foundations.Authors;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 
@@ -38,6 +39,8 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
         public ValueTask<PostView> AddPostViewAsync(PostView postView) =>
         TryCatch(async () =>
         {
+            ValidatePostViewOnAdd(postView);
+
             Post post = MapToPost(postView);
             await this.postService.AddPostAsync(post);
 
