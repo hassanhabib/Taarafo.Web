@@ -13,6 +13,7 @@ using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.Posts.Exceptions;
+using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Services.Foundations.Authors;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Taarafo.Portal.Web.Services.Views.PostViews;
@@ -150,6 +151,19 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
                 actualException.Message == expectedException.Message
                 && actualException.InnerException.Message == expectedException.InnerException.Message
                 && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+        }
+
+        private static PostView CreateRandomPostView() =>
+            CreatePostViewFiller().Create();
+
+        private static Filler<PostView> CreatePostViewFiller()
+        {
+            var filler = new Filler<PostView>();
+
+            filler.Setup()
+                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow);
+
+            return filler;
         }
     }
 }
