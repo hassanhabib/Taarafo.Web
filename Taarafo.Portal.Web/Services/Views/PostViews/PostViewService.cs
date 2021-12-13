@@ -35,14 +35,13 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             this.dateTimeBroker = dateTimeBroker;
         }
 
-        public ValueTask<PostView> AddPostViewAsync(PostView postView) =>
-        TryCatch(async () =>
+        public async ValueTask<PostView> AddPostViewAsync(PostView postView)
         {
             Post post = MapToPost(postView);
             await this.postService.AddPostAsync(post);
 
             return postView;
-        });
+        }
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
         TryCatch(async () =>
