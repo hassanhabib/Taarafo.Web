@@ -15,6 +15,8 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
         public static void ValidatePostViewOnAdd(PostView postView)
         {
             ValidatePostView(postView);
+
+            Validate((Rule: IsInvalid(postView.Content), Parameter: nameof(PostView.Content)));
         }
 
         private static void ValidatePostViewId(Guid postViewId) =>
@@ -24,6 +26,12 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
         {
             Condition = id == Guid.Empty,
             Message = "Id is required"
+        };
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = String.IsNullOrWhiteSpace(text),
+            Message = "Text is required"
         };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
