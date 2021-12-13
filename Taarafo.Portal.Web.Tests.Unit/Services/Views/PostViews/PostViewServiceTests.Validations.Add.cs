@@ -8,7 +8,6 @@ using Moq;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.PostViews.Exceptions;
-using Xeptions;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews

@@ -11,7 +11,6 @@ using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
-using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Taarafo.Portal.Web.Services.Foundations.Authors;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 
