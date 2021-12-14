@@ -81,6 +81,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
 
             return filler;
         }
+
         private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
         {
             return actualException =>
