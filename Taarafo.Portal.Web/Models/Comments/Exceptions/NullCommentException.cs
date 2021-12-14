@@ -9,6 +9,8 @@ namespace Taarafo.Portal.Web.Models.Comments.Exceptions
 {
     public class NullCommentException : Xeption
     {
-        public NullCommentException() : base(message: "The comment is null.") { }
+        public NullCommentException()
+            : base(message: "The comment is null.")
+        { }
     }
 }
