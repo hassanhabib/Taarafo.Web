@@ -20,9 +20,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             {
                 return await returningCommentFunction();
             }
-            catch (NullCommentException nullPostException)
+            catch (NullCommentException nullCommentException)
             {
-                throw CreateAndLogValidationException(nullPostException);
+                throw CreateAndLogValidationException(nullCommentException);
+            }
+            catch (InvalidCommentException invalidCommentException)
+            {
+                throw CreateAndLogValidationException(invalidCommentException);
             }
         }
 
