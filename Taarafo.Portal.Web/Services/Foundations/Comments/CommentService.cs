@@ -5,7 +5,6 @@
 
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.API;
-using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Comments;
 
@@ -15,16 +14,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
     {
         private readonly IApiBroker apiBroker;
         private readonly ILoggingBroker loggingBroker;
-        private readonly IDateTimeBroker dateTimeBroker;
 
         public CommentService(
             IApiBroker apiBroker,
-            ILoggingBroker loggingBroker,
-            IDateTimeBroker dateTimeBroker)
+            ILoggingBroker loggingBroker)
         {
             this.apiBroker = apiBroker;
             this.loggingBroker = loggingBroker;
-            this.dateTimeBroker = dateTimeBroker;
         }
 
         public async ValueTask<Comment> AddCommentAsync(Comment comment) =>
