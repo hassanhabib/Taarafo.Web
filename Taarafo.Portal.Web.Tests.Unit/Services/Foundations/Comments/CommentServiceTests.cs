@@ -5,13 +5,16 @@
 
 using System;
 using System.Linq.Expressions;
+using System.Net.Http;
 using Moq;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Services.Foundations.Comments;
 using Tynamix.ObjectFiller;
 using Xeptions;
+using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
 {
@@ -31,13 +34,45 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
+        public static TheoryData CriticalDependencyExceptions()
+        {
+            string exceptionMessage = GetRandomMessage();
+            var responseMessage = new HttpResponseMessage();
+
+            var httpRequestException =
+                new HttpRequestException();
+
+            var httpResponseUrlNotFoundException =
+                new HttpResponseUrlNotFoundException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            var httpResponseUnAuthorizedException =
+                new HttpResponseUnauthorizedException(
+                    responseMessage: responseMessage,
+                    message: exceptionMessage);
+
+            return new TheoryData<Exception>
+            {
+                httpRequestException,
+                httpResponseUrlNotFoundException,
+                httpResponseUnAuthorizedException
+            };
+        }
+
+        private static string GetRandomMessage() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
+
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
         private static Comment CreateRandomComment() =>
-            CreatePostFiller().Create();
+            CreateCommentFiller().Create();
 
-        private static Filler<Comment> CreatePostFiller()
+        private static Filler<Comment> CreateCommentFiller()
         {
             var filler = new Filler<Comment>();
 

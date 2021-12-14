@@ -3,7 +3,9 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Net.Http;
 using System.Threading.Tasks;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Models.Comments.Exceptions;
 using Xeptions;
@@ -28,6 +30,27 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             {
                 throw CreateAndLogValidationException(invalidCommentException);
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
         }
 
         private CommentValidationException CreateAndLogValidationException(
@@ -39,6 +62,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.loggingBroker.LogError(commentValidationException);
 
             return commentValidationException;
+        }
+
+        private CommentDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var commentDependencyException =
+                new CommentDependencyException(exception);
+
+            this.loggingBroker.LogCritical(commentDependencyException);
+
+            return commentDependencyException;
         }
     }
 }
