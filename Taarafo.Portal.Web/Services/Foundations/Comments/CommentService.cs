@@ -27,7 +27,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.dateTimeBroker = dateTimeBroker;
         }
 
-        public ValueTask<Comment> AddCommentAsync(Comment comment) =>
-            throw new System.NotImplementedException();
+        public async ValueTask<Comment> AddCommentAsync(Comment comment) =>
+            await this.apiBroker.PostCommentAsync(comment);
+
     }
 }
