@@ -23,8 +23,12 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Comment> AddCommentAsync(Comment comment) =>
-            await this.apiBroker.PostCommentAsync(comment);
+        public ValueTask<Comment> AddCommentAsync(Comment comment) =>
+        TryCatch(async () =>
+        {
+            ValidateCommentOnAdd(comment);
 
+            return await this.apiBroker.PostCommentAsync(comment);
+        });
     }
 }
