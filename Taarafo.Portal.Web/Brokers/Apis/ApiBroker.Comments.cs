@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Models.Comments;
 
-namespace Taarafo.Portal.Web.Brokers.API
+namespace Taarafo.Portal.Web.Brokers.Apis
 {
     public partial class ApiBroker
     {

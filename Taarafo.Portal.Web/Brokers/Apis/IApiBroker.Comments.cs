@@ -6,14 +6,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Taarafo.Portal.Web.Models.Posts;
+using Taarafo.Portal.Web.Models.Comments;
 
-namespace Taarafo.Portal.Web.Brokers.API
+namespace Taarafo.Portal.Web.Brokers.Apis
 {
     public partial interface IApiBroker
     {
-        ValueTask<Post> PostPostAsync(Post post);
-        ValueTask<List<Post>> GetAllPostsAsync();
-        ValueTask<Post> DeletePostByIdAsync(Guid postId);
+        ValueTask<Comment> PostCommentAsync(Comment comment);
+        ValueTask<List<Comment>> GetAllCommentsAsync();
+        ValueTask<Comment> GetCommentByIdAsync(Guid commentId);
     }
 }
