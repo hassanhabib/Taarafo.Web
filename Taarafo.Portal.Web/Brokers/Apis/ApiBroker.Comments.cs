@@ -22,5 +22,8 @@ namespace Taarafo.Portal.Web.Brokers.Apis
 
         public async ValueTask<Comment> GetCommentByIdAsync(Guid commentId) =>
             await this.GetAsync<Comment>($"{CommentsRelativeUrl}/{commentId}");
+
+        public async ValueTask<Comment> PutCommentAsync(Comment comment) =>
+            await this.PutAsync(CommentsRelativeUrl, comment);
     }
 }

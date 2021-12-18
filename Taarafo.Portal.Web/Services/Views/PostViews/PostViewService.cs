@@ -7,9 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
+using Taarafo.Portal.Web.Services.Foundations.Authors;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 
 namespace Taarafo.Portal.Web.Services.Views.PostViews
@@ -17,15 +19,32 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
     public partial class PostViewService : IPostViewService
     {
         private readonly IPostService postService;
+        private readonly IAuthorService authorService;
         private readonly ILoggingBroker loggingBroker;
+        private readonly IDateTimeBroker dateTimeBroker;
 
         public PostViewService(
             IPostService postService,
-            ILoggingBroker loggingBroker)
+            IAuthorService authorService,
+            ILoggingBroker loggingBroker,
+            IDateTimeBroker dateTimeBroker)
         {
             this.postService = postService;
+            this.authorService = authorService;
             this.loggingBroker = loggingBroker;
+            this.dateTimeBroker = dateTimeBroker;
         }
+
+        public ValueTask<PostView> AddPostViewAsync(PostView postView) =>
+        TryCatch(async () =>
+        {
+            ValidatePostViewOnAdd(postView);
+
+            Post post = MapToPost(postView);
+            await this.postService.AddPostAsync(post);
+
+            return postView;
+        });
 
         public ValueTask<List<PostView>> RetrieveAllPostViewsAsync() =>
         TryCatch(async () =>
@@ -46,6 +65,21 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
 
             return MapToPostView(deletedPost);
         });
+
+        private Post MapToPost(PostView postView)
+        {
+            string currentlyLoggedInAuthor = this.authorService.GetCurrentlyLoggedInAuthor();
+            DateTimeOffset currentDateTime = this.dateTimeBroker.GetCurrentDateTimeOffset();
+
+            return new Post
+            {
+                Id = Guid.NewGuid(),
+                Content = postView.Content,
+                CreatedDate = currentDateTime,
+                UpdatedDate = currentDateTime,
+                Author = currentlyLoggedInAuthor,
+            };
+        }
 
         private static Func<Post, PostView> AsPostView =>
             post => MapToPostView(post);
