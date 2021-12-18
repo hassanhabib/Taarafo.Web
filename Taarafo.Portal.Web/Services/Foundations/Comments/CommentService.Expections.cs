@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using RESTFulSense.Exceptions;
@@ -15,6 +16,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
     public partial class CommentService
     {
         private delegate ValueTask<Comment> ReturningCommentFunction();
+        private delegate ValueTask<List<Comment>> ReturningCommentsFunction();
 
         private async ValueTask<Comment> TryCatch(ReturningCommentFunction returningCommentFunction)
         {
@@ -52,6 +54,12 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
                 throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
             }
         }
+
+        private async ValueTask<List<Comment>> TryCatch(ReturningCommentsFunction returningCommentsFunction)
+        {
+            return await returningCommentsFunction();
+        }
+
 
         private CommentValidationException CreateAndLogValidationException(
             Xeption exception)
