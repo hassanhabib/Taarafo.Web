@@ -12,6 +12,7 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
 {
     public interface IPostViewService
     {
+        ValueTask<PostView> AddPostViewAsync(PostView postView);
         ValueTask<List<PostView>> RetrieveAllPostViewsAsync();
         ValueTask<PostView> RemovePostViewByIdAsync(Guid postViewId);
     }

@@ -47,6 +47,10 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             {
                 return await returningPostViewFunction();
             }
+            catch (NullPostViewException nullPostViewException)
+            {
+                throw CreateAndLogValidationException(nullPostViewException);
+            }
             catch (InvalidPostViewException invalidPostViewException)
             {
                 throw CreateAndLogValidationException(invalidPostViewException);
@@ -59,7 +63,7 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyValidationException(postDependencyValidationException);
             }
-            catch(PostDependencyException postDependencyException)
+            catch (PostDependencyException postDependencyException)
             {
                 throw CreateAndLogDependencyException(postDependencyException);
             }
@@ -67,7 +71,7 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             {
                 throw CreateAndLogDependencyException(postServiceException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 var failedPostViewServiceException =
                     new FailedPostViewServiceException(exception);
