@@ -7,34 +7,49 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using KellermanSoftware.CompareNetObjects;
 using Moq;
+using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
+using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.Posts.Exceptions;
+using Taarafo.Portal.Web.Models.PostViews;
+using Taarafo.Portal.Web.Services.Foundations.Authors;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
 
-namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
+namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
 {
     public partial class PostViewServiceTests
     {
         private readonly Mock<IPostService> postServiceMock;
+        private readonly Mock<IAuthorService> authorServiceMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
+        private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
+        private readonly ICompareLogic compareLogic;
         private readonly IPostViewService postViewService;
 
         public PostViewServiceTests()
         {
             this.postServiceMock = new Mock<IPostService>();
+            this.authorServiceMock = new Mock<IAuthorService>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
+            this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
+            var compareConfig = new ComparisonConfig();
+            compareConfig.IgnoreProperty<Post>(post => post.Id);
+            this.compareLogic = new CompareLogic(compareConfig);
 
             this.postViewService = new PostViewService(
                 postService: this.postServiceMock.Object,
-                loggingBroker: this.loggingBrokerMock.Object);
+                authorService: this.authorServiceMock.Object,
+                loggingBroker: this.loggingBrokerMock.Object,
+                dateTimeBroker: this.dateTimeBrokerMock.Object);
         }
 
-        public static TheoryData ValidationExceptions()
+        public static TheoryData DependencyValidationExceptions()
         {
             var innerException = new Xeption();
 
@@ -80,6 +95,26 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
         private static DateTimeOffset GetRandomDate() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
+        private static dynamic CreateRandomPostViewProperties(
+            DateTimeOffset auditDates,
+            string auditAuthor)
+        {
+            return new
+            {
+                Id = Guid.NewGuid(),
+                Content = GetRandomString(),
+                CreatedDate = auditDates,
+                UpdatedDate = auditDates,
+                Author = auditAuthor
+            };
+        }
+
+        private Expression<Func<Post, bool>> SamePostAs(Post expectedPost)
+        {
+            return actualPost => this.compareLogic.Compare(expectedPost, actualPost)
+                .AreEqual;
+        }
+
         private static dynamic CreateRandomPostViewProperties()
         {
             return new
@@ -116,6 +151,19 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.PostViews
                 actualException.Message == expectedException.Message
                 && actualException.InnerException.Message == expectedException.InnerException.Message
                 && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+        }
+
+        private static PostView CreateRandomPostView() =>
+            CreatePostViewFiller().Create();
+
+        private static Filler<PostView> CreatePostViewFiller()
+        {
+            var filler = new Filler<PostView>();
+
+            filler.Setup()
+                .OnType<DateTimeOffset>().Use(DateTimeOffset.UtcNow);
+
+            return filler;
         }
     }
 }

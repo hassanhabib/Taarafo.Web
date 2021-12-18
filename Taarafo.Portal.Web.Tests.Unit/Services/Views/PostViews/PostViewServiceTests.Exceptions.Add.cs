@@ -6,6 +6,7 @@
 using System;
 using System.Threading.Tasks;
 using Moq;
+using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Xeptions;
@@ -17,30 +18,38 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
     {
         [Theory]
         [MemberData(nameof(DependencyValidationExceptions))]
-        public async Task ShouldThrowDependencyValidationOnRemoveIfDependencyValidationErrorOccurrsAndLogItAsync(
+        public async Task ShouldThrowDependencyValidationOnAddIfDependencyValidationErrorOccurrsAndLogItAsync(
             Xeption dependencyValidationException)
         {
             // given
-            Guid somePostViewId = Guid.NewGuid();
+            PostView somePostView = CreateRandomPostView();
 
             var expectedPostViewDependencyValidationException =
                 new PostViewDependencyValidationException(
                     dependencyValidationException.InnerException as Xeption);
 
             this.postServiceMock.Setup(service =>
-                service.RemovePostByIdAsync(It.IsAny<Guid>()))
+                service.AddPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(dependencyValidationException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask =
-                this.postViewService.RemovePostViewByIdAsync(somePostViewId);
+            ValueTask<PostView> addPostViewTask =
+                this.postViewService.AddPostViewAsync(somePostView);
 
             // then
             await Assert.ThrowsAsync<PostViewDependencyValidationException>(() =>
-                removePostViewByIdTask.AsTask());
+                addPostViewTask.AsTask());
+
+            this.authorServiceMock.Verify(service =>
+                service.GetCurrentlyLoggedInAuthor(),
+                    Times.Once);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
 
             this.postServiceMock.Verify(service =>
-                service.RemovePostByIdAsync(It.IsAny<Guid>()),
+                service.AddPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -49,34 +58,44 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
                         Times.Once);
 
             this.postServiceMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.authorServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
         [Theory]
         [MemberData(nameof(DependencyExceptions))]
-        public async Task ShouldThrowDependencyExceptionOnRemoveByIdIfDependencyErroOccursAndLogItAsync(
+        public async Task ShouldThrowDependencyExceptionOnAddIfDependencyErroOccursAndLogItAsync(
             Exception dependencyException)
         {
             // given
-            Guid somePostViewId = Guid.NewGuid();
+            PostView somePostView = CreateRandomPostView();
 
             var expectedPostViewDependencyException =
                 new PostViewDependencyException(dependencyException);
 
             this.postServiceMock.Setup(service =>
-                service.RemovePostByIdAsync(It.IsAny<Guid>()))
+                service.AddPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(dependencyException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask =
-                this.postViewService.RemovePostViewByIdAsync(somePostViewId);
+            ValueTask<PostView> addPostViewTask =
+                this.postViewService.AddPostViewAsync(somePostView);
 
             // then
             await Assert.ThrowsAsync<PostViewDependencyException>(() =>
-                removePostViewByIdTask.AsTask());
+                addPostViewTask.AsTask());
+
+            this.authorServiceMock.Verify(service =>
+                service.GetCurrentlyLoggedInAuthor(),
+                    Times.Once);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
 
             this.postServiceMock.Verify(service =>
-                service.RemovePostByIdAsync(It.IsAny<Guid>()),
+                service.AddPostAsync(It.IsAny<Post>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -85,14 +104,16 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
                         Times.Once);
 
             this.postServiceMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.authorServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionOnRemovePostViewByIdIfServiceErrorOccursAndLogItAsync()
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccursAndLogItAsync()
         {
             // given
-            Guid somePostViewId = Guid.NewGuid();
+            PostView somePostView = CreateRandomPostView();
             var serviceException = new Exception();
 
             var failedPostViewServiceException =
@@ -102,27 +123,37 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.PostViews
                 new PostViewServiceException(failedPostViewServiceException);
 
             this.postServiceMock.Setup(service =>
-                service.RemovePostByIdAsync(It.IsAny<Guid>()))
+                service.AddPostAsync(It.IsAny<Post>()))
                     .ThrowsAsync(serviceException);
 
             // when
-            ValueTask<PostView> removePostViewByIdTask =
-                this.postViewService.RemovePostViewByIdAsync(somePostViewId);
+            ValueTask<PostView> addPostViewTask =
+                this.postViewService.AddPostViewAsync(somePostView);
 
             // then
             await Assert.ThrowsAsync<PostViewServiceException>(() =>
-                removePostViewByIdTask.AsTask());
+                addPostViewTask.AsTask());
+
+            this.authorServiceMock.Verify(service =>
+                service.GetCurrentlyLoggedInAuthor(),
+                    Times.Once);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
 
             this.postServiceMock.Verify(service =>
-                service.RemovePostByIdAsync(It.IsAny<Guid>()),
-                    Times.Once());
+                service.AddPostAsync(It.IsAny<Post>()),
+                    Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedPostViewServiceException))),
-                        Times.Once());
+                        Times.Once);
 
             this.postServiceMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.authorServiceMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
