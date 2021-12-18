@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
+using Taarafo.Portal.Web.Services.Foundations.Comments;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 
@@ -35,6 +36,7 @@ namespace Taarafo.Portal.Web
             services.AddScoped<ILoggingBroker, LoggingBroker>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostViewService, PostViewService>();
+            services.AddScoped<ICommentService, CommentService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
