@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Moq;
@@ -58,6 +59,13 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                 httpResponseUrlNotFoundException,
                 httpResponseUnAuthorizedException
             };
+        }
+
+        private static Dictionary<string, List<string>> CreateRandomDictionary()
+        {
+            var filler = new Filler<Dictionary<string, List<string>>>();
+
+            return filler.Create();
         }
 
         private static string GetRandomMessage() =>
