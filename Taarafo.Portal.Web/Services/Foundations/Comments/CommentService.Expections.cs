@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using RESTFulSense.Exceptions;
@@ -90,6 +91,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
                 throw CreateAndLogDependencyException(failedCommentDependencyException);
             }
+            catch (Exception exception)
+            {
+                var failedCommentServiceException =
+                    new FailedCommentServiceException(exception);
+
+                throw CreateAndLogCommentServiceException(failedCommentServiceException);
+            }
         }
 
         private CommentValidationException CreateAndLogValidationException(
@@ -131,6 +139,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.loggingBroker.LogError(commentDependencyException);
 
             return commentDependencyException;
+        }
+
+        private CommentServiceException CreateAndLogCommentServiceException(Xeption exception)
+        {
+            var commentServiceException =
+                new CommentServiceException(exception);
+
+            this.loggingBroker.LogError(commentServiceException);
+
+            return commentServiceException;
         }
     }
 }
