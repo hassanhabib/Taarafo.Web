@@ -129,7 +129,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                 broker.PostCommentAsync(It.IsAny<Comment>()))
                     .ThrowsAsync(httpResponseException);
 
-
             // when
             ValueTask<Comment> addCommentTask =
                 this.commentService.AddCommentAsync(someComment);
