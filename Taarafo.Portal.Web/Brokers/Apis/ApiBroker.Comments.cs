@@ -25,5 +25,8 @@ namespace Taarafo.Portal.Web.Brokers.Apis
 
         public async ValueTask<Comment> PutCommentAsync(Comment comment) =>
             await this.PutAsync(CommentsRelativeUrl, comment);
+
+        public async ValueTask<Comment> DeleteCommentByIdAsync(Guid commentId) =>
+            await this.DeleteAsync<Comment>($"{CommentsRelativeUrl}/{commentId}");
     }
 }

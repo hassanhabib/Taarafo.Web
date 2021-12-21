@@ -16,5 +16,6 @@ namespace Taarafo.Portal.Web.Brokers.Apis
         ValueTask<List<Comment>> GetAllCommentsAsync();
         ValueTask<Comment> GetCommentByIdAsync(Guid commentId);
         ValueTask<Comment> PutCommentAsync(Comment comment);
+        ValueTask<Comment> DeleteCommentByIdAsync(Guid commentId);
     }
 }
