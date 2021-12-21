@@ -51,6 +51,38 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
                 throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
             }
+            catch (HttpResponseNotFoundException httpResponseNotFoundException)
+            {
+                var notFoundCommentException =
+                    new NotFoundCommentException(httpResponseNotFoundException);
+
+                throw CreateAndLogDependencyValidationException(notFoundCommentException);
+            }
+            catch (HttpResponseBadRequestException httpResponseBadRequestException)
+            {
+                var invalidCommentException =
+                    new InvalidCommentException(
+                        httpResponseBadRequestException,
+                        httpResponseBadRequestException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidCommentException);
+            }
+            catch (HttpResponseConflictException httpResponseConflictException)
+            {
+                var invalidCommentException =
+                    new InvalidCommentException(
+                        httpResponseConflictException,
+                        httpResponseConflictException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidCommentException);
+            }
+            catch (HttpResponseLockedException httpLockedException)
+            {
+                var lockedCommentException =
+                    new LockedCommentException(httpLockedException);
+
+                throw CreateAndLogDependencyValidationException(lockedCommentException);
+            }
         }
 
         private CommentValidationException CreateAndLogValidationException(
@@ -72,6 +104,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.loggingBroker.LogCritical(commentDependencyException);
 
             return commentDependencyException;
+        }
+
+        private CommentDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var commentDependencyValidationException =
+                new CommentDependencyValidationException(exception);
+
+            this.loggingBroker.LogError(commentDependencyValidationException);
+
+            return commentDependencyValidationException;
         }
     }
 }
