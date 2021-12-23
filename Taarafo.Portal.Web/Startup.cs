@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor;
+using Syncfusion.Licensing;
 using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
@@ -43,6 +44,9 @@ namespace Taarafo.Portal.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            string syncFustionLicenseKey = Configuration["Syncfusion:LicenseKey"];
+            SyncfusionLicenseProvider.RegisterLicense(syncFustionLicenseKey);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
