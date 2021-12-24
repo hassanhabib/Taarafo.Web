@@ -3,7 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-namespace Taarafo.Portal.Web.Brokers.API
+namespace Taarafo.Portal.Web.Brokers.Apis
 {
     public partial interface IApiBroker
     {
