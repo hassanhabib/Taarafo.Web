@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using RESTFulSense.Clients;
 using Taarafo.Portal.Web.Models.Configurations;
 
-namespace Taarafo.Portal.Web.Brokers.API
+namespace Taarafo.Portal.Web.Brokers.Apis
 {
     public partial class ApiBroker : IApiBroker
     {

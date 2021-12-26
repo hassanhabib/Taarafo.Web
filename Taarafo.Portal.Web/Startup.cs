@@ -10,10 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor;
 using Syncfusion.Licensing;
-using Taarafo.Portal.Web.Brokers.API;
+using Taarafo.Portal.Web.Brokers.Apis;
 using Taarafo.Portal.Web.Brokers.DateTimes;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Services.Foundations.Authors;
+using Taarafo.Portal.Web.Services.Foundations.Comments;
 using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 
@@ -40,6 +41,7 @@ namespace Taarafo.Portal.Web
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPostViewService, PostViewService>();
             services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<ICommentService, CommentService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -5,34 +5,34 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Moq;
 using RESTFulSense.Exceptions;
-using Taarafo.Portal.Web.Brokers.Apis;
+using Taarafo.Portal.Web.Brokers.API;
 using Taarafo.Portal.Web.Brokers.Loggings;
-using Taarafo.Portal.Web.Models.Posts;
-using Taarafo.Portal.Web.Services.Foundations.Posts;
+using Taarafo.Portal.Web.Models.Comments;
+using Taarafo.Portal.Web.Services.Foundations.Comments;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
 
-namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
+namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
 {
-    public partial class PostServiceTests
+    public partial class CommentServiceTests
     {
         private readonly Mock<IApiBroker> apiBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
-        private readonly IPostService postService;
+        private readonly ICommentService commentService;
 
-        public PostServiceTests()
+        public CommentServiceTests()
         {
             this.apiBrokerMock = new Mock<IApiBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
-            this.postService = new PostService(
-                apiBroker: apiBrokerMock.Object,
-                loggingBroker: loggingBrokerMock.Object);
+
+            this.commentService = new CommentService(
+                apiBroker: this.apiBrokerMock.Object,
+                loggingBroker: this.loggingBrokerMock.Object);
         }
 
         public static TheoryData CriticalDependencyExceptions()
@@ -61,29 +61,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             };
         }
 
-        private static Post CreateRandomPost() =>
-            CreatePostFiller().Create();
-
-        private static List<Post> CreateRandomPosts() =>
-            CreatePostFiller().Create(count: GetRandomNumber()).ToList();
-
-        private static string GetRandomMessage() =>
-            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
-
-        private static int GetRandomNumber() =>
-            new IntRange(min: 2, max: 10).GetValue();
-
-        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
-        {
-            return actualException =>
-                actualException.Message == expectedException.Message &&
-                actualException.InnerException.Message == expectedException.InnerException.Message &&
-                (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
-        }
-
-        private static DateTimeOffset GetRandomDateTimeOffset() =>
-            new DateTimeRange(earliestDate: new DateTime()).GetValue();
-
         private static Dictionary<string, List<string>> CreateRandomDictionary()
         {
             var filler = new Filler<Dictionary<string, List<string>>>();
@@ -91,14 +68,34 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
             return filler.Create();
         }
 
-        private static Filler<Post> CreatePostFiller()
+        private static string GetRandomMessage() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
+
+        private static DateTimeOffset GetRandomDateTimeOffset() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Comment CreateRandomComment() =>
+            CreateCommentFiller().Create();
+
+        private static Filler<Comment> CreateCommentFiller()
         {
-            var filler = new Filler<Post>();
+            var filler = new Filler<Comment>();
 
             filler.Setup()
                 .OnType<DateTimeOffset>().Use(GetRandomDateTimeOffset());
 
             return filler;
+        }
+
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message &&
+                actualException.InnerException.Message == expectedException.InnerException.Message &&
+                (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
     }
 }

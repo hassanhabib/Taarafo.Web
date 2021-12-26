@@ -3,9 +3,14 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-namespace Taarafo.Portal.Web.Brokers.API
+using Xeptions;
+
+namespace Taarafo.Portal.Web.Models.Comments.Exceptions
 {
-    public partial interface IApiBroker
+    public class NullCommentException : Xeption
     {
+        public NullCommentException()
+            : base(message: "The comment is null.")
+        { }
     }
 }
