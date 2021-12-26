@@ -27,11 +27,6 @@ namespace Taarafo.Portal.Web
                 {
                     config.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
                 };
-
-                if (hostingContext.HostingEnvironment.IsDevelopment())
-                {
-                    config.AddUserSecrets<Program>();
-                }
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
