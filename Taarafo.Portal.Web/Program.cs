@@ -4,7 +4,6 @@
 // ---------------------------------------------------------------
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Taarafo.Portal.Web
@@ -18,16 +17,6 @@ namespace Taarafo.Portal.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                var environment = hostingContext.HostingEnvironment;
-                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-                if (!string.IsNullOrEmpty(environment.EnvironmentName))
-                {
-                    config.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
-                };
-            })
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
