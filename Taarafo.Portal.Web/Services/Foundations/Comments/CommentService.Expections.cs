@@ -57,7 +57,31 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
         private async ValueTask<List<Comment>> TryCatch(ReturningCommentsFunction returningCommentsFunction)
         {
-            return await returningCommentsFunction();
+            try
+            {
+                return await returningCommentsFunction();
+            }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
         }
 
 

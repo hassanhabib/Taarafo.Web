@@ -32,9 +32,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             return await this.apiBroker.PostCommentAsync(comment);
         });
 
-        public async ValueTask<List<Comment>> RetrieveAllCommentsAsync()
-        {
-            return await this.apiBroker.GetAllCommentsAsync();
-        }
+        public ValueTask<List<Comment>> RetrieveAllCommentsAsync() =>
+        TryCatch(async () => await this.apiBroker.GetAllCommentsAsync());
     }
 }
