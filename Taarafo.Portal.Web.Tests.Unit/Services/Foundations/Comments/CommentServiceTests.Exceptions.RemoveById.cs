@@ -237,5 +237,43 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRemoveIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            Guid someCommentId = Guid.NewGuid();
+            var serviceException = new Exception();
+
+            var failedCommentServiceException =
+                new FailedCommentServiceException(serviceException);
+
+            var expectedCommentServiceException =
+                new CommentServiceException(failedCommentServiceException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.DeleteCommentByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<Comment> removeCommentByIdTask =
+                this.commentService.RemoveCommentByIdAsync(someCommentId);
+
+            // then
+            await Assert.ThrowsAsync<CommentServiceException>(() =>
+                removeCommentByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.DeleteCommentByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentServiceException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
