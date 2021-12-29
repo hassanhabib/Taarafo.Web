@@ -4,8 +4,11 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Models.Comments.Exceptions;
 using Xunit;
@@ -47,6 +50,56 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
                     expectedCommentDependencyException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnModifyIfBadRequestExceptionOccursAndLogItAsync()
+        {
+            // given
+            Comment someComment = CreateRandomComment();
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary exceptionData = randomDictionary;
+            string someMessage = GetRandomMessage();
+            var someRepsonseMessage = new HttpResponseMessage();
+
+            var httpResponseBadRequestException =
+                new HttpResponseBadRequestException(
+                    someRepsonseMessage,
+                    someMessage);
+
+            httpResponseBadRequestException.AddData(exceptionData);
+
+            var invalidCommentException =
+                new InvalidCommentException(
+                    httpResponseBadRequestException,
+                    exceptionData);
+
+            var expectedCommentDependencyValidationException =
+                new CommentDependencyValidationException(invalidCommentException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PutCommentAsync(It.IsAny<Comment>()))
+                    .ThrowsAsync(httpResponseBadRequestException);
+
+            // when
+            ValueTask<Comment> modifyCommentTask =
+                this.commentService.ModifyCommentAsync(someComment);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
+                modifyCommentTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PutCommentAsync(It.IsAny<Comment>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentDependencyValidationException))),
                         Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
