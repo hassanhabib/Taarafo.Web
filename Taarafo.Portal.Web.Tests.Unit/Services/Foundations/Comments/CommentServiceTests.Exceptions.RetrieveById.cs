@@ -4,8 +4,10 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Models.Comments.Exceptions;
 using Xunit;
@@ -16,7 +18,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
     {
         [Theory]
         [MemberData(nameof(CriticalDependencyExceptions))]
-        public async Task ShouldThrowCriticalDependencyExceptionOnRetrieveIfCriticalErrorOccursAndLogItAsync(
+        public async Task ShouldThrowCriticalDependencyExceptionOnRetrieveByIdIfCriticalErrorOccursAndLogItAsync(
             Exception criticalDependencyException)
         {
             // given
@@ -47,6 +49,88 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
                     expectedCommentDependencyException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnRetrieveByIdIfCommentIsNotFoundAndLogItAsync()
+        {
+            // given
+            Guid someCommentId = Guid.NewGuid();
+            string responseMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseNotFoundException =
+                new HttpResponseNotFoundException(
+                    httpResponseMessage,
+                    responseMessage);
+
+            var notFoundCommentException =
+                new NotFoundCommentException(httpResponseNotFoundException);
+
+            var expectedCommentDependencyValidationException =
+                new CommentDependencyValidationException(notFoundCommentException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.GetCommentByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseNotFoundException);
+
+            // when
+            ValueTask<Comment> removeCommentByIdTask =
+                this.commentService.RetrieveCommentByIdAsync(someCommentId);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
+                removeCommentByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetCommentByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRetrieveByIdIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            Comment someComment = CreateRandomComment();
+            var serviceException = new Exception();
+
+            var failedCommentServiceException =
+                new FailedCommentServiceException(serviceException);
+
+            var expectedCommentServiceException =
+                new CommentServiceException(failedCommentServiceException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.GetCommentByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<Comment> retrieveCommentTask =
+                this.commentService.RetrieveCommentByIdAsync(someComment.Id);
+
+            // then
+            await Assert.ThrowsAsync<CommentServiceException>(() =>
+                retrieveCommentTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetCommentByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentServiceException))),
                         Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
