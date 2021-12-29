@@ -79,12 +79,12 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                     .ThrowsAsync(httpResponseNotFoundException);
 
             // when
-            ValueTask<Comment> removeCommentByIdTask =
+            ValueTask<Comment> retrieveCommentByIdTask =
                 this.commentService.RetrieveCommentByIdAsync(someCommentId);
 
             // then
             await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
-                removeCommentByIdTask.AsTask());
+                retrieveCommentByIdTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
                 broker.GetCommentByIdAsync(It.IsAny<Guid>()),
@@ -93,6 +93,51 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedCommentDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnRetrieveByIdIfDependencyApiErrorOccursAndLogItAsync()
+        {
+            // given
+            Guid someCommentId = Guid.NewGuid();
+            var randomExceptionMessage = GetRandomMessage();
+            var responseMessage = new HttpResponseMessage();
+
+            var httpResponseException =
+                new HttpResponseException(
+                    responseMessage,
+                    randomExceptionMessage);
+
+            var failedCommentDependencyException =
+                new FailedCommentDependencyException(httpResponseException);
+
+            var expectedDependencyException =
+                new CommentDependencyException(
+                    failedCommentDependencyException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.GetCommentByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseException);
+
+            // when
+            ValueTask<Comment> retrieveCommentByIdTask =
+                this.commentService.RetrieveCommentByIdAsync(someCommentId);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyException>(() =>
+                retrieveCommentByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetCommentByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedDependencyException))),
                         Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
