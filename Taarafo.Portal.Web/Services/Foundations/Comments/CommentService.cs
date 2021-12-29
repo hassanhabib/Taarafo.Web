@@ -36,9 +36,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
         public ValueTask<List<Comment>> RetrieveAllCommentsAsync() =>
         TryCatch(async () => await this.apiBroker.GetAllCommentsAsync());
 
-        public ValueTask<Comment> RetrieveCommentByIdAsync(Guid commentId)
+        public ValueTask<Comment> RetrieveCommentByIdAsync(Guid commentId) =>
+        TryCatch(async () =>
         {
-            throw new NotImplementedException();
-        }
+            return await this.apiBroker.GetCommentByIdAsync(commentId);
+        });
     }
 }
