@@ -149,5 +149,93 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnRemoveIfCommentIsLockedAndLogItAsync()
+        {
+            // given
+            Guid someCommentId = Guid.NewGuid();
+            string someMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseLockedException =
+                new HttpResponseLockedException(
+                    httpResponseMessage,
+                    someMessage);
+
+            var lockedCommentException = new LockedCommentException(
+                httpResponseLockedException);
+
+            var expectedCommentDependencyValidationException =
+                new CommentDependencyValidationException(lockedCommentException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.DeleteCommentByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseLockedException);
+
+            // when
+            ValueTask<Comment> removeCommentByIdTask =
+                this.commentService.RemoveCommentByIdAsync(someCommentId);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
+                removeCommentByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.DeleteCommentByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowCommentDependencyExceptionOnRemoveIfDependencyErrorOccursAndLogItAsync()
+        {
+            // given
+            Guid someCommentId = Guid.NewGuid();
+            string someMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseException =
+                new HttpResponseException(
+                    httpResponseMessage,
+                    someMessage);
+
+            var failedCommentDependencyException =
+                new FailedCommentDependencyException(httpResponseException);
+
+            var expectedCommentDependencyException =
+                new CommentDependencyException(failedCommentDependencyException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.DeleteCommentByIdAsync(It.IsAny<Guid>()))
+                    .ThrowsAsync(httpResponseException);
+
+            // when
+            ValueTask<Comment> removeCommentByIdTask =
+                this.commentService.RemoveCommentByIdAsync(someCommentId);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyException>(() =>
+                removeCommentByIdTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.DeleteCommentByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentDependencyException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
