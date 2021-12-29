@@ -39,6 +39,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
         public ValueTask<Comment> RetrieveCommentByIdAsync(Guid commentId) =>
         TryCatch(async () =>
         {
+            ValidateCommentId(commentId);
+
             return await this.apiBroker.GetCommentByIdAsync(commentId);
         });
     }

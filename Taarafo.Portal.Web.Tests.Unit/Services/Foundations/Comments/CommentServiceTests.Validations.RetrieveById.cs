@@ -15,7 +15,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
     public partial class CommentServiceTests
     {
         [Fact]
-        public async void ShouldThrowValidationExceptionOnRetrieveIfCommentIdIsInvalidAndLogItAsync()
+        public async void ShouldThrowValidationExceptionOnRetrieveByIdIfIdIsInvalidAndLogItAsync()
         {
             // given
             var invalidCommentId = Guid.Empty;
