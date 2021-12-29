@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Models.Comments;
 
-namespace Taarafo.Portal.Web.Brokers.API
+namespace Taarafo.Portal.Web.Brokers.Apis
 {
     public partial class ApiBroker
     {
@@ -25,5 +25,8 @@ namespace Taarafo.Portal.Web.Brokers.API
 
         public async ValueTask<Comment> PutCommentAsync(Comment comment) =>
             await this.PutAsync(CommentsRelativeUrl, comment);
+
+        public async ValueTask<Comment> DeleteCommentByIdAsync(Guid commentId) =>
+            await this.DeleteAsync<Comment>($"{CommentsRelativeUrl}/{commentId}");
     }
 }

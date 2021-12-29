@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using Moq;
 using RESTFulSense.Exceptions;
-using Taarafo.Portal.Web.Brokers.API;
+using Taarafo.Portal.Web.Brokers.Apis;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Services.Foundations.Comments;
@@ -60,6 +60,13 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                 httpResponseUrlNotFoundException,
                 httpResponseUnAuthorizedException
             };
+        }
+
+        private static Dictionary<string, List<string>> CreateRandomDictionary()
+        {
+            var filler = new Filler<Dictionary<string, List<string>>>();
+
+            return filler.Create();
         }
 
         private static string GetRandomMessage() =>

@@ -54,6 +54,52 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
                 throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
             }
+            catch (HttpResponseNotFoundException httpResponseNotFoundException)
+            {
+                var notFoundCommentException =
+                    new NotFoundCommentException(httpResponseNotFoundException);
+
+                throw CreateAndLogDependencyValidationException(notFoundCommentException);
+            }
+            catch (HttpResponseBadRequestException httpResponseBadRequestException)
+            {
+                var invalidCommentException =
+                    new InvalidCommentException(
+                        httpResponseBadRequestException,
+                        httpResponseBadRequestException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidCommentException);
+            }
+            catch (HttpResponseConflictException httpResponseConflictException)
+            {
+                var invalidCommentException =
+                    new InvalidCommentException(
+                        httpResponseConflictException,
+                        httpResponseConflictException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidCommentException);
+            }
+            catch (HttpResponseLockedException httpLockedException)
+            {
+                var lockedCommentException =
+                    new LockedCommentException(httpLockedException);
+
+                throw CreateAndLogDependencyValidationException(lockedCommentException);
+            }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedCommentDependencyException);
+            }
+            catch (Exception exception)
+            {
+                var failedCommentServiceException =
+                    new FailedCommentServiceException(exception);
+
+                throw CreateAndLogCommentServiceException(failedCommentServiceException);
+            }
         }
 
         private async ValueTask<List<Comment>> TryCatch(ReturningCommentsFunction returningCommentsFunction)
@@ -119,6 +165,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             this.loggingBroker.LogCritical(commentDependencyException);
 
             return commentDependencyException;
+        }
+
+        private CommentDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var commentDependencyValidationException =
+                new CommentDependencyValidationException(exception);
+
+            this.loggingBroker.LogError(commentDependencyValidationException);
+
+            return commentDependencyValidationException;
         }
 
         private CommentDependencyException CreateAndLogDependencyException(Xeption exception)
