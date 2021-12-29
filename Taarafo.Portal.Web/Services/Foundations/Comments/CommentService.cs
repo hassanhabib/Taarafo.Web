@@ -47,6 +47,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
         public ValueTask<Comment> ModifyCommentAsync(Comment comment) =>
         TryCatch(async () =>
         {
+            ValidateCommentOnUpdate(comment);
+
             return await this.apiBroker.PutCommentAsync(comment);
         });
     }

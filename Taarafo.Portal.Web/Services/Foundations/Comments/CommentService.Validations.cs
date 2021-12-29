@@ -23,6 +23,11 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
                 (Rule: IsInvalid(comment.PostId), Parameter: nameof(Comment.PostId)));
         }
 
+        private void ValidateCommentOnUpdate(Comment comment)
+        {
+            ValidateCommentIsNotNull(comment);
+        }
+
         private static void ValidateCommentIsNotNull(Comment comment)
         {
             if (comment is null)
