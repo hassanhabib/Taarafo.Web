@@ -184,7 +184,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
                 this.commentService.AddCommentAsync(someComment);
 
             // then
-            var ex = await Assert.ThrowsAsync<CommentDependencyException>(() =>
+            await Assert.ThrowsAsync<CommentDependencyException>(() =>
                 addCommentTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
