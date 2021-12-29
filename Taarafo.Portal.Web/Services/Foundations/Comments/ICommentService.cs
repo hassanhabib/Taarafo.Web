@@ -16,5 +16,6 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
         ValueTask<List<Comment>> RetrieveAllCommentsAsync();
         ValueTask<Comment> RetrieveCommentByIdAsync(Guid commentId);
         ValueTask<Comment> ModifyCommentAsync(Comment comment);
+        ValueTask<Comment> RemoveCommentByIdAsync(Guid commentId);
     }
 }
