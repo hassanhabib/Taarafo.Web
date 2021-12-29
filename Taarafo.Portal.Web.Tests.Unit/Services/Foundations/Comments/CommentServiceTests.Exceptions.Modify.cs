@@ -105,5 +105,55 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnModifyIfConflictExceptionOccursAndLogItAsync()
+        {
+            // given
+            Comment someComment = CreateRandomComment();
+            IDictionary randomDictionary = CreateRandomDictionary();
+            IDictionary exceptionData = randomDictionary;
+            string someMessage = GetRandomMessage();
+            var someRepsonseMessage = new HttpResponseMessage();
+
+            var httpResponseConflictException =
+                new HttpResponseConflictException(
+                    someRepsonseMessage,
+                    someMessage);
+
+            httpResponseConflictException.AddData(exceptionData);
+
+            var invalidCommentException =
+                new InvalidCommentException(
+                    httpResponseConflictException,
+                    exceptionData);
+
+            var expectedCommentDependencyValidationException =
+                new CommentDependencyValidationException(invalidCommentException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PutCommentAsync(It.IsAny<Comment>()))
+                    .ThrowsAsync(httpResponseConflictException);
+
+            // when
+            ValueTask<Comment> modifyCommentTask =
+                this.commentService.ModifyCommentAsync(someComment);
+
+            // then
+            await Assert.ThrowsAsync<CommentDependencyValidationException>(() =>
+                modifyCommentTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PutCommentAsync(It.IsAny<Comment>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
