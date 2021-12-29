@@ -52,9 +52,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             return await this.apiBroker.PutCommentAsync(comment);
         });
 
-        public ValueTask<Comment> RemoveCommentByIdAsync(Guid commentId)
+        public ValueTask<Comment> RemoveCommentByIdAsync(Guid commentId) =>
+        TryCatch(async () =>
         {
-            throw new NotImplementedException();
-        }
+            return await this.apiBroker.DeleteCommentByIdAsync(commentId);
+        });
     }
 }
