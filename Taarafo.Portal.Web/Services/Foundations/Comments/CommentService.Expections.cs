@@ -82,6 +82,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
                 throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedCommentDependencyException);
+            }
         }
 
 
@@ -102,6 +109,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
                 new CommentDependencyException(exception);
 
             this.loggingBroker.LogCritical(commentDependencyException);
+
+            return commentDependencyException;
+        }
+
+        private CommentDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var commentDependencyException =
+                new CommentDependencyException(exception);
+
+            this.loggingBroker.LogError(commentDependencyException);
 
             return commentDependencyException;
         }
