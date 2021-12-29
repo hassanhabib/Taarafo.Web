@@ -55,6 +55,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
         public ValueTask<Comment> RemoveCommentByIdAsync(Guid commentId) =>
         TryCatch(async () =>
         {
+            ValidateCommentId(commentId);
+
             return await this.apiBroker.DeleteCommentByIdAsync(commentId);
         });
     }
