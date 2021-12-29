@@ -26,6 +26,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
         private void ValidateCommentOnUpdate(Comment comment)
         {
             ValidateCommentIsNotNull(comment);
+
+            Validate(
+                (Rule: IsInvalid(comment.Id), Parameter: nameof(Comment.Id)),
+                (Rule: IsInvalid(comment.Content), Parameter: nameof(Comment.Content)),
+                (Rule: IsInvalid(comment.CreatedDate), Parameter: nameof(Comment.CreatedDate)),
+                (Rule: IsInvalid(comment.UpdatedDate), Parameter: nameof(Comment.UpdatedDate)),
+                (Rule: IsInvalid(comment.PostId), Parameter: nameof(Comment.PostId)));
         }
 
         private static void ValidateCommentIsNotNull(Comment comment)
