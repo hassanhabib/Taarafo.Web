@@ -99,5 +99,41 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRetrieveAllIfServiceErrorOccursAndLogItAsync()
+        {
+            // given
+            var serviceException = new Exception();
+
+            var failedCommentServiceException =
+                new FailedCommentServiceException(serviceException);
+
+            var expectedCommentServiceException =
+                new CommentServiceException(failedCommentServiceException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.GetAllCommentsAsync())
+                    .ThrowsAsync(serviceException);
+
+            // when
+            ValueTask<List<Comment>> retrieveAllCommentsTask =
+                this.commentService.RetrieveAllCommentsAsync();
+
+            // then
+            await Assert.ThrowsAsync<CommentServiceException>(() =>
+               retrieveAllCommentsTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetAllCommentsAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedCommentServiceException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
