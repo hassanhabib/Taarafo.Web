@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Moq;
@@ -79,6 +80,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Comments
 
         private static Comment CreateRandomComment() =>
             CreateCommentFiller().Create();
+
+        private static List<Comment> CreateRandomComments() =>
+            CreateCommentFiller().Create(count: GetRandomNumber()).ToList();
 
         private static Filler<Comment> CreateCommentFiller()
         {

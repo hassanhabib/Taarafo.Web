@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.Apis;
 using Taarafo.Portal.Web.Brokers.Loggings;
@@ -30,5 +31,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
             return await this.apiBroker.PostCommentAsync(comment);
         });
+
+        public ValueTask<List<Comment>> RetrieveAllCommentsAsync() =>
+        TryCatch(async () => await this.apiBroker.GetAllCommentsAsync());
     }
 }

@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using RESTFulSense.Exceptions;
@@ -16,6 +17,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
     public partial class CommentService
     {
         private delegate ValueTask<Comment> ReturningCommentFunction();
+        private delegate ValueTask<List<Comment>> ReturningCommentsFunction();
 
         private async ValueTask<Comment> TryCatch(ReturningCommentFunction returningCommentFunction)
         {
@@ -83,6 +85,49 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
                     new LockedCommentException(httpLockedException);
 
                 throw CreateAndLogDependencyValidationException(lockedCommentException);
+            }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedCommentDependencyException);
+            }
+            catch (Exception exception)
+            {
+                var failedCommentServiceException =
+                    new FailedCommentServiceException(exception);
+
+                throw CreateAndLogCommentServiceException(failedCommentServiceException);
+            }
+        }
+
+        private async ValueTask<List<Comment>> TryCatch(ReturningCommentsFunction returningCommentsFunction)
+        {
+            try
+            {
+                return await returningCommentsFunction();
+            }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedCommentDependencyException =
+                    new FailedCommentDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedCommentDependencyException);
             }
             catch (HttpResponseException httpResponseException)
             {
