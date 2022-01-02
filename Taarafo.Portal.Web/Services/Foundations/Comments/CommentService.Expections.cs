@@ -145,7 +145,6 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             }
         }
 
-
         private CommentValidationException CreateAndLogValidationException(
             Xeption exception)
         {
