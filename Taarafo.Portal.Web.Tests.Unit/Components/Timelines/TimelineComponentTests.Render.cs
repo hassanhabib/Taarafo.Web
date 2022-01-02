@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
@@ -45,9 +44,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
         public void ShouldDisplayLoadingBeforeRenderingPosts()
         {
             // given
-            TimeLineComponentState expectedState = 
+            TimeLineComponentState expectedState =
                 TimeLineComponentState.Loading;
-            
+
             string expectedSpinnerValue = "Loading ...";
             List<PostView> somePostViews = CreateRandomPostViews();
 

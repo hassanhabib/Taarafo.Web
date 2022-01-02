@@ -5,12 +5,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
-using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 using Taarafo.Portal.Web.Views.Bases;
 using Taarafo.Portal.Web.Views.Components.Timelines;
@@ -31,7 +28,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
             string exceptionMessage = randomMessage;
             string expectedErrorMessage = exceptionMessage;
             string expectedImageUrl = "imgs/error.png";
-            
+
             var exception =
                 new Exception(message: exceptionMessage);
 
@@ -49,7 +46,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.Timelines
 
             this.renderedTimelineComponent.Instance.ErrorMessage
                 .Should().Be(expectedErrorMessage);
-            
+
             this.renderedTimelineComponent.Instance.Label.Value
                 .Should().Be(expectedErrorMessage);
 
