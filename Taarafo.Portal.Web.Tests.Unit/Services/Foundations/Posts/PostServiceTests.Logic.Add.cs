@@ -3,10 +3,6 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -31,14 +27,14 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Posts
                     .ReturnsAsync(retrievedPost);
 
             // when
-            Post actualPost = 
+            Post actualPost =
                 await this.postService.AddPostAsync(inputPost);
 
             // then
             actualPost.Should().BeEquivalentTo(expectedPost);
 
             this.apiBrokerMock.Verify(broker =>
-                broker.PostPostAsync(inputPost), 
+                broker.PostPostAsync(inputPost),
                     Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();

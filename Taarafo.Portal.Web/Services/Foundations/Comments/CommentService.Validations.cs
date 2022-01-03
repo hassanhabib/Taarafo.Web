@@ -43,10 +43,8 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
             }
         }
 
-        public static void ValidateCommentId(Guid commentId)
-        {
+        public static void ValidateCommentId(Guid commentId) =>
             Validate((Rule: IsInvalid(commentId), Parameter: nameof(Comment.Id)));
-        }
 
         private static dynamic IsInvalid(Guid id) => new
         {
