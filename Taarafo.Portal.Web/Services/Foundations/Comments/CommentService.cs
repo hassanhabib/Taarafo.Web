@@ -43,5 +43,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Comments
 
             return await this.apiBroker.GetCommentByIdAsync(commentId);
         });
+
+        public ValueTask<Comment> ModifyCommentAsync(Comment comment) =>
+        TryCatch(async () =>
+        {
+            ValidateCommentOnUpdate(comment);
+
+            return await this.apiBroker.PutCommentAsync(comment);
+        });
     }
 }
