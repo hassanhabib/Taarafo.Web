@@ -27,7 +27,7 @@ namespace Taarafo.Portal.Web.Views.Bases
             InvokeAsync(StateHasChanged);
         }
 
-        public void SetValue(string value) 
+        public void SetValue(string value)
         {
             Value = value;
             InvokeAsync(StateHasChanged);

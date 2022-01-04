@@ -3,8 +3,6 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System.Threading.Tasks;
-
 namespace Taarafo.Portal.Web.Services.Foundations.Authors
 {
     public interface IAuthorService
