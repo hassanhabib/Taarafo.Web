@@ -6,6 +6,7 @@
 using System;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.DateTimes;
+using Taarafo.Portal.Web.Models.Comments;
 using Taarafo.Portal.Web.Models.CommentViews;
 using Taarafo.Portal.Web.Services.Foundations.Comments;
 
@@ -24,9 +25,24 @@ namespace Taarafo.Portal.Web.Services.Views.CommentViews
             this.dateTimeBroker = dateTimeBroker;
         }
 
-        public ValueTask<CommentView> AddCommentViewAsync(CommentView commentView)
+        public async ValueTask<CommentView> AddCommentViewAsync(CommentView commentView)
         {
-            throw new NotImplementedException();
+            Comment comment = MapToComment(commentView);
+            await commentService.AddCommentAsync(comment);
+
+            return commentView;
+        }
+
+        private static Comment MapToComment(CommentView commentView)
+        {
+            return new Comment
+            {
+                Id = commentView.Id,
+                Content = commentView.Content,
+                CreatedDate = commentView.CreatedDate,
+                UpdatedDate = commentView.UpdatedDate,
+                PostId = commentView.PostId
+            };
         }
     }
 }
