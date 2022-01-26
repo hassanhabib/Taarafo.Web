@@ -36,14 +36,8 @@ namespace Taarafo.Portal.Web
             AddRootDirectory(services);
             services.AddLogging();
             services.AddHttpClient();
-            services.AddScoped<IApiBroker, ApiBroker>();
-            services.AddScoped<ILoggingBroker, LoggingBroker>();
-            services.AddScoped<IDateTimeBroker, DateTimeBroker>();
-            services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IPostViewService, PostViewService>();
-            services.AddScoped<IAuthorService, AuthorService>();
-            services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<ICommentViewService, CommentViewService>();
+            AddBrokers(services);
+            AddServices(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -78,6 +72,22 @@ namespace Taarafo.Portal.Web
             {
                 options.RootDirectory = "/Views/Pages";
             });
+        }
+
+        private static void AddBrokers(IServiceCollection services)
+        {
+            services.AddScoped<IApiBroker, ApiBroker>();
+            services.AddScoped<ILoggingBroker, LoggingBroker>();
+            services.AddScoped<IDateTimeBroker, DateTimeBroker>();
+        }
+
+        private static void AddServices(IServiceCollection services)
+        {
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IPostViewService, PostViewService>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<ICommentViewService, CommentViewService>();
         }
     }
 }
