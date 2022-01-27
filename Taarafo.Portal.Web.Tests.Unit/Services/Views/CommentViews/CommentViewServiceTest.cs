@@ -37,7 +37,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.CommentViews
 
             this.commentViewService = new CommentViewService(
                 commentService: this.commentServiceMock.Object,
-                dateTimeBroker: this.dateTimeBrokerMock.Object);
+                dateTimeBroker: this.dateTimeBrokerMock.Object, 
+                loggingBroker: this.loggingBrokerMock.Object);
         }
 
         private static string GetRandomString() =>
