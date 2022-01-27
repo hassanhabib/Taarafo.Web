@@ -14,6 +14,7 @@ using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Services.Foundations.Comments;
 using Taarafo.Portal.Web.Services.Views.CommentViews;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.CommentViews
 {
@@ -58,6 +59,14 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Views.CommentViews
                 UpdatedDate = auditDates,
                 PostId = auditPostId
             };
+        }
+
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+                    actualException.Message == expectedException.Message &&
+                    actualException.InnerException.Message == expectedException.InnerException.Message &&
+                    (actualException.InnerException as Xeption).DataEquals(expectedException.Data);
         }
 
         private Expression<Func<Comment, bool>> SameCommentAs(Comment expectedComment)
