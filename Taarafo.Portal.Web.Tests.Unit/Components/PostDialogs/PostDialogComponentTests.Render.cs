@@ -39,6 +39,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 
             // when
             this.postDialogRenderedComponent = RenderComponent<PostDialog>();
+            this.postDialogRenderedComponent.Instance.OpenDialog();
 
             // then
             this.postDialogRenderedComponent.Instance.State.Should().Be(expectedState);

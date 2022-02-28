@@ -3,7 +3,6 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.Views.Components.PostDialogs;
 using Taarafo.Portal.Web.Services.Views.PostViews;
@@ -20,7 +19,13 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public DialogBase Dialog { get; set; }
         public bool IsVisible { get; set; }
 
-        public void OpenDialog() => 
-            throw new NotImplementedException();
+        protected override void OnInitialized() => 
+            this.State = PostDialogComponentState.Content;
+
+        public void OpenDialog()
+        {
+            this.Dialog.Show();
+            this.IsVisible = this.Dialog.IsVisible;
+        }
     }
 }
