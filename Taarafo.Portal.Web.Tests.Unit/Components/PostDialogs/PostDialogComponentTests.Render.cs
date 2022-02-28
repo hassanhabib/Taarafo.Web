@@ -47,6 +47,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.Dialog.Should().NotBeNull();
             this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeTrue();
             this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle.Should().Be("POST");
+            this.postDialogRenderedComponent.Instance.Dialog.Title.Should().Be("NEW POST");
             this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
         }
     }
