@@ -29,5 +29,23 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             initialPostDialog.Dialog.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
         }
+
+        [Fact]
+        public void ShouldDisplayDialogIfOpenDialogIsClicked()
+        {
+            // given
+            PostDialogComponentState expectedState =
+                PostDialogComponentState.Content;
+
+            // when
+            this.postDialogRenderedComponent = RenderComponent<PostDialog>();
+
+            // then
+            this.postDialogRenderedComponent.Instance.State.Should().Be(expectedState);
+            this.postDialogRenderedComponent.Instance.PostViewService.Should().NotBeNull();
+            this.postDialogRenderedComponent.Instance.Dialog.Should().NotBeNull();
+            this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeTrue();
+            this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
+        }
     }
 }
