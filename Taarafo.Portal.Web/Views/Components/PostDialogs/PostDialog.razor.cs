@@ -17,6 +17,7 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
 
         public PostDialogComponentState State { get; set; }
         public DialogBase Dialog { get; set; }
+        public TextAreaBase TextArea { get; set; }
         public bool IsVisible { get; set; }
 
         protected override void OnInitialized() => 

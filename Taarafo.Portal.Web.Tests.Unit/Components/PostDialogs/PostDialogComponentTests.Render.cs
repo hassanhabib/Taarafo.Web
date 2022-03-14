@@ -27,6 +27,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             initialPostDialog.State.Should().Be(expectedState);
             initialPostDialog.PostViewService.Should().BeNull();
             initialPostDialog.Dialog.Should().BeNull();
+            initialPostDialog.TextArea.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
         }
 
@@ -45,6 +46,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.State.Should().Be(expectedState);
             this.postDialogRenderedComponent.Instance.PostViewService.Should().NotBeNull();
             this.postDialogRenderedComponent.Instance.Dialog.Should().NotBeNull();
+            this.postDialogRenderedComponent.Instance.TextArea.Should().NotBeNull();
             this.postDialogRenderedComponent.Instance.Dialog.IsVisible.Should().BeTrue();
             this.postDialogRenderedComponent.Instance.Dialog.ButtonTitle.Should().Be("POST");
             this.postDialogRenderedComponent.Instance.Dialog.Title.Should().Be("NEW POST");
