@@ -5,4 +5,6 @@
            Placeholder=@Placeholder
            Enabled=@IsEnabled
            Multiline=true
-           FloatLabelType=@FloatLabelType.Auto/>
+           FloatLabelType=@FloatLabelType.Auto
+           InputAttributes="@(new() { { "style", $"height:{@Height}" } })"
+           />
