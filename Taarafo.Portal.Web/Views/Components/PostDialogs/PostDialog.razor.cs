@@ -21,11 +21,14 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public DialogBase Dialog { get; set; }
         public TextAreaBase TextArea { get; set; }
         public bool IsVisible { get; set; }
-        public PostView PostView { get; set; } = new PostView();
+        public PostView PostView { get; set; }
 
 
-        protected override void OnInitialized() => 
+        protected override void OnInitialized()
+        {
+            this.PostView = new PostView();
             this.State = PostDialogComponentState.Content;
+        }
 
         public void OpenDialog()
         {
