@@ -29,6 +29,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             initialPostDialog.Dialog.Should().BeNull();
             initialPostDialog.TextArea.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
+            initialPostDialog.PostView.Should().BeNull();
         }
 
         [Fact]
