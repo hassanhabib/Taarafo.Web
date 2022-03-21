@@ -41,6 +41,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             PostDialogComponentState expectedState =
                 PostDialogComponentState.Content;
 
+            var expectedPostView = new PostView();
+
             string expectedInputHeight = "250px";
 
             // when
@@ -57,7 +59,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea.Should().NotBeNull();
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedInputHeight);
             this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
-            this.postDialogRenderedComponent.Instance.PostView.Should().BeNull();
+            this.postDialogRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
         }
 
         [Fact]
