@@ -81,7 +81,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
                 .OpenDialog();
 
             this.postDialogRenderedComponent.Instance.TextArea
-                .SetValue(inputContent);
+                .SetValueAsync(inputContent);
 
             this.postDialogRenderedComponent.Instance.Dialog
                 .Click();

@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostDialogs;
@@ -20,7 +21,8 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public DialogBase Dialog { get; set; }
         public TextAreaBase TextArea { get; set; }
         public bool IsVisible { get; set; }
-        public PostView PostView { get; set; }
+        public PostView PostView { get; set; } = new PostView();
+
 
         protected override void OnInitialized() => 
             this.State = PostDialogComponentState.Content;
@@ -28,6 +30,20 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public void OpenDialog()
         {
             this.Dialog.Show();
+            this.IsVisible = this.Dialog.IsVisible;
+        }
+
+        public async ValueTask PostViewAsync()
+        {
+            await this.PostViewService.AddPostViewAsync(
+                this.PostView);
+
+            CloseDialog();
+        }
+
+        public void CloseDialog()
+        {
+            this.Dialog.Hide();
             this.IsVisible = this.Dialog.IsVisible;
         }
     }

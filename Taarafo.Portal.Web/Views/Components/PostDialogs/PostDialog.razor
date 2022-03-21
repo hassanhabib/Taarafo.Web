@@ -2,9 +2,11 @@
 
 <DialogBase @ref=Dialog
             ButtonTitle="POST"
-            Title="NEW POST">
+            Title="NEW POST"
+            OnClick="() => PostViewAsync()">
     <Content>
         <TextAreaBase @ref=TextArea
-                      Height="250px" />
+                      Height="250px" 
+                      @bind-Value="@PostView.Content"/>
     </Content>
 </DialogBase>
