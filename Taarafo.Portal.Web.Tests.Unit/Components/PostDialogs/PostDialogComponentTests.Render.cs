@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
@@ -63,7 +64,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
         }
 
         [Fact]
-        public void ShouldSubmitPostView()
+        public async Task ShouldSubmitPostViewAsync()
         {
             // given
             string randomContent = GetRandomContent();
@@ -82,7 +83,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance
                 .OpenDialog();
 
-            this.postDialogRenderedComponent.Instance.TextArea
+            await this.postDialogRenderedComponent.Instance.TextArea
                 .SetValueAsync(inputContent);
 
             this.postDialogRenderedComponent.Instance.Dialog

@@ -34,10 +34,11 @@ namespace Taarafo.Portal.Web.Views.Bases
             return ValueChanged.InvokeAsync(this.Value);
         }
 
-        public async Task SetValueAsync(string value)
+        public Task SetValueAsync(string value) =>
+        InvokeAsync(async () =>
         {
             this.Value = value;
             await this.ValueChanged.InvokeAsync(this.Value);
-        }
+        });
     }
 }
