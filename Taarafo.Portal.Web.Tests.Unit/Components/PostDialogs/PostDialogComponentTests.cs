@@ -9,6 +9,7 @@ using Moq;
 using Syncfusion.Blazor;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 using Taarafo.Portal.Web.Views.Components.PostDialogs;
+using Tynamix.ObjectFiller;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 {
@@ -25,5 +26,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.Services.AddOptions();
             this.JSInterop.Mode = JSRuntimeMode.Loose;
         }
+
+        private static string GetRandomContent() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, 10).GetValue();
     }
 }

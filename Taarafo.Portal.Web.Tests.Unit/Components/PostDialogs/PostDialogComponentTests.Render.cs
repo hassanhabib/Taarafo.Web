@@ -5,6 +5,8 @@
 
 using Bunit;
 using FluentAssertions;
+using Moq;
+using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostDialogs;
 using Taarafo.Portal.Web.Views.Components.PostDialogs;
 using Xunit;
@@ -56,6 +58,47 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedInputHeight);
             this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
             this.postDialogRenderedComponent.Instance.PostView.Should().BeNull();
+        }
+
+        [Fact]
+        public void ShouldSubmitPostView()
+        {
+            // given
+            string randomContent = GetRandomContent();
+            string inputContent = randomContent;
+            string expectedContent = inputContent;
+
+            var expectedPostView = new PostView
+            {
+                Content = inputContent
+            };
+
+            // when
+            this.postDialogRenderedComponent = 
+                RenderComponent<PostDialog>();
+            
+            this.postDialogRenderedComponent.Instance
+                .OpenDialog();
+
+            this.postDialogRenderedComponent.Instance.TextArea
+                .SetValue(inputContent);
+
+            this.postDialogRenderedComponent.Instance.Dialog
+                .Click();
+
+            // then
+            this.postDialogRenderedComponent.Instance.Dialog.IsVisible
+                .Should().BeFalse();
+
+            this.postDialogRenderedComponent.Instance.PostView
+                .Should().BeEquivalentTo(expectedPostView);
+
+            this.postViewServiceMock.Verify(service =>
+                service.AddPostViewAsync(
+                    this.postDialogRenderedComponent.Instance.PostView),
+                        Times.Once);
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
         }
     }
 }

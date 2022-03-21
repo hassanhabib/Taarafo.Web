@@ -33,5 +33,8 @@ namespace Taarafo.Portal.Web.Views.Bases
 
             return ValueChanged.InvokeAsync(this.Value);
         }
+
+        public void SetValue(string value) =>
+            this.Value = value;
     }
 }
