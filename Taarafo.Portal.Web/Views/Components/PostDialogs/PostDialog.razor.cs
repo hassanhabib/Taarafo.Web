@@ -38,6 +38,8 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
 
         public async ValueTask PostViewAsync()
         {
+            this.TextArea.Disable();
+
             await this.PostViewService.AddPostViewAsync(
                 this.PostView);
 

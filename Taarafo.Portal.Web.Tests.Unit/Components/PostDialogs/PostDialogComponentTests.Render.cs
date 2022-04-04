@@ -78,9 +78,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             };
 
             // when
-            this.postDialogRenderedComponent = 
+            this.postDialogRenderedComponent =
                 RenderComponent<PostDialog>();
-            
+
             this.postDialogRenderedComponent.Instance
                 .OpenDialog();
 
@@ -138,6 +138,11 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             // then
             this.postDialogRenderedComponent.Instance.TextArea
                 .IsDisabled.Should().BeTrue();
+
+            this.postViewServiceMock.Verify(service =>
+                service.AddPostViewAsync(
+                    It.IsAny<PostView>()),
+                        Times.Once);
 
             this.postViewServiceMock.VerifyNoOtherCalls();
         }
