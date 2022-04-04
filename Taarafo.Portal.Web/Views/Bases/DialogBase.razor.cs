@@ -5,6 +5,7 @@
 
 using System;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Popups;
 
 namespace Taarafo.Portal.Web.Views.Bases
 {
@@ -27,6 +28,7 @@ namespace Taarafo.Portal.Web.Views.Bases
 
         [Parameter]
         public Action OnClick { get; set; }
+        public DialogButton DialogButton {get; set;}
 
         public void Click() => OnClick?.Invoke();
 

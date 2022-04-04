@@ -139,6 +139,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea
                 .IsDisabled.Should().BeTrue();
 
+            this.postDialogRenderedComponent.Instance.Dialog.DialogButton
+                .Disabled.Should().BeTrue();
+
             this.postViewServiceMock.Verify(service =>
                 service.AddPostViewAsync(
                     It.IsAny<PostView>()),
