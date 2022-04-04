@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
@@ -100,6 +101,43 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
                 service.AddPostViewAsync(
                     this.postDialogRenderedComponent.Instance.PostView),
                         Times.Once);
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldDisableControlAndDisplayLoadingOnSubmitAsync()
+        {
+            // given
+            string someContent = GetRandomContent();
+
+            var somePostView = new PostView
+            {
+                Content = someContent
+            };
+
+            this.postViewServiceMock.Setup(service =>
+                service.AddPostViewAsync(It.IsAny<PostView>()))
+                    .ReturnsAsync(
+                        value: somePostView,
+                        delay: TimeSpan.FromMilliseconds(500));
+
+            // when
+            this.postDialogRenderedComponent =
+                RenderComponent<PostDialog>();
+
+            this.postDialogRenderedComponent.Instance
+                .OpenDialog();
+
+            await this.postDialogRenderedComponent.Instance.TextArea
+                .SetValueAsync(someContent);
+
+            this.postDialogRenderedComponent.Instance.Dialog
+                .Click();
+
+            // then
+            this.postDialogRenderedComponent.Instance.TextArea
+                .IsDisabled.Should().BeTrue();
 
             this.postViewServiceMock.VerifyNoOtherCalls();
         }
