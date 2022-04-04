@@ -22,6 +22,7 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public TextAreaBase TextArea { get; set; }
         public bool IsVisible { get; set; }
         public PostView PostView { get; set; }
+        public SpinnerBase Spinner { get; set; }
 
 
         protected override void OnInitialized()

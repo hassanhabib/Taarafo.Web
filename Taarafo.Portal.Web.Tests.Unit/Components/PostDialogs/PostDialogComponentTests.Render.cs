@@ -34,6 +34,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             initialPostDialog.TextArea.Should().BeNull();
             initialPostDialog.IsVisible.Should().BeFalse();
             initialPostDialog.PostView.Should().BeNull();
+            initialPostDialog.Spinner.Should().BeNull();
         }
 
         [Fact]
@@ -44,7 +45,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
                 PostDialogComponentState.Content;
 
             var expectedPostView = new PostView();
-
             string expectedInputHeight = "250px";
 
             // when
@@ -62,6 +62,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedInputHeight);
             this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
             this.postDialogRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
+            this.postDialogRenderedComponent.Instance.Spinner.Should().BeNull();
         }
 
         [Fact]
@@ -141,6 +142,9 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 
             this.postDialogRenderedComponent.Instance.Dialog.DialogButton
                 .Disabled.Should().BeTrue();
+
+            this.postDialogRenderedComponent.Instance.Spinner.IsVisible
+                .Should().BeTrue();
 
             this.postViewServiceMock.Verify(service =>
                 service.AddPostViewAsync(
