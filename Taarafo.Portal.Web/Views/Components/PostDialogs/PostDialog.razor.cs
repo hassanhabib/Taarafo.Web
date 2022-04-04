@@ -39,6 +39,7 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public async ValueTask PostViewAsync()
         {
             this.TextArea.Disable();
+            this.Dialog.DisableButton();
 
             await this.PostViewService.AddPostViewAsync(
                 this.PostView);

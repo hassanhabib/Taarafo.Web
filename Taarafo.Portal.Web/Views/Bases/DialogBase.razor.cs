@@ -28,7 +28,9 @@ namespace Taarafo.Portal.Web.Views.Bases
 
         [Parameter]
         public Action OnClick { get; set; }
+
         public DialogButton DialogButton {get; set;}
+        public bool IsDialogButtonDisabled { get; set; }
 
         public void Click() => OnClick?.Invoke();
 
@@ -41,6 +43,13 @@ namespace Taarafo.Portal.Web.Views.Bases
         public void Hide()
         {
             IsVisible = false;
+            InvokeAsync(StateHasChanged);
+        }
+
+
+        public void DisableButton()
+        {
+            IsDialogButtonDisabled = true;
             InvokeAsync(StateHasChanged);
         }
     }
