@@ -12,6 +12,7 @@ namespace Taarafo.Portal.Web.Brokers.Apis
     public partial class ApiBroker
     {
         private const string GroupsRelativeUrl = "api/groups";
+
         public async ValueTask<List<Group>> GetAllGroupsAsync() =>
             await this.GetAsync<List<Group>>(GroupsRelativeUrl);
     }
