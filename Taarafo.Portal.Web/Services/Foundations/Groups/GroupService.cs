@@ -26,9 +26,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<List<Group>> RetrieveAllGroupsAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async ValueTask<List<Group>> RetrieveAllGroupsAsync() =>
+            await this.apiBroker.GetAllGroupsAsync();
     }
 }
