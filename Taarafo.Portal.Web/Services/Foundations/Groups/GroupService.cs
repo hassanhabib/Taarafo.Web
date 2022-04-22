@@ -3,9 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.Apis;
 using Taarafo.Portal.Web.Brokers.Loggings;
@@ -26,9 +24,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<List<Group>> RetrieveAllGroupsAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public ValueTask<List<Group>> RetrieveAllGroupsAsync() =>
+            this.apiBroker.GetAllGroupsAsync();
     }
 }
