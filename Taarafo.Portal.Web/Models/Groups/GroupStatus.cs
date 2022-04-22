@@ -3,8 +3,6 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
-
 namespace Taarafo.Portal.Web.Models.Groups
 {
     public enum GroupStatus
