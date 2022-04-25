@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Linq;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -30,6 +31,18 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
         private static string GetRandomContent() =>
             new MnemonicString(wordCount: GetRandomNumber()).GetValue();
 
+        private static string GetRandomErrorMessage() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
+        private static string[] GetRandomErrorMessages()
+        {
+            int randomCount = GetRandomNumber();
+
+            return Enumerable.Range(start: 0, count: randomCount)
+                .Select(item => GetRandomErrorMessage())
+                    .ToArray();
+        }
+        
         private static int GetRandomNumber() =>
             new IntRange(min: 2, 10).GetValue();
     }

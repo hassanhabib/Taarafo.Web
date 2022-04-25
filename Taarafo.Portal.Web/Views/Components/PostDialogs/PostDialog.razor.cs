@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
@@ -23,6 +24,8 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public bool IsVisible { get; set; }
         public PostView PostView { get; set; }
         public SpinnerBase Spinner { get; set; }
+        public Exception Exception { get; set; }
+        public ValidationSummaryBase ContentValidationSummary { get; set; }
 
 
         protected override void OnInitialized()
