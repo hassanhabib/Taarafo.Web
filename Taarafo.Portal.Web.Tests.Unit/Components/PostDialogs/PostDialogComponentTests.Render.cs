@@ -62,7 +62,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.postDialogRenderedComponent.Instance.TextArea.Height.Should().Be(expectedInputHeight);
             this.postDialogRenderedComponent.Instance.IsVisible.Should().BeTrue();
             this.postDialogRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
-            this.postDialogRenderedComponent.Instance.Spinner.Should().BeNull();
+            this.postDialogRenderedComponent.Instance.Spinner.IsVisible.Should().BeFalse();
         }
 
         [Fact]
