@@ -46,6 +46,11 @@ namespace Taarafo.Portal.Web.Views.Bases
             InvokeAsync(StateHasChanged);
         }
 
+        public void EnableButton()
+        {
+            IsDialogButtonDisabled = false;
+            InvokeAsync(StateHasChanged);
+        }
 
         public void DisableButton()
         {

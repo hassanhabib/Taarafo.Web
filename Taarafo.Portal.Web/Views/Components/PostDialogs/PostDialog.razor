@@ -2,14 +2,16 @@
 @using Taarafo.Portal.Web.Models.PostViews
 
 <DialogBase @ref=Dialog
-            ButtonTitle="POST"
-            Title="NEW POST"
-            OnClick="() => PostViewAsync()">
-    <Content>
-        <TextAreaBase @ref=TextArea
-                      Height="250px"
-                      @bind-Value="@PostView.Content" />
-
-        <SpinnerBase @ref=Spinner /> 
-    </Content>
+			ButtonTitle="POST"
+			Title="NEW POST"
+			OnClick="() => PostViewAsync()">
+	<Content>
+		<TextAreaBase @ref=TextArea
+					  Height="250px"
+					  @bind-Value="@PostView.Content" />
+		<ValidationSummaryBase @ref=ContentValidationSummary
+							   Key=@PostView.Content
+							   ValidationData=@Exception?.Data />
+		<SpinnerBase @ref=Spinner />
+	</Content>
 </DialogBase>

@@ -38,7 +38,13 @@ namespace Taarafo.Portal.Web.Views.Bases
         {
             this.IsDisabled = true;
             InvokeAsync(StateHasChanged);
-        } 
+        }
+
+        public void Enable()
+        {
+            this.IsDisabled = false;
+            InvokeAsync(StateHasChanged);
+        }
 
         public Task SetValueAsync(string value) =>
         InvokeAsync(async () =>

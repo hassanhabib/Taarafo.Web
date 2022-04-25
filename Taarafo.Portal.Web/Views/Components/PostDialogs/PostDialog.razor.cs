@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
+using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Taarafo.Portal.Web.Models.Views.Components.PostDialogs;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 using Taarafo.Portal.Web.Views.Bases;
@@ -27,7 +28,6 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public Exception Exception { get; set; }
         public ValidationSummaryBase ContentValidationSummary { get; set; }
 
-
         protected override void OnInitialized()
         {
             this.PostView = new PostView();
@@ -42,14 +42,25 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
 
         public async ValueTask PostViewAsync()
         {
-            this.TextArea.Disable();
-            this.Dialog.DisableButton();
-            this.Spinner.Show();
+            try
+            {
+                this.TextArea.Disable();
+                this.Dialog.DisableButton();
+                this.Spinner.Show();
 
-            await this.PostViewService.AddPostViewAsync(
-                this.PostView);
+                await this.PostViewService.AddPostViewAsync(
+                    this.PostView);
 
-            CloseDialog();
+                CloseDialog();
+            }
+            catch (PostViewValidationException postViewValidationException)
+            {
+                this.Exception = postViewValidationException.InnerException;
+                this.TextArea.Enable();
+                this.Dialog.EnableButton();
+                this.Spinner.Hide();
+            }
+
         }
 
         public void CloseDialog()

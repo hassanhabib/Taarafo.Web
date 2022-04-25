@@ -75,7 +75,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
                 .Should().BeFalse();
             
             this.postDialogRenderedComponent.Instance.ContentValidationSummary
-                .ValidationData.Should().BeEquivalentTo(expectedErrorMessages);
+                .ValidationData.Should().BeEquivalentTo(invalidPostViewException.Data);
 
             this.postViewServiceMock.Verify(service =>
                 service.AddPostViewAsync(
