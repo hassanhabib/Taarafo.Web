@@ -45,6 +45,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
 
                 throw CreateAndLogCriticalDependencyException(failedGroupDependencyException);
             }
+            catch(HttpResponseException httpResponseException)
+            {
+                var failedGroupDependencyException =
+                    new FailedGroupDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedGroupDependencyException);
+            }
         }
 
         private GroupDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
@@ -56,5 +63,15 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
 
             return groupDependencyException;
         } 
+
+        private GroupDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var groupDependencyException =
+                new GroupDependencyException(exception);
+
+            this.loggingBroker.LogError(groupDependencyException);
+
+            return groupDependencyException;
+        }
     }
 }
