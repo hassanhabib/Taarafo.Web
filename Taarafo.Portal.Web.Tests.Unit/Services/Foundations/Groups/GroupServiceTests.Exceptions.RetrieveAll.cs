@@ -80,7 +80,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
 
             //when
             ValueTask<List<Group>> retrieveAllGroupsTask =
-                groupService.RetrieveAllGroupsAsync();
+                this.groupService.RetrieveAllGroupsAsync();
 
             //then
             await Assert.ThrowsAsync<GroupDependencyException>(() =>
@@ -93,6 +93,43 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedDependencyException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnRetrieveAllIfServiceErrorOccursAndLogItAsync()
+        {
+            //given
+            var serviceException = new Exception();
+
+            var failedGroupServiceException =
+                new FailedGroupServiceException(serviceException);
+
+            var expectedGroupServiceException =
+                new FailedGroupServiceException(failedGroupServiceException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.GetAllGroupsAsync())
+                    .ThrowsAsync(serviceException);
+
+            //when 
+            ValueTask<List<Group>> retrieveAllGroupsTask =
+                this.groupService.RetrieveAllGroupsAsync();
+
+            //then
+            await Assert.ThrowsAsync<FailedGroupServiceException>(() =>
+                retrieveAllGroupsTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.GetAllGroupsAsync(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedGroupServiceException))),
                         Times.Once);
 
             this.apiBrokerMock.VerifyNoOtherCalls();
