@@ -109,7 +109,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
                 new FailedGroupServiceException(serviceException);
 
             var expectedGroupServiceException =
-                new FailedGroupServiceException(failedGroupServiceException);
+                new GroupServiceException(failedGroupServiceException);
 
             this.apiBrokerMock.Setup(broker =>
                 broker.GetAllGroupsAsync())
@@ -120,7 +120,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
                 this.groupService.RetrieveAllGroupsAsync();
 
             //then
-            await Assert.ThrowsAsync<FailedGroupServiceException>(() =>
+            await Assert.ThrowsAsync<GroupServiceException>(() =>
                 retrieveAllGroupsTask.AsTask());
 
             this.apiBrokerMock.Verify(broker =>
