@@ -10,7 +10,7 @@ namespace Taarafo.Portal.Web.Models.Groups.Exceptions
 {
     public class GroupServiceException : Xeption
     {
-        public GroupServiceException(Exception innerException)
+        public GroupServiceException(Xeption innerException)
             : base(message: "Group service error occurred, contact support.",
                  innerException)
         { }
