@@ -41,7 +41,5 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
-
-
     }
 }

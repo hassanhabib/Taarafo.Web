@@ -59,7 +59,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
         public async Task ShouldThrowDependencyExceptionOnRetrieveAllIfDependencyApiErrorOccursAndLogItAsync()
         {
             //given
-            var randomExceptionMessage = GetRandomMessage();
+            string randomExceptionMessage = GetRandomMessage();
             var responseMessage = new HttpResponseMessage();
 
             var httpResponseException =
