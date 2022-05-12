@@ -13,7 +13,6 @@ namespace Taarafo.Portal.Web.Brokers.Apis
     public partial interface IApiBroker
     {
         ValueTask<List<Group>> GetAllGroupsAsync();
-
         ValueTask<Group> GetGroupByIdAsync(Guid groupId);
     }
 }
