@@ -8,11 +8,11 @@ using Xeptions;
 
 namespace Taarafo.Portal.Web.Models.Groups.Exceptions
 {
-    public class GroupValidationException: Xeption
+    public class GroupValidationException : Xeption
     {
         public GroupValidationException(Exception innerException)
             : base(message: "Group validation error occurred, please try again.",
                 innerException)
-        { }          
+        { }
     }
 }

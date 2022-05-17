@@ -28,9 +28,12 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
         public ValueTask<List<Group>> RetrieveAllGroupsAsync() =>
         TryCatch(async () => await this.apiBroker.GetAllGroupsAsync());
 
-        public ValueTask<Group> RetrieveGroupByIdAsync(Guid groupId)
+        public ValueTask<Group> RetrieveGroupByIdAsync(Guid groupId) =>
+        TryCatch(async () =>
         {
-            return this.apiBroker.GetGroupByIdAsync(groupId);
-        }      
+            ValidateGroupId(groupId);
+
+            return await this.apiBroker.GetGroupByIdAsync(groupId);
+        });
     }
 }

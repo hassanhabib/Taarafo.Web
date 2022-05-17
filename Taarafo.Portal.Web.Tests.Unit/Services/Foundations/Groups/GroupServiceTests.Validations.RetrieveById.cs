@@ -4,9 +4,6 @@
 // ---------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Taarafo.Portal.Web.Models.Groups;
@@ -51,7 +48,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
                     Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.apiBrokerMock.VerifyNoOtherCalls();   
         }
     }
 }

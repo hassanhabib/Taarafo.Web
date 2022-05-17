@@ -17,6 +17,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
     public partial class GroupService
     {
         private delegate ValueTask<List<Group>> ReturningGroupsFunction();
+        private delegate ValueTask<Group> ReturningGroupFunction();
 
         private async ValueTask<List<Group>> TryCatch(ReturningGroupsFunction returningGroupsFunction)
         {
@@ -59,6 +60,28 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
 
                 throw CreateAndLogServiceException(failedGroupServiceException);
             }
+        }
+
+        private async ValueTask<Group> TryCatch(ReturningGroupFunction returningGroupFunction)
+        {
+            try
+            {
+                return await returningGroupFunction();
+            }
+            catch (InvalidGroupException invalidGroupException)
+            {
+                throw CreateAndLogValidationException(invalidGroupException);
+            }
+        }
+
+        private GroupValidationException CreateAndLogValidationException(Xeption exception)
+        {
+            var groupValidationException =
+                new GroupValidationException(exception);
+
+            this.loggingBroker.LogError(groupValidationException);
+
+            return groupValidationException;
         }
 
         private GroupDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
