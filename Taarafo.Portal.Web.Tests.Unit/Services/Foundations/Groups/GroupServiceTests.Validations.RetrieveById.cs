@@ -25,7 +25,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
 
             invalidGroupException.AddData(
                 key: nameof(Group.Id),
-                values: "Id is required");
+                values: "Id is required.");
 
             var expectedGroupValidationException =
                 new GroupValidationException(invalidGroupException);

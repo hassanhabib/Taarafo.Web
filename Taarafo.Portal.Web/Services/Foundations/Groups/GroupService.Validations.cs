@@ -6,6 +6,7 @@
 using System;
 using Taarafo.Portal.Web.Models.Groups;
 using Taarafo.Portal.Web.Models.Groups.Exceptions;
+using Taarafo.Web.Models.Groups.Exceptions;
 
 namespace Taarafo.Portal.Web.Services.Foundations.Groups
 {
@@ -19,6 +20,14 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
             Condition = id == Guid.Empty,
             Message = "Id is required."
         };
+
+        private static void ValidateApiGroup(Group maybeGroup, Guid groupId)
+        {
+            if (maybeGroup is null)
+            {
+                throw new NotFoundGroupException(groupId);
+            }
+        }
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {

@@ -33,7 +33,15 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
         {
             ValidateGroupId(groupId);
 
-            return await this.apiBroker.GetGroupByIdAsync(groupId);
+            Group maybeGroup = await this.apiBroker.GetGroupByIdAsync(groupId);
+
+            ValidateApiGroup(maybeGroup, groupId);
+
+            return maybeGroup;
+            /*
+            ValidateGroupId(groupId);
+
+            return await this.apiBroker.GetGroupByIdAsync(groupId); */
         });
     }
 }
