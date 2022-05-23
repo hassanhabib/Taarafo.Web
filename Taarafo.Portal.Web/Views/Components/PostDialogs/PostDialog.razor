@@ -11,7 +11,8 @@
 					  @bind-Value="@PostView.Content" />
 		<ValidationSummaryBase @ref=ContentValidationSummary
 							   Key=@nameof(PostView.Content)
-							   ValidationData=@Exception?.Data />
+							   ValidationData=@Exception?.Data
+							   Color="Red" />
 		<SpinnerBase @ref=Spinner />
 	</Content>
 </DialogBase>
