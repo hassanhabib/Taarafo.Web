@@ -8,9 +8,13 @@ using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Syncfusion.Blazor;
+using Taarafo.Portal.Web.Models.PostViews;
+using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 using Taarafo.Portal.Web.Views.Components.PostDialogs;
 using Tynamix.ObjectFiller;
+using Xeptions;
+using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 {
@@ -26,6 +30,31 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             this.Services.AddSyncfusionBlazor();
             this.Services.AddOptions();
             this.JSInterop.Mode = JSRuntimeMode.Loose;
+        }
+
+        public static TheoryData DependencyValidationExceptions()
+        {
+            string[] randomErrorMessages =
+                GetRandomErrorMessages();
+
+            string[] returnedErrorMessages =
+                randomErrorMessages;
+
+            string[] expectedErrorMessages =
+                returnedErrorMessages;
+
+            var invalidPostViewException =
+                new InvalidPostViewException();
+
+            invalidPostViewException.AddData(
+                key: nameof(PostView.Content),
+                values: randomErrorMessages);
+
+            return new TheoryData<Xeption>
+            {
+                new PostViewValidationException(invalidPostViewException),
+                new PostViewDependencyValidationException(invalidPostViewException)
+            };
         }
 
         private static string GetRandomContent() =>

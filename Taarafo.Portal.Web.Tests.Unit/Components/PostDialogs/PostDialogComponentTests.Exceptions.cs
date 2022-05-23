@@ -10,37 +10,19 @@ using Moq;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.PostViews.Exceptions;
 using Taarafo.Portal.Web.Views.Components.PostDialogs;
+using Xeptions;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 {
     public partial class PostDialogComponentTests : TestContext
     {
-        [Fact]
-        public async Task ShouldRenderValidationDetailsOnPostAsync()
+        [Theory]
+        [MemberData(nameof(DependencyValidationExceptions))]
+        public async Task ShouldRenderValidationDetailsOnPostAsync(Xeption postViewValidationException)
         {
             // given
             string someContent = GetRandomContent();
-
-            string[] randomErrorMessages =
-                GetRandomErrorMessages();
-
-            string[] returnedErrorMessages =
-                randomErrorMessages;
-
-            string[] expectedErrorMessages =
-                returnedErrorMessages;
-
-            var invalidPostViewException =
-                new InvalidPostViewException();
-
-            invalidPostViewException.AddData(
-                key: nameof(PostView.Content),
-                values: randomErrorMessages);
-
-            var postViewValidationException =
-                new PostViewValidationException(
-                    invalidPostViewException);
 
             this.postViewServiceMock.Setup(service =>
                 service.AddPostViewAsync(It.IsAny<PostView>()))
@@ -73,7 +55,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
                 .Should().BeFalse();
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary
-                .ValidationData.Should().BeEquivalentTo(invalidPostViewException.Data);
+                .ValidationData.Should().BeEquivalentTo(
+                    postViewValidationException.InnerException.Data);
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary
                 .Color.Should().Be("Red");
