@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Linq;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,12 +38,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             string[] randomErrorMessages =
                 GetRandomErrorMessages();
 
-            string[] returnedErrorMessages =
-                randomErrorMessages;
-
-            string[] expectedErrorMessages =
-                returnedErrorMessages;
-
             var invalidPostViewException =
                 new InvalidPostViewException();
 
@@ -54,6 +49,17 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
             {
                 new PostViewValidationException(invalidPostViewException),
                 new PostViewDependencyValidationException(invalidPostViewException)
+            };
+        }
+
+        public static TheoryData DependencyExceptions()
+        {
+            var someException = new Xeption();
+
+            return new TheoryData<Xeption>
+            {
+                new PostViewValidationException(someException),
+                new PostViewDependencyValidationException(someException)
             };
         }
 

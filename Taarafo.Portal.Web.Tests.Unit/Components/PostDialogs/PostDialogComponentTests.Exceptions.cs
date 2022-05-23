@@ -68,5 +68,59 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 
             this.postViewServiceMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [MemberData(nameof(DependencyExceptions))]
+        public async Task ShouldRenderDependencyErrorDetailsOnPostAsync(Xeption postViewDependencyException)
+        {
+            // given
+            string someContent = GetRandomContent();
+
+            this.postViewServiceMock.Setup(service =>
+                service.AddPostViewAsync(It.IsAny<PostView>()))
+                    .ThrowsAsync(postViewDependencyException);
+
+            // when
+            this.postDialogRenderedComponent =
+                RenderComponent<PostDialog>();
+
+            this.postDialogRenderedComponent.Instance
+                .OpenDialog();
+
+            await this.postDialogRenderedComponent.Instance.TextArea
+                .SetValueAsync(someContent);
+
+            this.postDialogRenderedComponent.Instance.Dialog
+                .Click();
+
+            // then
+            this.postDialogRenderedComponent.Instance.Dialog.IsVisible
+                .Should().BeTrue();
+
+            this.postDialogRenderedComponent.Instance.TextArea
+                .IsDisabled.Should().BeFalse();
+
+            this.postDialogRenderedComponent.Instance.Dialog.DialogButton
+                .Disabled.Should().BeFalse();
+
+            this.postDialogRenderedComponent.Instance.Spinner.IsVisible
+                .Should().BeFalse();
+
+            this.postDialogRenderedComponent.Instance.ContentValidationSummary
+                .Message.Should().Be(postViewDependencyException.Message);
+
+            this.postDialogRenderedComponent.Instance.ContentValidationSummary
+                .ValidationData.Should().BeNull();
+
+            this.postDialogRenderedComponent.Instance.ContentValidationSummary
+                .Color.Should().Be("Red");
+
+            this.postViewServiceMock.Verify(service =>
+                service.AddPostViewAsync(
+                    It.IsAny<PostView>()),
+                        Times.Once);
+
+            this.postViewServiceMock.VerifyNoOtherCalls();
+        }
     }
 }
