@@ -10,7 +10,9 @@
         <Content>@Content</Content>
     </DialogTemplates>
     <DialogButtons>
-        <DialogButton Content=@ButtonTitle
+        <DialogButton @ref=DialogButton
+                      Disabled=IsDialogButtonDisabled
+                      Content=@ButtonTitle
                       OnClick=@Click 
                       IsPrimary=true />
     </DialogButtons>

@@ -14,7 +14,7 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
 
         public static void ValidatePostViewOnAdd(PostView postView)
         {
-            ValidatePostView(postView);
+            ValidatePostViewIsNotNull(postView);
 
             Validate((Rule: IsInvalid(postView.Content), Parameter: nameof(PostView.Content)));
         }
@@ -34,6 +34,14 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             Message = "Text is required"
         };
 
+        private static void ValidatePostViewIsNotNull(PostView postView)
+        {
+            if (postView is null)
+            {
+                throw new NullPostViewException();
+            }
+        }
+
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
             var invalidPostViewException = new InvalidPostViewException();
@@ -49,14 +57,6 @@ namespace Taarafo.Portal.Web.Services.Views.PostViews
             }
 
             invalidPostViewException.ThrowIfContainsErrors();
-        }
-
-        private static void ValidatePostView(PostView postView)
-        {
-            if (postView is null)
-            {
-                throw new NullPostViewException();
-            }
         }
     }
 }

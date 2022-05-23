@@ -22,6 +22,9 @@ namespace Taarafo.Portal.Web.Views.Bases
         [Parameter]
         public bool IsDisabled { get; set; }
 
+        [Parameter]
+        public string Height { get; set; }
+
         public bool IsEnabled => IsDisabled is false;
 
         private Task OnValueChanged(ChangeEventArgs changeEventArgs)
@@ -31,5 +34,23 @@ namespace Taarafo.Portal.Web.Views.Bases
             return ValueChanged.InvokeAsync(this.Value);
         }
 
+        public void Disable()
+        {
+            this.IsDisabled = true;
+            InvokeAsync(StateHasChanged);
+        }
+
+        public void Enable()
+        {
+            this.IsDisabled = false;
+            InvokeAsync(StateHasChanged);
+        }
+
+        public Task SetValueAsync(string value) =>
+        InvokeAsync(async () =>
+        {
+            this.Value = value;
+            await this.ValueChanged.InvokeAsync(this.Value);
+        });
     }
 }

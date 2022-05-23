@@ -4,10 +4,17 @@
 // ---------------------------------------------------------------
 
 using Microsoft.AspNetCore.Components;
+using Taarafo.Portal.Web.Views.Components.PostDialogs;
 
 namespace Taarafo.Portal.Web.Views.Pages
 {
     public partial class Index : ComponentBase
     {
+        public PostDialog Dialog { get; set; }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            this.Dialog.OpenDialog();
+        }
     }
 }
