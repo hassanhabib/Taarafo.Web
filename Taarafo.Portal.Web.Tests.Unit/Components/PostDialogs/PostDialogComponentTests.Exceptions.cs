@@ -3,14 +3,12 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
 using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.PostViews.Exceptions;
-using Taarafo.Portal.Web.Models.Views.Components.PostDialogs;
 using Taarafo.Portal.Web.Views.Components.PostDialogs;
 using Xunit;
 
@@ -23,7 +21,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
         {
             // given
             string someContent = GetRandomContent();
-            
+
             string[] randomErrorMessages =
                 GetRandomErrorMessages();
 
@@ -73,9 +71,12 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 
             this.postDialogRenderedComponent.Instance.Spinner.IsVisible
                 .Should().BeFalse();
-            
+
             this.postDialogRenderedComponent.Instance.ContentValidationSummary
                 .ValidationData.Should().BeEquivalentTo(invalidPostViewException.Data);
+
+            this.postDialogRenderedComponent.Instance.ContentValidationSummary
+                .Color.Should().Be("Red");
 
             this.postViewServiceMock.Verify(service =>
                 service.AddPostViewAsync(
