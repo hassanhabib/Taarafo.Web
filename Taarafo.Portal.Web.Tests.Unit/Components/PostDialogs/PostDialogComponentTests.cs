@@ -58,8 +58,8 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
 
             return new TheoryData<Xeption>
             {
-                new PostViewValidationException(someException),
-                new PostViewDependencyValidationException(someException)
+                new PostViewDependencyException(someException),
+                new PostViewServiceException(someException)
             };
         }
 

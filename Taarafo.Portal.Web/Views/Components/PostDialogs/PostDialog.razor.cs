@@ -27,6 +27,7 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
         public PostView PostView { get; set; }
         public SpinnerBase Spinner { get; set; }
         public Exception Exception { get; set; }
+        public string ErrorMessage { get; set; }
         public ValidationSummaryBase ContentValidationSummary { get; set; }
 
         protected override void OnInitialized()
@@ -62,6 +63,20 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
             {
                 RenderValidationError(postViewDependencyValidationException);
             }
+            catch (PostViewDependencyException postViewDependencyException)
+            {
+                RenderDependencyError(postViewDependencyException);
+            }
+            catch (PostViewServiceException postViewServiceException)
+            {
+                RenderDependencyError(postViewServiceException);
+            }
+        }
+
+        public void CloseDialog()
+        {
+            this.Dialog.Hide();
+            this.IsVisible = this.Dialog.IsVisible;
         }
 
         private void RenderValidationError(Xeption exception)
@@ -72,10 +87,13 @@ namespace Taarafo.Portal.Web.Views.Components.PostDialogs
             this.Spinner.Hide();
         }
 
-        public void CloseDialog()
+        private void RenderDependencyError(Xeption exception)
         {
-            this.Dialog.Hide();
-            this.IsVisible = this.Dialog.IsVisible;
+            this.Exception = exception;
+            this.ErrorMessage = exception.Message;
+            this.TextArea.Enable();
+            this.Dialog.EnableButton();
+            this.Spinner.Hide();
         }
     }
 }

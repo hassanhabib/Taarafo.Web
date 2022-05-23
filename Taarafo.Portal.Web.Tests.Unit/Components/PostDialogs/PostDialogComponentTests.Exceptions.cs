@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
@@ -110,7 +111,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostDialogs
                 .Message.Should().Be(postViewDependencyException.Message);
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary
-                .ValidationData.Should().BeNull();
+                .ValidationData.Count.Should().Be(0);
 
             this.postDialogRenderedComponent.Instance.ContentValidationSummary
                 .Color.Should().Be("Red");

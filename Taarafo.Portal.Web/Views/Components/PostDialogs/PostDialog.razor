@@ -12,7 +12,8 @@
 		<ValidationSummaryBase @ref=ContentValidationSummary
 							   Key=@nameof(PostView.Content)
 							   ValidationData=@Exception?.Data
-							   Color="Red" />
+							   Color="Red" 
+							   Message=@ErrorMessage />
 		<SpinnerBase @ref=Spinner />
 	</Content>
 </DialogBase>
