@@ -3,17 +3,19 @@
 
 <DialogBase @ref=Dialog
 			ButtonTitle="POST"
-			Title="NEW POST"
-			OnClick="() => PostViewAsync()">
+			Title="NEW POST" 
+			OnClick=@PostViewAsync>
 	<Content>
 		<TextAreaBase @ref=TextArea
 					  Height="250px"
 					  @bind-Value="@PostView.Content" />
+                      
 		<ValidationSummaryBase @ref=ContentValidationSummary
 							   Key=@nameof(PostView.Content)
 							   ValidationData=@Exception?.Data
 							   Color="Red" 
 							   Message=@ErrorMessage />
+		
 		<SpinnerBase @ref=Spinner />
 	</Content>
 </DialogBase>

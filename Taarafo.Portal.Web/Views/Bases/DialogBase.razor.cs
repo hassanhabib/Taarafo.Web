@@ -4,13 +4,14 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Popups;
 
 namespace Taarafo.Portal.Web.Views.Bases
 {
     public partial class DialogBase : ComponentBase
-    {
+    {        
         [Parameter]
         public string Title { get; set; }
 
@@ -27,10 +28,11 @@ namespace Taarafo.Portal.Web.Views.Bases
         public string ButtonTitle { get; set; }
 
         [Parameter]
-        public Action OnClick { get; set; }
+        public Delegation OnClick { get; set; }
 
         public DialogButton DialogButton {get; set;}
         public bool IsDialogButtonDisabled { get; set; }
+        public delegate ValueTask Delegation();
 
         public void Click() => OnClick?.Invoke();
 
