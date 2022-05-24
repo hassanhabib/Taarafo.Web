@@ -72,6 +72,27 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
             {
                 throw CreateAndLogValidationException(invalidGroupException);
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedGroupDependencyException =
+                    new FailedGroupDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedGroupDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            {
+                var failedGroupDependencyException =
+                    new FailedGroupDependencyException(httpResponseUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedGroupDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedGroupDependencyException =
+                    new FailedGroupDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedGroupDependencyException);
+            }
         }
 
         private GroupValidationException CreateAndLogValidationException(Xeption exception)

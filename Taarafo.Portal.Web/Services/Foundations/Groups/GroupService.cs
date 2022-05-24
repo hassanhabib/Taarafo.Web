@@ -38,10 +38,6 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
             ValidateApiGroup(maybeGroup, groupId);
 
             return maybeGroup;
-            /*
-            ValidateGroupId(groupId);
-
-            return await this.apiBroker.GetGroupByIdAsync(groupId); */
         });
     }
 }
