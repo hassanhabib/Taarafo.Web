@@ -93,6 +93,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
 
                 throw CreateAndLogCriticalDependencyException(failedGroupDependencyException);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedGroupDependencyException =
+                    new FailedGroupDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedGroupDependencyException);
+            }
         }
 
         private GroupValidationException CreateAndLogValidationException(Xeption exception)
