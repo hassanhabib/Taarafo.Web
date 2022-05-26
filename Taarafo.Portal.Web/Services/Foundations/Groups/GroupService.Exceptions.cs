@@ -100,6 +100,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
 
                 throw CreateAndLogDependencyException(failedGroupDependencyException);
             }
+            catch (Exception exception)
+            {
+                var failedGroupServiceException =
+                    new FailedGroupServiceException(exception);
+
+                throw CreateAndLogServiceException(failedGroupServiceException);
+            }
         }
 
         private GroupValidationException CreateAndLogValidationException(Xeption exception)
