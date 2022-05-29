@@ -18,7 +18,6 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
     {
         [Theory]
         [MemberData(nameof(CriticalDependencyExceptions))]
-
         public async Task ShouldThrowCriticalDependencyExceptionOnRetrieveByIdIfDependencyApiErrorOccursAndLogItAsync(
             Exception criticalDependencyException)
         {
@@ -62,7 +61,7 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.Groups
         {
             //given
             Guid someGroupId = Guid.NewGuid();
-            var randomExceptionMessage = GetRandomMessage();
+            string randomExceptionMessage = GetRandomMessage();
             var responseMessage = new HttpResponseMessage();
 
             var httpResponseException =
