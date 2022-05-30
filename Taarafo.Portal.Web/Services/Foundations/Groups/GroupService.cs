@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Brokers.Apis;
@@ -26,5 +27,17 @@ namespace Taarafo.Portal.Web.Services.Foundations.Groups
 
         public ValueTask<List<Group>> RetrieveAllGroupsAsync() =>
         TryCatch(async () => await this.apiBroker.GetAllGroupsAsync());
+
+        public ValueTask<Group> RetrieveGroupByIdAsync(Guid groupId) =>
+        TryCatch(async () =>
+        {
+            ValidateGroupId(groupId);
+
+            Group maybeGroup = await this.apiBroker.GetGroupByIdAsync(groupId);
+
+            ValidateApiGroup(maybeGroup, groupId);
+
+            return maybeGroup;
+        });
     }
 }

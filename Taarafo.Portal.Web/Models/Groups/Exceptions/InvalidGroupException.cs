@@ -7,11 +7,10 @@ using Xeptions;
 
 namespace Taarafo.Portal.Web.Models.Groups.Exceptions
 {
-    public class GroupServiceException : Xeption
+    public class InvalidGroupException : Xeption
     {
-        public GroupServiceException(Xeption innerException)
-            : base(message: "Group service error occurred, contact support.",
-                 innerException)
+        public InvalidGroupException()
+            : base(message: "Invalid group. Please correct the error and try again.")
         { }
     }
 }

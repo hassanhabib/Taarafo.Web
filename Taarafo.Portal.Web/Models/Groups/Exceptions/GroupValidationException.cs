@@ -3,15 +3,16 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using Xeptions;
 
 namespace Taarafo.Portal.Web.Models.Groups.Exceptions
 {
-    public class GroupServiceException : Xeption
+    public class GroupValidationException : Xeption
     {
-        public GroupServiceException(Xeption innerException)
-            : base(message: "Group service error occurred, contact support.",
-                 innerException)
+        public GroupValidationException(Exception innerException)
+            : base(message: "Group validation error occurred, please try again.",
+                innerException)
         { }
     }
 }
