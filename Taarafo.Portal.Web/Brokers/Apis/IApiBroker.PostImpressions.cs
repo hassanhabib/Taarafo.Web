@@ -10,6 +10,6 @@ namespace Taarafo.Portal.Web.Brokers.Apis
 {
     public partial interface IApiBroker
     {
-        ValueTask<PostImpression> PostImpressionAsync(PostImpression postImpression);
+        ValueTask<PostImpression> PostPostImpressionAsync(PostImpression postImpression);
     }
 }
