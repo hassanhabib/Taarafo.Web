@@ -3,7 +3,9 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using Bunit;
 using FluentAssertions;
+using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostComponents;
 using Taarafo.Portal.Web.Models.Views.Components.PostDialogs;
 using Taarafo.Portal.Web.Views.Components.PostComponents;
@@ -12,7 +14,7 @@ using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.PostComponents
 {
-    internal partial class PostRemoveComponentTests
+    public partial class PostRemoveComponentTests
     {
         [Fact]
         public void ShouldInitializeComponent()
@@ -29,6 +31,37 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostComponents
             initialPostRemove.PostViewService.Should().BeNull();
             initialPostRemove.PostView.Should().BeNull();
             initialPostRemove.Button.Should().BeNull();
+        }
+
+        [Fact]
+        public void ShouldRenderComponent() 
+        {
+            // given
+            PostRemoveComponentState expectedState =
+                PostRemoveComponentState.Content;
+
+            string expectedLabel = "🗑";
+
+            PostView randomPostView = CreateRandomPostView();
+            PostView inputPostView = randomPostView;
+            PostView expectedPostView = inputPostView;
+
+            ComponentParameter inputComponentParameter =
+                ComponentParameter.CreateParameter(
+                    name: nameof(PostView),
+                    value: inputPostView);
+
+            // when
+            this.postRemoveRenderedComponent =
+                RenderComponent<PostRemoveComponent>(inputComponentParameter);
+
+            // then
+            this.postRemoveRenderedComponent.Instance.State.Should().Be(expectedState);
+            this.postRemoveRenderedComponent.Instance.PostViewService.Should().NotBeNull();
+            this.postRemoveRenderedComponent.Instance.PostView.Should().BeEquivalentTo(expectedPostView);
+            this.postRemoveRenderedComponent.Instance.Button.Label.Should().Be(expectedLabel);
+            this.postRemoveRenderedComponent.Instance.Button.IsDisabled.Should().BeFalse();
+            this.postRemoveRenderedComponent.Instance.Button.OnClick.Should().NotBeNull();
         }
     }
 }
