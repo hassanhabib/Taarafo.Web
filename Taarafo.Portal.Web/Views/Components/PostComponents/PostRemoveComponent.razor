@@ -2,4 +2,4 @@
 
 <ButtonBase @ref=Button
             Label="🗑"
-            OnClick="() => RemovePostAsync()" />
+            OnClick=@(async () => await RemovePostAsync()) />

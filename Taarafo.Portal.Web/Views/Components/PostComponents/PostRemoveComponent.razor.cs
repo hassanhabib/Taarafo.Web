@@ -3,6 +3,7 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
@@ -26,9 +27,12 @@ namespace Taarafo.Portal.Web.Views.Components.PostComponents
         protected override void OnInitialized() =>
             State = PostRemoveComponentState.Content;
 
-        public async Task RemovePostAsync()
+        public async ValueTask RemovePostAsync()
         {
+            Button.Disable();
 
+            await this.PostViewService
+                .RemovePostViewByIdAsync(PostView.Id);
         }
     }
 }
