@@ -4,19 +4,12 @@
 // ---------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostComponents;
-using Taarafo.Portal.Web.Models.Views.Components.Timelines;
-using Taarafo.Portal.Web.Views.Bases;
 using Taarafo.Portal.Web.Views.Components.PostComponents;
-using Taarafo.Portal.Web.Views.Components.Timelines;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.PostComponents

@@ -3,14 +3,12 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System.Threading.Tasks;
 using Bunit;
 using FluentAssertions;
 using Moq;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostComponents;
 using Taarafo.Portal.Web.Views.Components.PostComponents;
-using Taarafo.Portal.Web.Views.Components.PostDialogs;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Components.PostComponents

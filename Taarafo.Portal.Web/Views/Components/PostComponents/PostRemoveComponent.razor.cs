@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostComponents;
-using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 using Taarafo.Portal.Web.Views.Bases;
 
