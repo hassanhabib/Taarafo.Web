@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Taarafo.Portal.Web.Models.PostViews;
 using Taarafo.Portal.Web.Models.Views.Components.PostComponents;
+using Taarafo.Portal.Web.Models.Views.Components.Timelines;
 using Taarafo.Portal.Web.Services.Views.PostViews;
 using Taarafo.Portal.Web.Views.Bases;
 
@@ -31,10 +32,18 @@ namespace Taarafo.Portal.Web.Views.Components.PostComponents
 
         public async ValueTask RemovePostAsync()
         {
-            Button.Disable();
+            try
+            {
+                Button.Disable();
 
-            await this.PostViewService
-                .RemovePostViewByIdAsync(PostView.Id);
+                await this.PostViewService
+                    .RemovePostViewByIdAsync(PostView.Id);
+            }
+            catch (Exception exception)
+            {
+                this.ErrorMessage = exception.Message;
+                this.State = PostRemoveComponentState.Error;
+            }
         }
     }
 }

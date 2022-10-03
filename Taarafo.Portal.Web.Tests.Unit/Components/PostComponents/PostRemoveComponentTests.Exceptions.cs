@@ -53,6 +53,10 @@ namespace Taarafo.Portal.Web.Tests.Unit.Components.PostComponents
             this.postRemoveRenderedComponent =
                 RenderComponent<PostRemoveComponent>(inputComponentParameter);
 
+            this.postRemoveRenderedComponent.Instance.Button.Click();
+
+            this.postRemoveRenderedComponent.Render();
+
             // then
             this.postRemoveRenderedComponent.Instance.State
                 .Should().Be(expectedState);
