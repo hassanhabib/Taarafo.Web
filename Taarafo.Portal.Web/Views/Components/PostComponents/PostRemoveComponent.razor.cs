@@ -23,6 +23,8 @@ namespace Taarafo.Portal.Web.Views.Components.PostComponents
 
         public PostRemoveComponentState State { get; set; }
         public ButtonBase Button { get; set; }
+        public string ErrorMessage { get; set; }
+        public ImageBase ErrorImage { get; set; }
 
         protected override void OnInitialized() =>
             State = PostRemoveComponentState.Content;
