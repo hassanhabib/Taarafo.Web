@@ -3,11 +3,9 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Taarafo.Portal.Web.Models.PostImpressions;
 using Taarafo.Portal.Web.Models.PostImpressions.Exceptions;
-using Taarafo.Portal.Web.Models.Posts;
 using Xeptions;
 
 namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
@@ -25,6 +23,10 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
             catch (NullPostImpressionException nullPostImpressionException)
             {
                 throw CreateAndLogValidationException(nullPostImpressionException);
+            }
+            catch (InvalidPostImpressionException invalidPostImpressionException)
+            {
+                throw CreateAndLogValidationException(invalidPostImpressionException);
             }
         }
 

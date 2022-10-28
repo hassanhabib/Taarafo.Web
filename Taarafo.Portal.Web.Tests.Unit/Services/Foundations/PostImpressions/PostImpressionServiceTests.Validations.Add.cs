@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using Moq;
 using Taarafo.Portal.Web.Models.PostImpressions;
 using Taarafo.Portal.Web.Models.PostImpressions.Exceptions;
-using Taarafo.Portal.Web.Models.Posts.Exceptions;
-using Taarafo.Portal.Web.Models.Posts;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.PostImpressions
