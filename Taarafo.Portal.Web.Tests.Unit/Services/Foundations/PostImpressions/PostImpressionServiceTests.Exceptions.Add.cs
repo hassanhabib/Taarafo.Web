@@ -6,14 +6,10 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Moq;
 using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.PostImpressions;
 using Taarafo.Portal.Web.Models.PostImpressions.Exceptions;
-using Taarafo.Portal.Web.Models.Posts;
-using Taarafo.Portal.Web.Models.Posts.Exceptions;
-using Xeptions;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.PostImpressions
