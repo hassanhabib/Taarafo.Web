@@ -3,12 +3,12 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.PostImpressions;
 using Taarafo.Portal.Web.Models.PostImpressions.Exceptions;
-using Taarafo.Portal.Web.Models.Posts.Exceptions;
 using Xeptions;
 
 namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
@@ -77,6 +77,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
 
                 throw CreateAndLogDependencyException(failedPostImpressionDependencyException);
             }
+            catch (Exception exception)
+            {
+                var failedPostImpressionServiceException =
+                    new FailedPostImpressionServiceException(exception);
+
+                throw CreateAndLogPostServiceException(failedPostImpressionServiceException);
+            }
         }
 
         private PostImpressionValidationException CreateAndLogValidationException(
@@ -118,6 +125,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
             this.loggingBroker.LogError(postImpressionDependencyException);
 
             return postImpressionDependencyException;
+        }
+
+        private PostImpressionServiceException CreateAndLogPostServiceException(Xeption exception)
+        {
+            var postImpressionServiceException =
+                new PostImpressionServiceException(exception);
+
+            this.loggingBroker.LogError(postImpressionServiceException);
+
+            return postImpressionServiceException;
         }
     }
 }
