@@ -70,6 +70,13 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
 
                 throw CreateAndLogDependencyValidationException(invalidPostImpressionException);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                var failedPostImpressionDependencyException =
+                    new FailedPostImpressionDependencyException(httpResponseException);
+
+                throw CreateAndLogDependencyException(failedPostImpressionDependencyException);
+            }
         }
 
         private PostImpressionValidationException CreateAndLogValidationException(
@@ -101,6 +108,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
             this.loggingBroker.LogError(postImpressionDependencyValidationException);
 
             return postImpressionDependencyValidationException;
+        }
+
+        private PostImpressionDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var postImpressionDependencyException =
+                new PostImpressionDependencyException(exception);
+
+            this.loggingBroker.LogError(postImpressionDependencyException);
+
+            return postImpressionDependencyException;
         }
     }
 }
