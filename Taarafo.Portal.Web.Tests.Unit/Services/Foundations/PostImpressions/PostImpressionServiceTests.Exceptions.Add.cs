@@ -108,5 +108,55 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.PostImpressions
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfConflictExceptionOccursAndLogItAsync()
+        {
+            // given
+            PostImpression somePostImpression = CreateRandomPostImpression();
+            var randomDictionary = CreateRandomDictionary();
+            var exceptionData = randomDictionary;
+            string someMessage = GetRandomMessage();
+            var someRepsonseMessage = new HttpResponseMessage();
+
+            var httpResponseConflictException =
+                new HttpResponseConflictException(
+                    someRepsonseMessage,
+                    someMessage);
+
+            httpResponseConflictException.AddData(exceptionData);
+
+            var invalidPostImpressionException =
+                new InvalidPostImpressionException(
+                    httpResponseConflictException,
+                    exceptionData);
+
+            var expectedPostImpressionDependencyValidationException =
+                new PostImpressionDependencyValidationException(invalidPostImpressionException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PostPostImpressionAsync(It.IsAny<PostImpression>()))
+                    .ThrowsAsync(httpResponseConflictException);
+
+            // when
+            ValueTask<PostImpression> addPostImpressionTask =
+                this.postImpressionService.AddPostImpressionAsync(somePostImpression);
+
+            // then
+            await Assert.ThrowsAsync<PostImpressionDependencyValidationException>(() =>
+                addPostImpressionTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostImpressionAsync(It.IsAny<PostImpression>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostImpressionDependencyValidationException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
