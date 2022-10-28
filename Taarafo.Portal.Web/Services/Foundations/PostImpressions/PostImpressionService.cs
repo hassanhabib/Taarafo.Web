@@ -27,7 +27,7 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
 
         public async ValueTask<PostImpression> AddPostImpressionAsync(PostImpression postImpression)
         {
-            throw new NotImplementedException();
+            return await apiBroker.PostPostImpressionAsync(postImpression);
         }
     }
 }
