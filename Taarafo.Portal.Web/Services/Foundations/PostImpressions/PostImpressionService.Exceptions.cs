@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.PostImpressions;
 using Taarafo.Portal.Web.Models.PostImpressions.Exceptions;
+using Taarafo.Portal.Web.Models.Posts.Exceptions;
 using Xeptions;
 
 namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
@@ -51,6 +52,15 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
 
                 throw CreateAndLogCriticalDependencyException(failedPostImpressionDependencyException);
             }
+            catch (HttpResponseBadRequestException httpResponseBadRequestException)
+            {
+                var invalidPostImpressionException =
+                    new InvalidPostImpressionException(
+                        httpResponseBadRequestException,
+                        httpResponseBadRequestException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidPostImpressionException);
+            }
         }
 
         private PostImpressionValidationException CreateAndLogValidationException(
@@ -72,6 +82,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
             this.loggingBroker.LogCritical(postImpressionDependencyException);
 
             return postImpressionDependencyException;
+        }
+
+        private PostImpressionDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var postImpressionDependencyValidationException =
+                new PostImpressionDependencyValidationException(exception);
+
+            this.loggingBroker.LogError(postImpressionDependencyValidationException);
+
+            return postImpressionDependencyValidationException;
         }
     }
 }
