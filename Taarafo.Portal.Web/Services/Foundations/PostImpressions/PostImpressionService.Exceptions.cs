@@ -61,6 +61,15 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
 
                 throw CreateAndLogDependencyValidationException(invalidPostImpressionException);
             }
+            catch (HttpResponseConflictException httpResponseConflictException)
+            {
+                var invalidPostImpressionException =
+                    new InvalidPostImpressionException(
+                        httpResponseConflictException,
+                        httpResponseConflictException.Data);
+
+                throw CreateAndLogDependencyValidationException(invalidPostImpressionException);
+            }
         }
 
         private PostImpressionValidationException CreateAndLogValidationException(
