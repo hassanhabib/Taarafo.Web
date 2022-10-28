@@ -158,5 +158,50 @@ namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.PostImpressions
             this.apiBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowPostImpressionDependencyExceptionOnAddIfResponseExceptionOccursAndLogItAsync()
+        {
+            // given
+            PostImpression somePostImpression = CreateRandomPostImpression();
+            string someMessage = GetRandomMessage();
+            var httpResponseMessage = new HttpResponseMessage();
+
+            var httpResponseException =
+                new HttpResponseException(
+                    httpResponseMessage,
+                    someMessage);
+
+            var failedPostImpressionDependencyException =
+                new FailedPostImpressionDependencyException(httpResponseException);
+
+            var expectedPostImpressionDependencyException =
+                new PostImpressionDependencyException(failedPostImpressionDependencyException);
+
+            this.apiBrokerMock.Setup(broker =>
+                broker.PostPostImpressionAsync(It.IsAny<PostImpression>()))
+                    .ThrowsAsync(httpResponseException);
+
+
+            // when
+            ValueTask<PostImpression> addPostImpressionTask =
+                this.postImpressionService.AddPostImpressionAsync(somePostImpression);
+
+            // then
+            await Assert.ThrowsAsync<PostImpressionDependencyException>(() =>
+                addPostImpressionTask.AsTask());
+
+            this.apiBrokerMock.Verify(broker =>
+                broker.PostPostImpressionAsync(It.IsAny<PostImpression>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedPostImpressionDependencyException))),
+                        Times.Once);
+
+            this.apiBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
