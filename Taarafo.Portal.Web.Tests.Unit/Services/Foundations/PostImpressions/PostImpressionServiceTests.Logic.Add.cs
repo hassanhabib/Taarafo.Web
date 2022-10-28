@@ -3,20 +3,15 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using Taarafo.Portal.Web.Models.PostImpressions;
-using Taarafo.Portal.Web.Models.Posts;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.PostImpressions
 {
-    public partial class PostImpressionTests
+    public partial class PostImpressionServiceTests
     {
         [Fact]
         public async Task ShouldAddPostImpressionAsync()

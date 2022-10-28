@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Moq;
@@ -13,22 +12,20 @@ using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Brokers.Apis;
 using Taarafo.Portal.Web.Brokers.Loggings;
 using Taarafo.Portal.Web.Models.PostImpressions;
-using Taarafo.Portal.Web.Models.Posts;
 using Taarafo.Portal.Web.Services.Foundations.PostImpressions;
-using Taarafo.Portal.Web.Services.Foundations.Posts;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
 
 namespace Taarafo.Portal.Web.Tests.Unit.Services.Foundations.PostImpressions
 {
-    public partial class PostImpressionTests
+    public partial class PostImpressionServiceTests
     {
         private readonly Mock<IApiBroker> apiBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly IPostImpressionService postImpressionService;
 
-        public PostImpressionTests()
+        public PostImpressionServiceTests()
         {
             this.apiBrokerMock = new Mock<IApiBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
