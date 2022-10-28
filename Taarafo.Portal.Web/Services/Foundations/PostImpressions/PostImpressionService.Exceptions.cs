@@ -3,7 +3,9 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
+using System.Net.Http;
 using System.Threading.Tasks;
+using RESTFulSense.Exceptions;
 using Taarafo.Portal.Web.Models.PostImpressions;
 using Taarafo.Portal.Web.Models.PostImpressions.Exceptions;
 using Xeptions;
@@ -28,6 +30,27 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
             {
                 throw CreateAndLogValidationException(invalidPostImpressionException);
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                var failedPostImpressionDependencyException =
+                    new FailedPostImpressionDependencyException(httpRequestException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostImpressionDependencyException);
+            }
+            catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
+            {
+                var failedPostImpressionDependencyException =
+                    new FailedPostImpressionDependencyException(httpResponseUrlNotFoundException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostImpressionDependencyException);
+            }
+            catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
+            {
+                var failedPostImpressionDependencyException =
+                    new FailedPostImpressionDependencyException(httpResponseUnauthorizedException);
+
+                throw CreateAndLogCriticalDependencyException(failedPostImpressionDependencyException);
+            }
         }
 
         private PostImpressionValidationException CreateAndLogValidationException(
@@ -39,6 +62,16 @@ namespace Taarafo.Portal.Web.Services.Foundations.PostImpressions
             this.loggingBroker.LogError(postImpressionValidationException);
 
             return postImpressionValidationException;
+        }
+
+        private PostImpressionDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var postImpressionDependencyException =
+                new PostImpressionDependencyException(exception);
+
+            this.loggingBroker.LogCritical(postImpressionDependencyException);
+
+            return postImpressionDependencyException;
         }
     }
 }
