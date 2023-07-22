@@ -1,0 +1,21 @@
+﻿@using PrettyBlazor
+@using Taarafo.Portal.Web.Views.Bases
+@using Taarafo.Portal.Web.Models.Views.Components.PostComponents
+
+<Condition Evaluation="@(State == PostRemoveComponentState.Content)">
+    <Match>
+        <ButtonBase @ref=Button
+                    Label="🗑"
+                    OnClick=@(async () => await RemovePostAsync()) />
+    </Match>
+</Condition>
+
+<Condition Evaluation="@(State == PostRemoveComponentState.Error)">
+    <Match>
+        <ImageBase @ref=ErrorImage
+                   Url="imgs/error.png"
+                   Width="200px" />
+
+        <LabelBase Value=@ErrorMessage />
+    </Match>
+</Condition>
